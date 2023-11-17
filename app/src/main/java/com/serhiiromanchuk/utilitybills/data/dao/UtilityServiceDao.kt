@@ -18,6 +18,6 @@ interface UtilityServiceDao {
     suspend fun deleteUtilityService(utilityServiceId: Int)
 
     @Query("SELECT * FROM utility_services")
-    fun getUtilityServices(): Flow<UtilityServiceItemDbModel>
+    fun getUtilityServices(): Flow<List<UtilityServiceItemDbModel>>
 
 }
