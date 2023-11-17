@@ -1,14 +1,15 @@
 package com.serhiiromanchuk.utilitybills.data.dbmodel
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "utility_services")
 data class UtilityServiceItemDbModel(
     @PrimaryKey(autoGenerate = true) val id: Int,
-    val name: String,
-    val tariff: Double,
-    val isMeterAvailable: Boolean,
-    val previousValue: Int,
-    val currentValue: Int
+    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "tariff") val tariff: Double,
+    @ColumnInfo(name = "is_meter_available") val isMeterAvailable: Boolean,
+    @ColumnInfo(name = "previous_value") val previousValue: Int,
+    @ColumnInfo(name = "current_value") val currentValue: Int
 )
