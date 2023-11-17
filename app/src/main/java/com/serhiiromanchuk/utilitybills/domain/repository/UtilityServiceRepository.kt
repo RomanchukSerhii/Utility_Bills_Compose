@@ -9,5 +9,5 @@ interface UtilityServiceRepository {
 
     suspend fun deleteUtilityService(utilityServiceId: Int)
 
-    fun getUtilityServices(): Flow<List<UtilityServiceItem>>
+    fun getUtilityServices(address: String): Flow<List<UtilityServiceItem>>
 }

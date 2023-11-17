@@ -7,6 +7,7 @@ class UtilityServiceItemMapper {
     fun mapEntityToDbModel(entity: UtilityServiceItem): UtilityServiceItemDbModel {
         return UtilityServiceItemDbModel(
             id = entity.id,
+            address = entity.address,
             name = entity.name,
             tariff = entity.tariff,
             isMeterAvailable = entity.isMeterAvailable,
@@ -18,6 +19,7 @@ class UtilityServiceItemMapper {
     private fun mapDbModelToEntity(dbModel: UtilityServiceItemDbModel): UtilityServiceItem {
         return UtilityServiceItem(
             id = dbModel.id,
+            address = dbModel.address,
             name = dbModel.name,
             tariff = dbModel.tariff,
             isMeterAvailable = dbModel.isMeterAvailable,

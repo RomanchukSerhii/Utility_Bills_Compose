@@ -17,7 +17,7 @@ interface UtilityServiceDao {
     @Query("DELETE FROM utility_services WHERE id=:utilityServiceId")
     suspend fun deleteUtilityService(utilityServiceId: Int)
 
-    @Query("SELECT * FROM utility_services")
-    fun getUtilityServices(): Flow<List<UtilityServiceItemDbModel>>
+    @Query("SELECT * FROM utility_services WHERE addre")
+    fun getUtilityServices(address: String): Flow<List<UtilityServiceItemDbModel>>
 
 }

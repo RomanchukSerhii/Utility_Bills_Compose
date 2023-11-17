@@ -8,7 +8,7 @@ class GetUtilityServicesUseCase (
     private val repository: UtilityServiceRepository
 ) {
 
-    operator fun invoke(): Flow<List<UtilityServiceItem>> {
-        return repository.getUtilityServices()
+    operator fun invoke(address: String): Flow<List<UtilityServiceItem>> {
+        return repository.getUtilityServices(address)
     }
 }

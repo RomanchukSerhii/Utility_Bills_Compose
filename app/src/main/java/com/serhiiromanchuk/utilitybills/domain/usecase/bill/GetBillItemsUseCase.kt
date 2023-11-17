@@ -8,7 +8,7 @@ class GetBillItemsUseCase(
     private val repository: BillRepository
 ) {
 
-    operator fun invoke(): Flow<List<BillItem>> {
-        return repository.getBillItems()
+    operator fun invoke(address: String): Flow<List<BillItem>> {
+        return repository.getBillItems(address)
     }
 }
