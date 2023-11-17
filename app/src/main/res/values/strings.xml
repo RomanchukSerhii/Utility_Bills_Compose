@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Utility Bills</string>
+    <string name="tariff">Тариф: %1$s</string>
+    <string name="edit_meter_value">Редагувати значення</string>
 </resources>
