@@ -12,11 +12,12 @@ class UtilityServiceItemMapper {
             tariff = entity.tariff,
             isMeterAvailable = entity.isMeterAvailable,
             previousValue = entity.previousValue,
-            currentValue = entity.currentValue
+            currentValue = entity.currentValue,
+            unitOfMeasurement = entity.unitOfMeasurement
         )
     }
 
-    private fun mapDbModelToEntity(dbModel: UtilityServiceItemDbModel): UtilityServiceItem {
+    fun mapDbModelToEntity(dbModel: UtilityServiceItemDbModel): UtilityServiceItem {
         return UtilityServiceItem(
             id = dbModel.id,
             address = dbModel.address,
@@ -24,7 +25,8 @@ class UtilityServiceItemMapper {
             tariff = dbModel.tariff,
             isMeterAvailable = dbModel.isMeterAvailable,
             previousValue = dbModel.previousValue,
-            currentValue = dbModel.currentValue
+            currentValue = dbModel.currentValue,
+            unitOfMeasurement = dbModel.unitOfMeasurement
         )
     }
 

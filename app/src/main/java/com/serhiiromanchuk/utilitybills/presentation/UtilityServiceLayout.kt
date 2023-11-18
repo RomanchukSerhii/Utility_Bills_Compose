@@ -182,6 +182,7 @@ private fun MeterValue(
 
 val utilityServiceTest = UtilityServiceItem(
     name = "Газ",
+    address = "Грушевского 23, 235",
     tariff = 7.98,
     isMeterAvailable = true,
     previousValue = 9624,

@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.serhiiromanchuk.utilitybills.data.dao.UtilityServiceDao
 import com.serhiiromanchuk.utilitybills.data.dbmodel.UtilityServiceItemDbModel
 
-@Database(entities = [UtilityServiceItemDbModel::class], version = 1, exportSchema = false)
+@Database(entities = [UtilityServiceItemDbModel::class], version = 2, exportSchema = false)
 abstract class AppDataBase : RoomDatabase() {
 
     abstract fun utilityServiceDao(): UtilityServiceDao

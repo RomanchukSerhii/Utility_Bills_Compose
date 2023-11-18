@@ -19,8 +19,12 @@ class UtilityServiceRepositoryImpl(
         utilityServiceDao.deleteUtilityService(utilityServiceId)
     }
 
-    override fun getUtilityServices(): Flow<List<UtilityServiceItem>> {
-        return utilityServiceDao.getUtilityServices().map {
+    override suspend fun getUtilityService(utilityServiceId: Int): UtilityServiceItem {
+        return mapper.mapDbModelToEntity(utilityServiceDao.getUtilityService(utilityServiceId))
+    }
+
+    override fun getUtilityServices(address: String): Flow<List<UtilityServiceItem>> {
+        return utilityServiceDao.getUtilityServices(address).map {
             mapper.mapListDbModelToListEntity(it)
         }
     }
