@@ -27,6 +27,7 @@ val Typography = Typography(
         fontFamily = Lato,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
+        letterSpacing = 0.5.sp
     ),
     bodyLarge = TextStyle(
         fontFamily = Lato,

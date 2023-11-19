@@ -22,7 +22,7 @@ sealed class InsertUtilityServiceScreenUiState {
         val name: String = "",
         val tariff: String = "",
         val isMeterAvailable: Boolean = true,
-        val previousValue: Int = 0,
+        val previousValue: String = "0",
         val unitOfMeasurement: MeasurementUnit = MeasurementUnit.CUBIC_METER
     ) : InsertUtilityServiceScreenUiState()
 
@@ -30,7 +30,7 @@ sealed class InsertUtilityServiceScreenUiState {
         val name: String,
         val tariff: String,
         val isMeterAvailable: Boolean,
-        val previousValue: Int,
+        val previousValue: String,
         val unitOfMeasurement: MeasurementUnit
     ) : InsertUtilityServiceScreenUiState()
 

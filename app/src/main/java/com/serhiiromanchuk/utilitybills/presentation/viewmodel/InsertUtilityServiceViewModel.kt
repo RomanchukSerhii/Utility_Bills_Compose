@@ -29,7 +29,7 @@ class InsertUtilityServiceViewModel(
                 name = utilityService.name,
                 tariff = utilityService.tariff.toString(),
                 isMeterAvailable = utilityService.isMeterAvailable,
-                previousValue = utilityService.previousValue,
+                previousValue = utilityService.previousValue.toString(),
                 unitOfMeasurement = utilityService.unitOfMeasurement
             )
         }
