@@ -1,5 +1,6 @@
 package com.serhiiromanchuk.utilitybills.presentation
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +15,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Card
@@ -29,16 +29,22 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
@@ -48,8 +54,9 @@ import com.serhiiromanchuk.utilitybills.domain.model.BillItem
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.presentation.core.components.AddressExposeDropdownMenuBox
 import com.serhiiromanchuk.utilitybills.presentation.core.components.LabelTextOnPrimary
+import com.serhiiromanchuk.utilitybills.presentation.core.formatToCardNumberType
 import com.serhiiromanchuk.utilitybills.presentation.core.getCurrentMonth
-import com.serhiiromanchuk.utilitybills.presentation.core.getSaveCardNumber
+import com.serhiiromanchuk.utilitybills.presentation.core.getMaskingCardNumber
 
 @Composable
 fun BillLayout(
@@ -160,7 +167,9 @@ private fun BillCardNumber(
     cardNumber: String
 ) {
     var isEditable by rememberSaveable { mutableStateOf(false) }
-    var currentCardNumber by rememberSaveable { mutableStateOf(getSaveCardNumber(cardNumber)) }
+    var maskingCardNumber by rememberSaveable { mutableStateOf(getMaskingCardNumber(cardNumber)) }
+    var unmaskingCardNumber by rememberSaveable { mutableStateOf(formatToCardNumberType(cardNumber)) }
+    val focusRequester by remember { mutableStateOf(FocusRequester()) }
 
     Column {
         LabelTextOnPrimary(text = "Картка")
@@ -171,14 +180,20 @@ private fun BillCardNumber(
             verticalAlignment = Alignment.CenterVertically
         ) {
             BasicTextField(
-                value = currentCardNumber,
+                modifier = Modifier.focusRequester(focusRequester),
+                value = if (!isEditable) {
+                    TextFieldValue(maskingCardNumber, selection = TextRange(maskingCardNumber.length))
+                } else {
+                    TextFieldValue(unmaskingCardNumber, selection = TextRange(unmaskingCardNumber.length))
+                },
                 onValueChange = {
-                    currentCardNumber = it
+                    unmaskingCardNumber = formatToCardNumberType(it.text)
                 },
                 textStyle = MaterialTheme.typography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.onPrimary
                 ),
                 keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
@@ -186,7 +201,8 @@ private fun BillCardNumber(
                         isEditable = false
                     }
                 ),
-                readOnly = !isEditable
+                readOnly = !isEditable,
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.onPrimary)
             )
 
             IconButton(
@@ -194,7 +210,19 @@ private fun BillCardNumber(
                     .padding(horizontal = dimensionResource(id = R.dimen.padding_medium))
                     .size(20.dp),
                 onClick = {
-                    isEditable = !isEditable
+                    if (isEditable) {
+                        if (unmaskingCardNumber.length == 19) {
+                            maskingCardNumber = getMaskingCardNumber(unmaskingCardNumber)
+                            isEditable = !isEditable
+                        } else {
+                            unmaskingCardNumber = cardNumber
+                            maskingCardNumber = getMaskingCardNumber(cardNumber)
+                            isEditable = !isEditable
+                        }
+                    } else {
+                        isEditable = !isEditable
+                        focusRequester.requestFocus()
+                    }
                 }
             ) {
                 Icon(
