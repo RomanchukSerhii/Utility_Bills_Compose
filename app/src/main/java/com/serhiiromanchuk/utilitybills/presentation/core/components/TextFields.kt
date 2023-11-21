@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.components
+package com.serhiiromanchuk.utilitybills.presentation.core.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

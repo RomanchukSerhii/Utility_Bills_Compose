@@ -7,7 +7,7 @@ data class BillItem(
     val year: Int,
     val cardNumber: String,
     val utilityServices: List<UtilityServiceItem>,
-    val billDescription: String
+    val billDescription: String = ""
 ) {
     companion object {
         private const val UNDEFINED_ID = 0

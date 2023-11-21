@@ -23,9 +23,9 @@ import androidx.compose.ui.unit.dp
 import com.example.compose.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
-import com.serhiiromanchuk.utilitybills.presentation.components.CustomOutlinedTextField
-import com.serhiiromanchuk.utilitybills.presentation.components.MeasurementExposeDropdownMenuBox
-import com.serhiiromanchuk.utilitybills.presentation.components.PrimaryButton
+import com.serhiiromanchuk.utilitybills.presentation.core.components.CustomOutlinedTextField
+import com.serhiiromanchuk.utilitybills.presentation.core.components.MeasurementExposeDropdownMenuBox
+import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.screen.InsertUtilityServiceScreenUiState.Initial
 import com.serhiiromanchuk.utilitybills.presentation.screen.InsertUtilityServiceScreenUiState.Content
 import com.serhiiromanchuk.utilitybills.presentation.screen.InsertUtilityServiceScreenUiState.Error

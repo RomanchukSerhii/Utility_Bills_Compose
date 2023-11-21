@@ -12,7 +12,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             UtilityBillsTheme {
-                UtilityServiceLayout(
+                BillLayout(
                     utilityService = UtilityServiceItem(
                         name = "Газ",
                         address = "Грушевского 23, 235",

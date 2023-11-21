@@ -4,9 +4,11 @@
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">12dp</dimen>
     <dimen name="padding_large">16dp</dimen>
+    <dimen name="height_extra_small">4dp</dimen>
     <dimen name="height_small">8dp</dimen>
     <dimen name="height_medium">16dp</dimen>
     <dimen name="height_large">24dp</dimen>
+    <dimen name="width_extra_small">4dp</dimen>
     <dimen name="width_small">8dp</dimen>
     <dimen name="width_medium">16dp</dimen>
     <dimen name="width_large">24dp</dimen>

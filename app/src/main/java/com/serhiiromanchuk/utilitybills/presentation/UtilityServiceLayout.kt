@@ -1,5 +1,7 @@
 package com.serhiiromanchuk.utilitybills.presentation
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -7,7 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -22,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
@@ -34,10 +42,15 @@ import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.example.compose.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.R
+import com.serhiiromanchuk.utilitybills.domain.model.BillItem
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
+import com.serhiiromanchuk.utilitybills.presentation.core.components.AddressExposeDropdownMenuBox
+import com.serhiiromanchuk.utilitybills.presentation.core.components.LabelTextOnPrimary
+import com.serhiiromanchuk.utilitybills.presentation.core.getCurrentMonth
+import com.serhiiromanchuk.utilitybills.presentation.core.getSaveCardNumber
 
 @Composable
-fun UtilityServiceLayout(
+fun BillLayout(
     modifier: Modifier = Modifier,
     utilityService: UtilityServiceItem,
     onEditClick: () -> Unit,
@@ -45,41 +58,184 @@ fun UtilityServiceLayout(
     previousValueChange: (Int) -> Unit,
     currentValueChange: (Int) -> Unit
 ) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.small,
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 5.dp
-        )
-    ) {
-        Row {
-            var isChecked by rememberSaveable { mutableStateOf(utilityService.isMeterAvailable) }
-            Checkbox(
-                checked = isChecked,
-                onCheckedChange = {
-                    isChecked = !isChecked
-                    onCheckIconClick(isChecked)
+    Column {
+        val utilityServices: List<UtilityServiceItem> = emptyList()
+        val addressListTest = listOf("Грушевського 23, кв.235", "Грушевського 23, кв.171")
+        BillHeader(
+            billItem = BillItem(
+                address = addressListTest[0],
+                month = "Листопад",
+                year = 2023,
+                cardNumber = "4444 2514 2684 1354",
+                utilityServices = utilityServices
+            ),
+            addressList = addressListTest,
+            onCardNumberEditClick = { /*TODO*/ },
+            changeBillAddress = {}
+        ) {
+
+        }
+        Card(
+            modifier = modifier.fillMaxWidth(),
+            shape = MaterialTheme.shapes.small,
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 5.dp
+            )
+        ) {
+            Row {
+                var isChecked by rememberSaveable { mutableStateOf(utilityService.isMeterAvailable) }
+                Checkbox(
+                    checked = isChecked,
+                    onCheckedChange = {
+                        isChecked = !isChecked
+                        onCheckIconClick(isChecked)
+                    }
+                )
+                UtilityServiceDetails(
+                    modifier = Modifier
+                        .padding(vertical = dimensionResource(id = R.dimen.padding_medium))
+                        .weight(1f),
+                    utilityService = utilityService,
+                    previousValueChange = previousValueChange,
+                    currentValueChange = currentValueChange
+                )
+                IconButton(onClick = onEditClick) {
+                    Icon(
+                        modifier = Modifier.size(30.dp),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_edit),
+                        contentDescription = stringResource(R.string.edit_meter_value),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
                 }
+            }
+        }
+    }
+
+}
+
+@Composable
+private fun BillHeader(
+    modifier: Modifier = Modifier,
+    billItem: BillItem,
+    addressList: List<String>,
+    onCardNumberEditClick: () -> Unit,
+    changeBillAddress: (String) -> Unit,
+    onAddNewAddressClick: () -> Unit
+) {
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.primary)
+            .padding(dimensionResource(id = R.dimen.padding_medium))
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            BillCardNumber(
+                onCardNumberEditClick = onCardNumberEditClick,
+                cardNumber = billItem.cardNumber,
+                changeBillAddress = {}
             )
-            UtilityServiceDetails(
+            BillMonth()
+        }
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_medium)))
+        BillAddress(
+            currentAddress = billItem.address,
+            addressList = addressList,
+            onValueChange = changeBillAddress
+        )
+    }
+}
+
+@Composable
+private fun BillCardNumber(
+    modifier: Modifier = Modifier,
+    onCardNumberEditClick: () -> Unit,
+    changeBillAddress: (String) -> Unit,
+    cardNumber: String
+) {
+    var isEditable by rememberSaveable { mutableStateOf(false) }
+    var currentCardNumber by rememberSaveable { mutableStateOf(getSaveCardNumber(cardNumber)) }
+
+    Column {
+        LabelTextOnPrimary(text = "Картка")
+
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_extra_small)))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            BasicTextField(
+                value = currentCardNumber,
+                onValueChange = {
+                    currentCardNumber = it
+                },
+                textStyle = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onPrimary
+                ),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        isEditable = false
+                    }
+                ),
+                readOnly = !isEditable
+            )
+
+            IconButton(
                 modifier = Modifier
-                    .padding(vertical = dimensionResource(id = R.dimen.padding_medium))
-                    .weight(1f),
-                utilityService = utilityService,
-                previousValueChange = previousValueChange,
-                currentValueChange = currentValueChange
-            )
-            IconButton(onClick = onEditClick) {
+                    .padding(horizontal = dimensionResource(id = R.dimen.padding_medium))
+                    .size(20.dp),
+                onClick = {
+                    isEditable = !isEditable
+                }
+            ) {
                 Icon(
-                    modifier = Modifier.size(30.dp),
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_edit),
-                    contentDescription = stringResource(R.string.edit_meter_value),
-                    tint = MaterialTheme.colorScheme.primary
+                    modifier = Modifier.size(20.dp),
+                    imageVector = if (isEditable) Icons.Rounded.Check else Icons.Rounded.Edit,
+                    contentDescription = stringResource(R.string.edit_card_number),
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }
-
     }
+}
+
+@Composable
+private fun BillMonth(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        horizontalAlignment = Alignment.Start
+    ) {
+
+        LabelTextOnPrimary(text = "Місяць")
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_extra_small)))
+        Text(
+            text = getCurrentMonth(),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onPrimary,
+        )
+    }
+}
+
+@Composable
+private fun BillAddress(
+    modifier: Modifier = Modifier,
+    currentAddress: String,
+    addressList: List<String>,
+    onValueChange: (String) -> Unit
+) {
+
+    AddressExposeDropdownMenuBox(
+        currentAddress = currentAddress,
+        addressList = addressList,
+        onValueChange = onValueChange
+    )
 }
 
 @Composable
@@ -180,6 +336,7 @@ private fun MeterValue(
     }
 }
 
+
 val utilityServiceTest = UtilityServiceItem(
     name = "Газ",
     address = "Грушевского 23, 235",
@@ -195,12 +352,15 @@ val utilityServiceTest = UtilityServiceItem(
 @Composable
 private fun UtilityServiceLayoutPreview() {
     UtilityBillsTheme(darkTheme = false) {
-        UtilityServiceLayout(
-            utilityService = utilityServiceTest,
-            onEditClick = { /*TODO*/ },
-            onCheckIconClick = { /*TODO*/ },
-            previousValueChange = {},
-            currentValueChange = {}
-        )
+        Column {
+            BillLayout(
+                utilityService = utilityServiceTest,
+                onEditClick = { /*TODO*/ },
+                onCheckIconClick = { /*TODO*/ },
+                previousValueChange = {},
+                currentValueChange = {}
+            )
+        }
+
     }
 }
