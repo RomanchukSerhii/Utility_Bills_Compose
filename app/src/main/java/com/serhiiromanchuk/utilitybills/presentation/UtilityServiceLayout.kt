@@ -13,6 +13,8 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Card
@@ -144,7 +146,8 @@ private fun BillHeader(
         BillAddress(
             currentAddress = billItem.address,
             addressList = addressList,
-            onValueChange = changeBillAddress
+            onValueChange = changeBillAddress,
+            onAddNewAddressClick = onAddNewAddressClick
         )
     }
 }
@@ -228,14 +231,28 @@ private fun BillAddress(
     modifier: Modifier = Modifier,
     currentAddress: String,
     addressList: List<String>,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    onAddNewAddressClick: () -> Unit
 ) {
+    Row(
+        verticalAlignment = Alignment.Bottom
+    ) {
+        AddressExposeDropdownMenuBox(
+            currentAddress = currentAddress,
+            addressList = addressList,
+            onValueChange = onValueChange
+        )
+        IconButton(
+            onClick = { onAddNewAddressClick() }
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Add,
+                contentDescription = "Додати нову адресу рахунку",
+                tint = MaterialTheme.colorScheme.onPrimary
+            )
+        }
+    }
 
-    AddressExposeDropdownMenuBox(
-        currentAddress = currentAddress,
-        addressList = addressList,
-        onValueChange = onValueChange
-    )
 }
 
 @Composable

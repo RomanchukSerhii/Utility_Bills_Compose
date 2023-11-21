@@ -18,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -128,7 +129,7 @@ fun AddressExposeDropdownMenuBox(
                     interactionSource = MutableInteractionSource(),
                     contentPadding = PaddingValues(0.dp),
                     label = {
-                        LabelTextOnPrimary(text = "Поточна адреса")
+                        LabelTextOnPrimary(text = "Адреса")
                     },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = MaterialTheme.colorScheme.primary,
@@ -168,14 +169,17 @@ fun AddressExposeDropdownMenuBox(
                         Text(
                             text = address,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onPrimary
+//                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     },
                     onClick = {
                         selectedAddress = address
                         onValueChange(address)
                         expanded = false
-                    }
+                    },
+                    colors = MenuDefaults.itemColors(
+                        textColor = MaterialTheme.colorScheme.onSurface
+                    )
                 )
             }
         }
