@@ -12,7 +12,7 @@ sealed class Screen (
 
     data object BillScreen : Screen(ROUTE_BILL_SCREEN)
 
-    data object RouteBillDetails : Screen(ROUTE_BILL_DETAILS)
+    data object BillDetails : Screen(ROUTE_BILL_DETAILS)
 
     companion object {
         private const val ROUTE_MAIN_SCREEN = "main_screen"

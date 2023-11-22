@@ -70,6 +70,9 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    //Navigation
+    implementation("androidx.navigation:navigation-compose:2.7.5")
+
     //Room
     implementation("androidx.room:room-runtime:2.6.0")
     annotationProcessor("androidx.room:room-compiler:2.6.0")
