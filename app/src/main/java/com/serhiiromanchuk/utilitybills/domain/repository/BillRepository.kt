@@ -9,5 +9,7 @@ interface BillRepository {
 
     suspend fun deleteBillItem(billItemId: Int)
 
-    fun getBillItems(address: String): Flow<List<BillItem>>
+    fun getBillItemsForAddress(address: String): Flow<List<BillItem>>
+
+    fun getBillItems(): Flow<List<BillItem>>
 }

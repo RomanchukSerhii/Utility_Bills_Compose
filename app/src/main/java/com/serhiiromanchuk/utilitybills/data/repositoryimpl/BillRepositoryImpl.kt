@@ -20,8 +20,12 @@ class BillRepositoryImpl @Inject constructor(
         billDao.deleteBillItem(billItemId)
     }
 
-    override fun getBillItems(address: String): Flow<List<BillItem>> {
-        return billDao.getBillItems(address).map { mapper.mapListDbModelToListEntity(it) }
+    override fun getBillItemsForAddress(address: String): Flow<List<BillItem>> {
+        return billDao.getBillItemsForAddress(address).map { mapper.mapListDbModelToListEntity(it) }
+    }
+
+    override fun getBillItems(): Flow<List<BillItem>> {
+        return billDao.getBillItems().map { mapper.mapListDbModelToListEntity(it) }
     }
 
 }

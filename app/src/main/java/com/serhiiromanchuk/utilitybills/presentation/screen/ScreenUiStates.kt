@@ -7,18 +7,15 @@ sealed class StartScreenUiState {
     data class Initial(
         val address: String = "",
         val cardNumber: String = ""
-    )
+    ) : StartScreenUiState()
 
-    data class Content(
-        val address: String,
-        val cardNumber: String
-    )
+    data object LoadingMainScreen : StartScreenUiState()
 
     data class Error(
         val isAddressFieldEmpty: Boolean,
         val isCardNumberFieldEmpty: Boolean,
         val isCardNumberNotValid: Boolean
-    )
+    ) : StartScreenUiState()
 }
 
 sealed class MainScreenUiState {

@@ -5,6 +5,7 @@ import com.serhiiromanchuk.utilitybills.di.annotation.ApplicationScope
 import com.serhiiromanchuk.utilitybills.di.annotation.ViewModelKey
 import com.serhiiromanchuk.utilitybills.presentation.viewmodel.InsertUtilityServiceViewModel
 import com.serhiiromanchuk.utilitybills.presentation.viewmodel.MainScreenViewModel
+import com.serhiiromanchuk.utilitybills.presentation.viewmodel.StartScreenViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -21,4 +22,9 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(MainScreenViewModel::class)
     fun bindMainScreenViewModel(viewModel: MainScreenViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(StartScreenViewModel::class)
+    fun bindStartScreenViewModel(viewModel: StartScreenViewModel): ViewModel
 }

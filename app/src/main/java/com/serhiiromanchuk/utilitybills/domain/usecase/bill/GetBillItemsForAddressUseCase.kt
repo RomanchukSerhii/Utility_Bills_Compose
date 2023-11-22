@@ -5,11 +5,11 @@ import com.serhiiromanchuk.utilitybills.domain.repository.BillRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetBillItemsUseCase @Inject constructor(
+class GetBillItemsForAddressUseCase @Inject constructor(
     private val repository: BillRepository
 ) {
 
-    operator fun invoke(): Flow<List<BillItem>> {
-        return repository.getBillItems()
+    operator fun invoke(address: String): Flow<List<BillItem>> {
+        return repository.getBillItemsForAddress(address)
     }
 }
