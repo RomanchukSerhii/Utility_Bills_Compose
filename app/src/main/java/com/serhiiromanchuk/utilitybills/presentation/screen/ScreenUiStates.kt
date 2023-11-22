@@ -3,17 +3,31 @@ package com.serhiiromanchuk.utilitybills.presentation.screen
 import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 
-data class MainScreenUiState (
-    val id: Int = UNDEFINED_ID,
-    val address: String,
-    val month: String,
-    val cardNumber: String,
-    val utilityServices: List<UtilityServiceItem>
+sealed class StartScreenUiState {
+    data class Initial(
+        val address: String = "",
+        val cardNumber: String = ""
+    )
 
-) {
-    companion object {
-        private const val UNDEFINED_ID = 0
-    }
+    data class Content(
+        val address: String,
+        val cardNumber: String
+    )
+
+    data class Error(
+        val isAddressFieldEmpty: Boolean,
+        val isCardNumberFieldEmpty: Boolean,
+        val isCardNumberNotValid: Boolean
+    )
+}
+
+sealed class MainScreenUiState {
+    data class Initial(
+        val address: String,
+        val month: String,
+        val cardNumber: String,
+        val utilityServices: List<UtilityServiceItem>
+    )
 }
 
 sealed class InsertUtilityServiceScreenUiState {

@@ -4,6 +4,8 @@ sealed class Screen (
     val route: String
 ) {
 
+    data object StartScreen : Screen(ROUTE_START_SCREEN)
+
     data object MainScreen : Screen(ROUTE_MAIN_SCREEN)
 
     data object InsertServiceScreen : Screen(ROUTE_INSERT_SERVICE_SCREEN)
@@ -15,6 +17,7 @@ sealed class Screen (
     data object BillDetails : Screen(ROUTE_BILL_DETAILS)
 
     companion object {
+        private const val ROUTE_START_SCREEN = "start_screen"
         private const val ROUTE_MAIN_SCREEN = "main_screen"
         private const val ROUTE_INSERT_SERVICE_SCREEN = "insert_service_screen"
         private const val ROUTE_BILLS_ARCHIVE_SCREEN = "bills_archive_screen"

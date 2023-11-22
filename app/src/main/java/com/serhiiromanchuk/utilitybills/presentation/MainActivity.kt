@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import com.example.compose.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
+import com.serhiiromanchuk.utilitybills.presentation.screen.BillLayout
 import com.serhiiromanchuk.utilitybills.presentation.viewmodel.ViewModelFactory
 import java.time.LocalDate
 import javax.inject.Inject
