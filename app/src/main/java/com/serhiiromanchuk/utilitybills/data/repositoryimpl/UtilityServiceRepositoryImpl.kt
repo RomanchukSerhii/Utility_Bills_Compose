@@ -6,8 +6,9 @@ import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.domain.repository.UtilityServiceRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class UtilityServiceRepositoryImpl(
+class UtilityServiceRepositoryImpl @Inject constructor(
     private val utilityServiceDao: UtilityServiceDao,
     private val mapper: UtilityServiceItemMapper
 ) : UtilityServiceRepository {

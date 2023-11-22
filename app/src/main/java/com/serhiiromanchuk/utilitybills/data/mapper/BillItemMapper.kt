@@ -2,8 +2,9 @@ package com.serhiiromanchuk.utilitybills.data.mapper
 
 import com.serhiiromanchuk.utilitybills.data.dbmodel.BillItemDbModel
 import com.serhiiromanchuk.utilitybills.domain.model.BillItem
+import javax.inject.Inject
 
-class BillItemMapper {
+class BillItemMapper @Inject constructor() {
     fun mapEntityToDbModel(billItem: BillItem): BillItemDbModel {
         return BillItemDbModel(
             id = billItem.id,
@@ -11,7 +12,6 @@ class BillItemMapper {
             month = billItem.month,
             year = billItem.year,
             cardNumber = billItem.cardNumber,
-            utilityServices = billItem.utilityServices,
             billDescription = billItem.billDescription
         )
     }
@@ -23,7 +23,6 @@ class BillItemMapper {
             month = billItemDbModel.month,
             year = billItemDbModel.year,
             cardNumber = billItemDbModel.cardNumber,
-            utilityServices = billItemDbModel.utilityServices,
             billDescription = billItemDbModel.billDescription
         )
     }

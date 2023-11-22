@@ -1,5 +1,6 @@
 package com.serhiiromanchuk.utilitybills.presentation
 
+import android.os.Build
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -57,6 +58,13 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.LabelTextOn
 import com.serhiiromanchuk.utilitybills.presentation.core.formatToCardNumberType
 import com.serhiiromanchuk.utilitybills.presentation.core.getCurrentMonth
 import com.serhiiromanchuk.utilitybills.presentation.core.getMaskingCardNumber
+import java.time.LocalDate
+
+val data = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    LocalDate.now()
+} else {
+    TODO("VERSION.SDK_INT < O")
+}
 
 @Composable
 fun BillLayout(
@@ -68,15 +76,19 @@ fun BillLayout(
     currentValueChange: (Int) -> Unit
 ) {
     Column {
-        val utilityServices: List<UtilityServiceItem> = emptyList()
         val addressListTest = listOf("Грушевського 23, кв.235", "Грушевського 23, кв.171")
+
+        val month = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            data.month
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
         BillHeader(
             billItem = BillItem(
                 address = addressListTest[0],
-                month = "Листопад",
+                month = month,
                 year = 2023,
-                cardNumber = "4444 2514 2684 1354",
-                utilityServices = utilityServices
+                cardNumber = "4444 2514 2684 1354"
             ),
             addressList = addressListTest,
             onCardNumberEditClick = { /*TODO*/ },
@@ -382,13 +394,19 @@ private fun MeterValue(
 }
 
 
-val utilityServiceTest = UtilityServiceItem(
-    name = "Газ",
-    address = "Грушевского 23, 235",
-    tariff = 7.98,
-    isMeterAvailable = true,
-    previousValue = 9624,
-)
+val utilityServiceTest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    UtilityServiceItem(
+        name = "Газ",
+        address = "Грушевского 23, 235",
+        year = data.year,
+        month = data.month,
+        tariff = 7.98,
+        isMeterAvailable = true,
+        previousValue = 9624,
+    )
+} else {
+    TODO("VERSION.SDK_INT < O")
+}
 
 @Preview(
     showSystemUi = true,

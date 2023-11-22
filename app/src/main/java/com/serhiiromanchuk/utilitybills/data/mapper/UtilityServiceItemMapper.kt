@@ -2,13 +2,16 @@ package com.serhiiromanchuk.utilitybills.data.mapper
 
 import com.serhiiromanchuk.utilitybills.data.dbmodel.UtilityServiceItemDbModel
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
+import javax.inject.Inject
 
-class UtilityServiceItemMapper {
+class UtilityServiceItemMapper @Inject constructor() {
     fun mapEntityToDbModel(entity: UtilityServiceItem): UtilityServiceItemDbModel {
         return UtilityServiceItemDbModel(
             id = entity.id,
             address = entity.address,
             name = entity.name,
+            year = entity.year,
+            month = entity.month,
             tariff = entity.tariff,
             isMeterAvailable = entity.isMeterAvailable,
             previousValue = entity.previousValue,
@@ -22,6 +25,8 @@ class UtilityServiceItemMapper {
             id = dbModel.id,
             address = dbModel.address,
             name = dbModel.name,
+            year = dbModel.year,
+            month = dbModel.month,
             tariff = dbModel.tariff,
             isMeterAvailable = dbModel.isMeterAvailable,
             previousValue = dbModel.previousValue,

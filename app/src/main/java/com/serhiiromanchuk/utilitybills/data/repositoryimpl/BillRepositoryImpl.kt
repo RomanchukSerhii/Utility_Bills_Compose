@@ -6,8 +6,9 @@ import com.serhiiromanchuk.utilitybills.domain.model.BillItem
 import com.serhiiromanchuk.utilitybills.domain.repository.BillRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class BillRepositoryImpl (
+class BillRepositoryImpl @Inject constructor(
     private val billDao: BillDao,
     private val mapper: BillItemMapper
 ) : BillRepository {

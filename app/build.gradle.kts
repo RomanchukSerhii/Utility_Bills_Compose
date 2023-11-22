@@ -76,6 +76,10 @@ dependencies {
     ksp("androidx.room:room-compiler:2.6.0")
     implementation("androidx.room:room-ktx:2.6.0")
 
+    //Dagger2
+    implementation("com.google.dagger:dagger:2.48.1")
+    ksp("com.google.dagger:dagger-compiler:2.48.1")
+
     val composeBom = platform("androidx.compose:compose-bom:2023.10.01")
     implementation(composeBom)
 

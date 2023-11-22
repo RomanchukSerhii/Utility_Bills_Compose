@@ -1,9 +1,15 @@
 package com.serhiiromanchuk.utilitybills.domain.model
 
+import java.time.Month
+import java.time.Year
+import java.time.YearMonth
+
 data class UtilityServiceItem(
     val id: Int = UNDEFINED_ID,
     val address: String,
     val name: String,
+    val year: Int,
+    val month: Month,
     val tariff: Double,
     val isMeterAvailable: Boolean,
     val previousValue: Int,
