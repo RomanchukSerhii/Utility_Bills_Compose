@@ -32,7 +32,7 @@ fun PrimaryButton(
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp),
+                .height(52.dp),
             shape = MaterialTheme.shapes.small,
             enabled = enabled,
             onClick = onClick
@@ -58,7 +58,7 @@ fun SecondaryButton(
         OutlinedButton(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp),
+                .height(52.dp),
             shape = MaterialTheme.shapes.small,
             enabled = enabled,
             onClick = onClick,

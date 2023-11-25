@@ -15,14 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.compose.UtilityBillsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomOutlinedTextField(
+fun OutlinedTextFieldOnSurface(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
@@ -50,6 +49,66 @@ fun CustomOutlinedTextField(
     }
 }
 
+@Composable
+fun LabelTextOnPrimary(
+    modifier: Modifier = Modifier,
+    text: String,
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.labelMedium,
+        color = MaterialTheme.colorScheme.onPrimary
+    )
+}
+
+@Composable
+fun LabelTextOnSurface(
+    modifier: Modifier = Modifier,
+    text: String,
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.labelMedium
+    )
+}
+
+@Composable
+fun TitleTextOnSurface(
+    modifier: Modifier = Modifier,
+    text: String
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.titleMedium
+    )
+}
+
+@Composable
+fun BodyTextOnSurface(
+    modifier: Modifier = Modifier,
+    text: String
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.bodyMedium
+    )
+}
+
+@Composable
+fun BodyTextOnPrimary(
+    modifier: Modifier = Modifier,
+    text: String
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onPrimary,
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 fun TextFieldsPreview() {
@@ -61,7 +120,7 @@ fun TextFieldsPreview() {
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            CustomOutlinedTextField(value = "", onValueChange = {}, labelText = "Test:")
+            OutlinedTextFieldOnSurface(value = "", onValueChange = {}, labelText = "Test:")
         }
     }
 }

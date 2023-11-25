@@ -8,7 +8,7 @@ import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.domain.usecase.utilityservice.GetUtilityServiceUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utilityservice.InsertUtilityServiceUseCase
-import com.serhiiromanchuk.utilitybills.presentation.screen.InsertUtilityServiceScreenUiState
+import com.serhiiromanchuk.utilitybills.presentation.screen.insertutility.InsertUtilityServiceScreenUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

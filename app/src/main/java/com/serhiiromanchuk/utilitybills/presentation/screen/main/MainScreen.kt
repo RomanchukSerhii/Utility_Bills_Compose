@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen
+package com.serhiiromanchuk.utilitybills.presentation.screen.main
 
 import android.os.Build
 import androidx.compose.foundation.background
@@ -24,7 +24,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -53,7 +52,12 @@ import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.domain.model.BillItem
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.presentation.core.components.AddressExposeDropdownMenuBox
+import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnPrimary
+import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.LabelTextOnPrimary
+import com.serhiiromanchuk.utilitybills.presentation.core.components.LabelTextOnSurface
+import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
+import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.formatToCardNumberType
 import com.serhiiromanchuk.utilitybills.presentation.core.getCurrentMonth
 import com.serhiiromanchuk.utilitybills.presentation.core.getMaskingCardNumber
@@ -66,9 +70,10 @@ val data = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 }
 
 @Composable
-fun BillLayout(
+fun MainScreenLayout(
     modifier: Modifier = Modifier,
     utilityService: UtilityServiceItem,
+    onDeleteButtonClick: () -> Unit,
     onEditClick: () -> Unit,
     onCheckIconClick: (Boolean) -> Unit,
     previousValueChange: (Int) -> Unit,
@@ -129,6 +134,8 @@ fun BillLayout(
                 }
             }
         }
+
+        PrimaryButton(text = "Видалити", onClick = onDeleteButtonClick )
     }
 
 }
@@ -254,14 +261,9 @@ private fun BillMonth(
     Column(
         horizontalAlignment = Alignment.Start
     ) {
-
         LabelTextOnPrimary(text = "Місяць")
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_extra_small)))
-        Text(
-            text = getCurrentMonth(),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onPrimary,
-        )
+        BodyTextOnPrimary(text = getCurrentMonth())
     }
 }
 
@@ -291,7 +293,6 @@ private fun BillAddress(
             )
         }
     }
-
 }
 
 @Composable
@@ -302,15 +303,9 @@ private fun UtilityServiceDetails(
     currentValueChange: (Int) -> Unit
 ) {
     Column(modifier = modifier) {
-        Text(
-            text = utilityService.name,
-            style = MaterialTheme.typography.titleMedium
-        )
+        TitleTextOnSurface(text = utilityService.name)
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_extra_small)))
-        Text(
-            text = stringResource(R.string.tariff, utilityService.tariff),
-            style = MaterialTheme.typography.bodyMedium
-        )
+        BodyTextOnSurface(text = stringResource(R.string.tariff, utilityService.tariff))
         if (utilityService.isMeterAvailable) {
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_large)))
             MeterValue(
@@ -353,10 +348,7 @@ private fun MeterValue(
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            Text(
-                text = "Попередні",
-                style = MaterialTheme.typography.labelMedium
-            )
+            LabelTextOnSurface(text = "Попередні")
             TextField(
                 value = previousValue,
                 onValueChange = {
@@ -373,10 +365,7 @@ private fun MeterValue(
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            Text(
-                text = "Поточні",
-                style = MaterialTheme.typography.labelMedium
-            )
+            LabelTextOnSurface(text = "Поточні")
             TextField(
                 value = currentValue,
                 onValueChange = {
@@ -415,8 +404,9 @@ val utilityServiceTest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 private fun UtilityServiceLayoutPreview() {
     UtilityBillsTheme(darkTheme = false) {
         Column {
-            BillLayout(
+            MainScreenLayout(
                 utilityService = utilityServiceTest,
+                onDeleteButtonClick = {},
                 onEditClick = { /*TODO*/ },
                 onCheckIconClick = { /*TODO*/ },
                 previousValueChange = {},

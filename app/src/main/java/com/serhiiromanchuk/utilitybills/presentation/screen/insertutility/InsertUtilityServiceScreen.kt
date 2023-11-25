@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen
+package com.serhiiromanchuk.utilitybills.presentation.screen.insertutility
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,12 +22,11 @@ import androidx.compose.ui.unit.dp
 import com.example.compose.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
-import com.serhiiromanchuk.utilitybills.presentation.core.components.CustomOutlinedTextField
+import com.serhiiromanchuk.utilitybills.presentation.core.components.OutlinedTextFieldOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.MeasurementExposeDropdownMenuBox
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
-import com.serhiiromanchuk.utilitybills.presentation.screen.InsertUtilityServiceScreenUiState.Initial
-import com.serhiiromanchuk.utilitybills.presentation.screen.InsertUtilityServiceScreenUiState.Content
-import com.serhiiromanchuk.utilitybills.presentation.screen.InsertUtilityServiceScreenUiState.Error
+import com.serhiiromanchuk.utilitybills.presentation.screen.insertutility.InsertUtilityServiceScreenUiState.*
+
 
 @Composable
 fun InsertUtilityServiceScreen(
@@ -83,7 +82,7 @@ fun InsertUtilityServiceScreen(
     Column(
         modifier = modifier
     ) {
-        CustomOutlinedTextField(
+        OutlinedTextFieldOnSurface(
             value = name,
             onValueChange = { name = it.trim() },
             isError = isNameEmpty,
@@ -92,7 +91,7 @@ fun InsertUtilityServiceScreen(
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
 
-        CustomOutlinedTextField(
+        OutlinedTextFieldOnSurface(
             value = tariff,
             onValueChange = { tariff = it.trim() },
             isError = (isTariffEmpty || isTariffNotDouble),
@@ -119,7 +118,7 @@ fun InsertUtilityServiceScreen(
         Row(
             verticalAlignment = Alignment.Bottom
         ) {
-            CustomOutlinedTextField(
+            OutlinedTextFieldOnSurface(
                 modifier = Modifier.weight(1f),
                 value = previousValue,
                 onValueChange = { previousValue = it.trim() },

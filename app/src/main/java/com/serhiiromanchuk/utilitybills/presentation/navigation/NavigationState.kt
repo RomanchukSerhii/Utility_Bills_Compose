@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
 class NavigationState(
-    private val navHostController: NavHostController
+    val navHostController: NavHostController
 ) {
 
     fun navigateTo(route: String) {

@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.serhiiromanchuk.utilitybills.domain.model.BillItem
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillItemsUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.InsertBillItemUseCase
-import com.serhiiromanchuk.utilitybills.presentation.screen.StartScreenUiState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,10 +21,10 @@ class StartScreenViewModel @Inject constructor(
     private val insertBillItemUseCase: InsertBillItemUseCase
 ) : ViewModel() {
 
-    private val _screenUiState = MutableStateFlow<StartScreenUiState>(StartScreenUiState.Initial())
+    private val _screenUiState = MutableStateFlow<StartScreenUiState>(StartScreenUiState.Initial)
     val screenUiState: StateFlow<StartScreenUiState> = _screenUiState.asStateFlow()
 
-    fun insertBillItem(address: String, cardNumber: String) {
+    fun insertBillItem(address: String, cardNumber: String): Boolean {
         val isAddressEmpty = address.isEmpty()
         val isCardNumberEmpty = cardNumber.isEmpty()
         val isCardNumberNotValid = cardNumber.length == 19
@@ -35,6 +35,7 @@ class StartScreenViewModel @Inject constructor(
                 isCardNumberFieldEmpty = isCardNumberEmpty,
                 isCardNumberNotValid = isCardNumberNotValid
             )
+            return false
         } else {
             val date = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 LocalDate.now()
@@ -53,6 +54,7 @@ class StartScreenViewModel @Inject constructor(
             viewModelScope.launch {
                 insertBillItemUseCase(billItem)
             }
+            return true
         }
     }
 

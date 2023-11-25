@@ -1,34 +1,8 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen
+package com.serhiiromanchuk.utilitybills.presentation.screen.insertutility
 
 import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
-import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
-
-sealed class StartScreenUiState {
-    data class Initial(
-        val address: String = "",
-        val cardNumber: String = ""
-    ) : StartScreenUiState()
-
-    data object LoadingMainScreen : StartScreenUiState()
-
-    data class Error(
-        val isAddressFieldEmpty: Boolean,
-        val isCardNumberFieldEmpty: Boolean,
-        val isCardNumberNotValid: Boolean
-    ) : StartScreenUiState()
-}
-
-sealed class MainScreenUiState {
-    data class Initial(
-        val address: String,
-        val month: String,
-        val cardNumber: String,
-        val utilityServices: List<UtilityServiceItem>
-    )
-}
 
 sealed class InsertUtilityServiceScreenUiState {
-
     data class Initial(
         val name: String = "",
         val tariff: String = "",

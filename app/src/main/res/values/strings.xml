@@ -3,4 +3,8 @@
     <string name="tariff">Тариф: %1$s</string>
     <string name="edit_meter_value">Редагувати значення</string>
     <string name="edit_card_number">Редагувати номер карти</string>
+    <string name="save">Зберегти</string>
+    <string name="address">Адреса</string>
+    <string name="card_number">Номер карти</string>
+    <string name="enter_info_for_new_bill">Вкажіть дані для нового рахунку:</string>
 </resources>
