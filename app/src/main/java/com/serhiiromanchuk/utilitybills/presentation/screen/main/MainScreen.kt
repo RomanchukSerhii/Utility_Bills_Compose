@@ -72,7 +72,7 @@ val data = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 @Composable
 fun MainScreenLayout(
     modifier: Modifier = Modifier,
-    utilityService: UtilityServiceItem,
+    mainScreenUiState: MainScreenUiState,
     onDeleteButtonClick: () -> Unit,
     onEditClick: () -> Unit,
     onCheckIconClick: (Boolean) -> Unit,
@@ -108,7 +108,7 @@ fun MainScreenLayout(
             )
         ) {
             Row {
-                var isChecked by rememberSaveable { mutableStateOf(utilityService.isMeterAvailable) }
+                var isChecked by rememberSaveable { mutableStateOf(true) }
                 Checkbox(
                     checked = isChecked,
                     onCheckedChange = {
@@ -120,7 +120,7 @@ fun MainScreenLayout(
                     modifier = Modifier
                         .padding(vertical = dimensionResource(id = R.dimen.padding_medium))
                         .weight(1f),
-                    utilityService = utilityService,
+                    utilityService = utilityServiceTest,
                     previousValueChange = previousValueChange,
                     currentValueChange = currentValueChange
                 )
@@ -405,7 +405,7 @@ private fun UtilityServiceLayoutPreview() {
     UtilityBillsTheme(darkTheme = false) {
         Column {
             MainScreenLayout(
-                utilityService = utilityServiceTest,
+                mainScreenUiState = MainScreenUiState.Initial,
                 onDeleteButtonClick = {},
                 onEditClick = { /*TODO*/ },
                 onCheckIconClick = { /*TODO*/ },

@@ -13,9 +13,8 @@ import com.serhiiromanchuk.utilitybills.presentation.navigation.AppNavGraph
 import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
 import com.serhiiromanchuk.utilitybills.presentation.screen.main.MainScreenLayout
+import com.serhiiromanchuk.utilitybills.presentation.screen.main.MainScreenUiState
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenLayout
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState.*
 import com.serhiiromanchuk.utilitybills.presentation.viewmodel.MainScreenViewModel
 import com.serhiiromanchuk.utilitybills.presentation.viewmodel.StartScreenViewModel
 import com.serhiiromanchuk.utilitybills.presentation.viewmodel.ViewModelFactory
@@ -37,7 +36,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             UtilityBillsTheme {
                 val navigationState = rememberNavigationState()
-
                 AppNavGraph(
                     navHostController = navigationState.navHostController,
                     startScreenContent = {
@@ -78,7 +76,7 @@ class MainActivity : ComponentActivity() {
                         val mainScreenViewModel: MainScreenViewModel =
                             viewModel(factory = viewModelFactory)
                         MainScreenLayout(
-                            utilityService = utilityService,
+                            mainScreenUiState = MainScreenUiState.Initial,
                             onDeleteButtonClick = { mainScreenViewModel.deleteBillItem() },
                             onEditClick = { /*TODO*/ },
                             onCheckIconClick = {},
@@ -91,7 +89,6 @@ class MainActivity : ComponentActivity() {
                     billScreenContent = { /*TODO*/ },
                     billDetailsScreenContent = { /*TODO*/ }
                 )
-
             }
 //            UtilityBillsTheme {
 //                val data = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

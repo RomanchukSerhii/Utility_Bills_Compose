@@ -13,7 +13,6 @@ import dagger.Component
 interface ApplicationComponent {
 
     fun inject(mainActivity: MainActivity)
-
     @Component.Factory
     interface ApplicationComponentFactory {
         fun create(
