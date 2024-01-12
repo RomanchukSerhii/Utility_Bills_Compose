@@ -7,10 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.compose.UtilityBillsTheme
-import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
-import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.presentation.navigation.AppNavGraph
-import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
 import com.serhiiromanchuk.utilitybills.presentation.screen.main.MainScreenLayout
 import com.serhiiromanchuk.utilitybills.presentation.screen.main.MainScreenUiState
@@ -44,16 +41,8 @@ class MainActivity : ComponentActivity() {
                         val startScreenUiState = startScreenViewModel.screenUiState.collectAsState()
                         StartScreenLayout(
                             startScreenUiState = startScreenUiState.value,
-                            onSaveButtonClick = { address, cardNumber ->
-                                val isInsertSuccess =
-                                    startScreenViewModel.insertBillItem(address, cardNumber)
-                                if (isInsertSuccess) {
-                                    navigationState.navigateTo(Screen.MainScreen.route)
-                                }
-                            },
-                            skipStartScreen = {
-                                navigationState.navigateTo(Screen.MainScreen.route)
-                            }
+                            navigationState = navigationState,
+                            onEvent = startScreenViewModel::onEvent
                         )
                     },
                     mainScreenContent = {
@@ -62,17 +51,17 @@ class MainActivity : ComponentActivity() {
                         } else {
                             TODO("VERSION.SDK_INT < O")
                         }
-                        val test = data.year
-                        val utilityService = UtilityServiceItem(
-                            name = "Газ",
-                            address = "Грушевского 23, 235",
-                            year = data.year,
-                            month = data.month,
-                            tariff = 7.98,
-                            isMeterAvailable = true,
-                            previousValue = 9624,
-                            unitOfMeasurement = MeasurementUnit.CUBIC_METER
-                        )
+//                        val test = data.year
+//                        val utilityService = UtilityServiceItem(
+//                            name = "Газ",
+//                            address = "Грушевского 23, 235",
+//                            year = data.year,
+//                            month = data.month,
+//                            tariff = 7.98,
+//                            isMeterAvailable = true,
+//                            previousValue = 9624,
+//                            unitOfMeasurement = MeasurementUnit.CUBIC_METER
+//                        )
                         val mainScreenViewModel: MainScreenViewModel =
                             viewModel(factory = viewModelFactory)
                         MainScreenLayout(

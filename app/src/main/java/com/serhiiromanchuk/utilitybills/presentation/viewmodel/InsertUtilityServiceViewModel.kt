@@ -1,6 +1,5 @@
 package com.serhiiromanchuk.utilitybills.presentation.viewmodel
 
-import android.os.Build
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,11 +8,12 @@ import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.domain.usecase.utilityservice.GetUtilityServiceUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utilityservice.InsertUtilityServiceUseCase
 import com.serhiiromanchuk.utilitybills.presentation.screen.insertutility.InsertUtilityServiceScreenUiState
+import com.serhiiromanchuk.utilitybills.utils.getCurrentMonth
+import com.serhiiromanchuk.utilitybills.utils.getCurrentYear
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import javax.inject.Inject
 
 class InsertUtilityServiceViewModel @Inject constructor(
@@ -62,18 +62,12 @@ class InsertUtilityServiceViewModel @Inject constructor(
             )
         } else {
             viewModelScope.launch {
-                val date = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    LocalDate.now()
-                } else {
-                    TODO("VERSION.SDK_INT < O")
-                }
-
                 insertUtilityServiceUseCase(
                     UtilityServiceItem(
                         address = address,
                         name = name,
-                        year = date.year,
-                        month = date.month,
+                        year = getCurrentYear(),
+                        month = getCurrentMonth(),
                         tariff = tariff.toDouble(),
                         isMeterAvailable = isMeterAvailable,
                         previousValue = previousValue.toInt(),

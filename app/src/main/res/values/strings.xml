@@ -7,4 +7,5 @@
     <string name="address">Адреса</string>
     <string name="card_number">Номер карти</string>
     <string name="enter_info_for_new_bill">Вкажіть дані для нового рахунку:</string>
+    <string name="month">Місяць</string>
 </resources>

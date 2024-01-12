@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -26,15 +25,20 @@ import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.OutlinedTextFieldOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
-import com.serhiiromanchuk.utilitybills.presentation.core.formatToCardNumberType
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState.*
+import com.serhiiromanchuk.utilitybills.utils.formatToCardNumberType
+import com.serhiiromanchuk.utilitybills.presentation.navigation.NavigationState
+import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
+import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState.Error
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState.Initial
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState.LoadingMainScreen
 
 @Composable
 fun StartScreenLayout(
     modifier: Modifier = Modifier,
     startScreenUiState: StartScreenUiState,
-    onSaveButtonClick: (address: String, cardNumber: String) -> Unit,
-    skipStartScreen: () -> Unit
+    navigationState: NavigationState,
+    onEvent: (StartScreenEvent) -> Unit
 ) {
     var address by rememberSaveable { mutableStateOf("") }
     var cardNumber by rememberSaveable { mutableStateOf("") }
@@ -45,7 +49,7 @@ fun StartScreenLayout(
 
     when (startScreenUiState) {
         is Initial -> { }
-        is LoadingMainScreen -> { skipStartScreen() }
+        is LoadingMainScreen -> { navigationState.navigateTo(Screen.MainScreen.route)  }
         is Error -> {
             isAddressFieldEmpty = startScreenUiState.isAddressFieldEmpty
             isCardNumberFieldEmpty = startScreenUiState.isCardNumberFieldEmpty
@@ -87,7 +91,7 @@ fun StartScreenLayout(
 
         PrimaryButton(
             text = stringResource(R.string.save),
-            onClick = { onSaveButtonClick(address, cardNumber) }
+            onClick = { onEvent(StartScreenEvent.InsertUtilityBill(address, cardNumber)) }
         )
     }
 }
@@ -102,8 +106,8 @@ fun StartScreenLayoutPreview() {
         StartScreenLayout(
             modifier = Modifier.padding(16.dp),
             startScreenUiState = Initial,
-            onSaveButtonClick = { address, cardNumber ->  },
-            skipStartScreen = {}
+            navigationState = rememberNavigationState(),
+            onEvent = {}
         )
     }
 }

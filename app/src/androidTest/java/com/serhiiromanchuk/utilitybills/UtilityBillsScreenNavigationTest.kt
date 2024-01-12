@@ -1,8 +1,13 @@
 package com.serhiiromanchuk.utilitybills
 
 import androidx.activity.ComponentActivity
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.serhiiromanchuk.utilitybills.presentation.navigation.AppNavGraph
@@ -34,10 +39,13 @@ class UtilityBillsScreenNavigationTest {
             AppNavGraph(
                 navHostController = navigationState.navHostController,
                 startScreenContent = {
+                    var screenUiState by remember { mutableStateOf<StartScreenUiState>(StartScreenUiState.Initial) }
                     StartScreenLayout(
-                        startScreenUiState = StartScreenUiState.Initial,
-                        onSaveButtonClick = { _, _ -> },
-                        skipStartScreen = {}
+                        startScreenUiState = screenUiState,
+                        navigationState = navigationState,
+                        onEvent = {
+                            screenUiState = StartScreenUiState.LoadingMainScreen
+                        }
                     )
                 },
                 mainScreenContent = {
@@ -61,5 +69,15 @@ class UtilityBillsScreenNavigationTest {
     @Test
     fun utilityBillsNavHost_verifyStartDestination() {
         navController.assertCurrentRouteName(Screen.StartScreen.route)
+    }
+
+    @Test
+    fun utilityBillsNavHost_clickSaveOnStartScreen_navigatesToMainScreen() {
+        navigateToMainScreen()
+        navController.assertCurrentRouteName(Screen.MainScreen.route)
+    }
+
+    private fun navigateToMainScreen() {
+        composeTestRule.onNodeWithStringId(R.string.save).performClick()
     }
 }

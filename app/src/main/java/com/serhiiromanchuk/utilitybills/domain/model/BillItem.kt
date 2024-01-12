@@ -1,13 +1,10 @@
 package com.serhiiromanchuk.utilitybills.domain.model
 
-import java.time.Month
-import java.time.Year
-
 data class BillItem(
     val id: Int = UNDEFINED_ID,
     val address: String,
-    val month: Month,
-    val year: Int,
+    val month: String,
+    val year: String,
     val cardNumber: String,
     val billDescription: String = ""
 ) {

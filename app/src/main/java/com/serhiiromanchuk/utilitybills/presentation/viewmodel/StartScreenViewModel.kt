@@ -1,19 +1,23 @@
 package com.serhiiromanchuk.utilitybills.presentation.viewmodel
 
-import android.os.Build
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhiiromanchuk.utilitybills.domain.model.BillItem
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillItemsUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.InsertBillItemUseCase
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenEvent
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState.Error
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState.Initial
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState.LoadingMainScreen
+import com.serhiiromanchuk.utilitybills.utils.getCurrentMonth
+import com.serhiiromanchuk.utilitybills.utils.getCurrentYear
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import javax.inject.Inject
 
 class StartScreenViewModel @Inject constructor(
@@ -21,46 +25,45 @@ class StartScreenViewModel @Inject constructor(
     private val insertBillItemUseCase: InsertBillItemUseCase
 ) : ViewModel() {
 
-    private val _screenUiState = MutableStateFlow<StartScreenUiState>(StartScreenUiState.Initial)
+    private val _screenUiState = MutableStateFlow<StartScreenUiState>(Initial)
     val screenUiState: StateFlow<StartScreenUiState> = _screenUiState.asStateFlow()
 
-    fun insertBillItem(address: String, cardNumber: String): Boolean {
+    fun onEvent(event: StartScreenEvent) {
+        when (event) {
+            is StartScreenEvent.InsertUtilityBill -> { insertBillItem(event.address, event.cardNumber) }
+        }
+    }
+
+    private fun insertBillItem(address: String, cardNumber: String){
         val isAddressEmpty = address.isEmpty()
         val isCardNumberEmpty = cardNumber.isEmpty()
         val isCardNumberNotValid = cardNumber.length == 19
 
         if (isAddressEmpty || isCardNumberEmpty || isCardNumberNotValid) {
-            _screenUiState.value = StartScreenUiState.Error(
+            _screenUiState.value = Error(
                 isAddressFieldEmpty = isAddressEmpty,
                 isCardNumberFieldEmpty = isCardNumberEmpty,
                 isCardNumberNotValid = isCardNumberNotValid
             )
-            return false
         } else {
-            val date = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                LocalDate.now()
-            } else {
-                TODO("VERSION.SDK_INT < O")
-            }
-            val year = date.year
-            val month = date.month
             val billItem = BillItem(
                 address = address,
-                month = month,
-                year = year,
+                month = getCurrentMonth(),
+                year = getCurrentYear(),
                 cardNumber = cardNumber
             )
 
             viewModelScope.launch {
                 insertBillItemUseCase(billItem)
             }
-            return true
+
+            _screenUiState.value = LoadingMainScreen
         }
     }
 
     init {
         getBillItemsUseCase().onEach {
-            if (it.isNotEmpty()) _screenUiState.value = StartScreenUiState.LoadingMainScreen
+            if (it.isNotEmpty()) _screenUiState.value = LoadingMainScreen
         }.launchIn(viewModelScope)
     }
 }
