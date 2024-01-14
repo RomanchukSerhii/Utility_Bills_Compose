@@ -11,10 +11,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.compose.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.domain.mocks.fakeUtilityService
 import com.serhiiromanchuk.utilitybills.presentation.screen.home.ServiceItem
 import com.serhiiromanchuk.utilitybills.presentation.viewmodel.ViewModelFactory
+import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {

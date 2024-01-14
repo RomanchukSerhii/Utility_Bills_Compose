@@ -19,13 +19,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.compose.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
-import com.serhiiromanchuk.utilitybills.presentation.core.components.OutlinedTextFieldOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.MeasurementExposeDropdownMenuBox
+import com.serhiiromanchuk.utilitybills.presentation.core.components.OutlinedTextFieldOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
-import com.serhiiromanchuk.utilitybills.presentation.screen.insertutility.InsertUtilityServiceScreenUiState.*
+import com.serhiiromanchuk.utilitybills.presentation.screen.insertutility.InsertUtilityServiceScreenUiState.Content
+import com.serhiiromanchuk.utilitybills.presentation.screen.insertutility.InsertUtilityServiceScreenUiState.Error
+import com.serhiiromanchuk.utilitybills.presentation.screen.insertutility.InsertUtilityServiceScreenUiState.Initial
+import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 
 @Composable

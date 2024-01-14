@@ -20,18 +20,18 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.compose.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.OutlinedTextFieldOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
-import com.serhiiromanchuk.utilitybills.utils.formatToCardNumberType
 import com.serhiiromanchuk.utilitybills.presentation.navigation.NavigationState
 import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState.Error
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState.Initial
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState.LoadingMainScreen
+import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
+import com.serhiiromanchuk.utilitybills.utils.formatToCardNumberType
 
 @Composable
 fun StartScreenLayout(

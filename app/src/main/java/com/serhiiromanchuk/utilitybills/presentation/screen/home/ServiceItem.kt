@@ -1,8 +1,12 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.home
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -22,25 +26,26 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
-import com.example.compose.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.domain.mocks.fakeUtilityService
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
+import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.EditServiceIcon
 import com.serhiiromanchuk.utilitybills.presentation.core.components.LabelTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBox
 import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBoxDefaults
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
+import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 
 @Composable
 fun ServiceItem(
     modifier: Modifier = Modifier,
     utilityService: UtilityServiceItem,
+    checked: Boolean = true,
     previousValueChange: (Int) -> Unit,
     currentValueChange: (Int) -> Unit,
     onEditServiceClick: () -> Unit,
@@ -50,42 +55,81 @@ fun ServiceItem(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
-            Row(
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
-                verticalAlignment =  Alignment.Top
-            ) {
-                var isChecked by rememberSaveable {
-                    mutableStateOf(utilityService.isMeterAvailable)
-                }
-                RoundCheckBox(
-                    isChecked = isChecked,
-                    onClick = {
-                        isChecked = !isChecked
-                        isEnabled(isChecked)
-                    },
-                    color = RoundCheckBoxDefaults.colors(
-                        selectedColor = MaterialTheme.colorScheme.tertiary,
-                        disabledSelectedColor = MaterialTheme.colorScheme.surface,
-                        borderColor = if (isChecked){
-                            MaterialTheme.colorScheme.tertiary
-                        } else {
-                            MaterialTheme.colorScheme.onSurfaceVariant
-                        }
-                    )
-                )
-                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.width_small)))
-                ServiceDetails(
-                    modifier = Modifier.weight(1f),
-                    utilityService = utilityService,
-                    previousValueChange = previousValueChange,
-                    currentValueChange = currentValueChange
-                )
-                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.width_small)))
-                EditServiceIcon(onEditServiceClick = onEditServiceClick)
-            }
+        Box(
+            modifier = Modifier.height(IntrinsicSize.Min)
+        ) {
+            CheckedIndicator(checked = checked)
+            ServiceItemContent(
+                utilityService = utilityService,
+                previousValueChange = previousValueChange,
+                currentValueChange = currentValueChange,
+                onEditServiceClick = onEditServiceClick,
+                isEnabled = isEnabled
+            )
+        }
+    }
+}
 
+@Composable
+private fun CheckedIndicator(
+    modifier: Modifier = Modifier,
+    checked: Boolean
+) {
+    val backgroundColor = if (checked) {
+        MaterialTheme.colorScheme.tertiary
+    } else {
+        MaterialTheme.colorScheme.surfaceVariant
+    }
+
+    Box(
+        modifier = modifier
+            .fillMaxHeight()
+            .width(4.dp)
+            .background(backgroundColor)
+    )
+}
+
+@Composable
+private fun ServiceItemContent(
+    modifier: Modifier = Modifier,
+    utilityService: UtilityServiceItem,
+    checked: Boolean = true,
+    previousValueChange: (Int) -> Unit,
+    currentValueChange: (Int) -> Unit,
+    onEditServiceClick: () -> Unit,
+    isEnabled: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+        verticalAlignment = Alignment.Top
+    ) {
+        RoundCheckBox(
+            isChecked = checked,
+            onClick = { isEnabled(!checked) },
+            color = RoundCheckBoxDefaults.colors(
+                selectedColor = MaterialTheme.colorScheme.tertiary,
+                disabledSelectedColor = MaterialTheme.colorScheme.surface,
+                borderColor = if (checked) {
+                    MaterialTheme.colorScheme.tertiary
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                }
+            )
+        )
+        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.width_small)))
+        ServiceDetails(
+            modifier = Modifier.weight(1f),
+            utilityService = utilityService,
+            previousValueChange = previousValueChange,
+            currentValueChange = currentValueChange
+        )
+        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.width_small)))
+        EditServiceIcon(onEditServiceClick = onEditServiceClick)
     }
 }
 
@@ -176,18 +220,7 @@ private fun MeterValue(
     }
 }
 
-@Preview
-@Composable
-fun PreviewDetailsItem() {
-    UtilityBillsTheme {
-        ServiceDetails(
-            utilityService = fakeUtilityService,
-            previousValueChange = {},
-            currentValueChange = {})
-    }
-}
-
-@Preview
+@DarkLightPreviews
 @Composable
 fun PreviewServiceItem() {
     UtilityBillsTheme {
