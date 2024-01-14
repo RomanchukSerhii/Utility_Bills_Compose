@@ -83,8 +83,7 @@ fun HomeScreenHeader(
         BillAddress(
             currentAddress = billItem.address,
             addressList = addressList,
-            onValueChange = changeBillAddress,
-            onAddNewAddressClick = onAddNewAddressClick
+            onValueChange = changeBillAddress
         )
     }
 }
@@ -113,9 +112,15 @@ private fun BillCardNumber(
             BasicTextField(
                 modifier = Modifier.focusRequester(focusRequester),
                 value = if (!isEditable) {
-                    TextFieldValue(maskingCardNumber, selection = TextRange(maskingCardNumber.length))
+                    TextFieldValue(
+                        maskingCardNumber,
+                        selection = TextRange(maskingCardNumber.length)
+                    )
                 } else {
-                    TextFieldValue(unmaskingCardNumber, selection = TextRange(unmaskingCardNumber.length))
+                    TextFieldValue(
+                        unmaskingCardNumber,
+                        selection = TextRange(unmaskingCardNumber.length)
+                    )
                 },
                 onValueChange = {
                     unmaskingCardNumber = formatToCardNumberType(it.text)
@@ -188,18 +193,13 @@ private fun BillAddress(
     currentAddress: String,
     addressList: List<String>,
     onValueChange: (String) -> Unit,
-    onAddNewAddressClick: () -> Unit
 ) {
-    Row(
+    AddressExposeDropdownMenuBox(
         modifier = modifier,
-        verticalAlignment = Alignment.Bottom
-    ) {
-        AddressExposeDropdownMenuBox(
-            currentAddress = currentAddress,
-            addressList = addressList,
-            onValueChange = onValueChange
-        )
-    }
+        currentAddress = currentAddress,
+        addressList = addressList,
+        onValueChange = onValueChange
+    )
 }
 
 @Preview
@@ -217,7 +217,7 @@ private fun PreviewHomeScreenHeader() {
             onCardNumberEditClick = { /*TODO*/ },
             changeBillAddress = {}
         ) {
-            
+
         }
     }
 }

@@ -10,11 +10,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,8 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import com.serhiiromanchuk.utilitybills.R
@@ -34,9 +30,9 @@ import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.EditServiceIcon
-import com.serhiiromanchuk.utilitybills.presentation.core.components.LabelTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBox
 import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBoxDefaults
+import com.serhiiromanchuk.utilitybills.presentation.core.components.TextFieldOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
@@ -105,7 +101,7 @@ private fun ServiceItemContent(
     isEnabled: (Boolean) -> Unit
 ) {
     Row(
-        modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+        modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
         verticalAlignment = Alignment.Top
     ) {
         RoundCheckBox(
@@ -171,52 +167,24 @@ private fun MeterValue(
         mutableStateOf(utilityService.currentValue.toString())
     }
 
-    var previousValueDigit = utilityService.previousValue
-    if (previousValue.isDigitsOnly()) {
-        previousValueDigit = previousValue.toInt()
-    }
-
-    var currentValueDigit = utilityService.currentValue
-    if (currentValue.isDigitsOnly()) {
-        currentValueDigit = currentValue.toInt()
-    }
-
     Row(
         modifier = modifier
     ) {
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            LabelTextOnSurface(text = "Попередні")
-            TextField(
-                value = previousValue,
-                onValueChange = {
-                    previousValue = it.trim()
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                isError = previousValue.isDigitsOnly()
-            )
-        }
+        TextFieldOnSurface(
+            modifier.weight(1f),
+            value = previousValue,
+            onValueChange = { previousValue = it.trim() },
+            isError = previousValue.isDigitsOnly(),
+            label = "Попередні"
+        )
         Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)))
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            LabelTextOnSurface(text = "Поточні")
-            TextField(
-                value = currentValue,
-                onValueChange = {
-                    currentValue = it.trim()
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                isError = currentValue.isDigitsOnly() || currentValueDigit < previousValueDigit
-            )
-        }
+        TextFieldOnSurface(
+            modifier.weight(1f),
+            value = currentValue,
+            onValueChange = { currentValue = it.trim() },
+            isError = currentValue.isDigitsOnly(),
+            label = "Поточні"
+        )
     }
 }
 
