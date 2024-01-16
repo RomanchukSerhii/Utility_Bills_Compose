@@ -32,7 +32,7 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnS
 import com.serhiiromanchuk.utilitybills.presentation.core.components.EditServiceIcon
 import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBox
 import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBoxDefaults
-import com.serhiiromanchuk.utilitybills.presentation.core.components.TextFieldOnSurface
+import com.serhiiromanchuk.utilitybills.presentation.core.components.UtilityMeterTextField
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
@@ -170,7 +170,7 @@ private fun MeterValue(
     Row(
         modifier = modifier
     ) {
-        TextFieldOnSurface(
+        UtilityMeterTextField(
             modifier.weight(1f),
             value = previousValue,
             onValueChange = { previousValue = it.trim() },
@@ -178,7 +178,7 @@ private fun MeterValue(
             label = "Попередні"
         )
         Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)))
-        TextFieldOnSurface(
+        UtilityMeterTextField(
             modifier.weight(1f),
             value = currentValue,
             onValueChange = { currentValue = it.trim() },

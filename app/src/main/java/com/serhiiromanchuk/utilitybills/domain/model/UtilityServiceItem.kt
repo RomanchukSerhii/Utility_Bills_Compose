@@ -2,15 +2,13 @@ package com.serhiiromanchuk.utilitybills.domain.model
 
 data class UtilityServiceItem(
     val id: Int = UNDEFINED_ID,
-    val address: String,
     val name: String,
-    val year: String,
-    val month: String,
     val tariff: Double,
     val isMeterAvailable: Boolean,
     val previousValue: Int,
     val currentValue: Int = UNDEFINED_CURRENT_VALUE,
-    val unitOfMeasurement: MeasurementUnit = MeasurementUnit.CUBIC_METER
+    val unitOfMeasurement: MeasurementUnit = MeasurementUnit.CUBIC_METER,
+    val isChecked: Boolean = false
 ) {
     companion object {
         private const val UNDEFINED_ID = 0

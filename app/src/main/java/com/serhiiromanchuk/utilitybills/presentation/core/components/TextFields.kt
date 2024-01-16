@@ -63,7 +63,7 @@ fun OutlinedTextFieldOnSurface(
 }
 
 @Composable
-fun TextFieldOnSurface(
+fun UtilityMeterTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
@@ -139,7 +139,7 @@ private fun TextFieldsPreview() {
 @Composable
 private fun TextFieldOnSurfacePreview() {
     UtilityBillsTheme {
-        TextFieldOnSurface(
+        UtilityMeterTextField(
             value = "9624",
             onValueChange = {},
             label = "Попередні"
