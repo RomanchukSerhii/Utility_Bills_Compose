@@ -8,8 +8,6 @@ import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.domain.usecase.utilityservice.GetUtilityServiceUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utilityservice.InsertUtilityServiceUseCase
 import com.serhiiromanchuk.utilitybills.presentation.screen.insertutility.InsertUtilityServiceScreenUiState
-import com.serhiiromanchuk.utilitybills.utils.getCurrentMonth
-import com.serhiiromanchuk.utilitybills.utils.getCurrentYear
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -64,10 +62,7 @@ class InsertUtilityServiceViewModel @Inject constructor(
             viewModelScope.launch {
                 insertUtilityServiceUseCase(
                     UtilityServiceItem(
-                        address = address,
                         name = name,
-                        year = getCurrentYear(),
-                        month = getCurrentMonth(),
                         tariff = tariff.toDouble(),
                         isMeterAvailable = isMeterAvailable,
                         previousValue = previousValue.toInt(),

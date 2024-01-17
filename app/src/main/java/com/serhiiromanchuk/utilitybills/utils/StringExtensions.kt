@@ -36,3 +36,5 @@ fun String.digitWithSpace(): String {
 
     return result.toString()
 }
+
+fun String.trimSpaces(): String = this.replace(" ", "")

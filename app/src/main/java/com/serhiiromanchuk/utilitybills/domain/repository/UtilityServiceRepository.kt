@@ -1,7 +1,6 @@
 package com.serhiiromanchuk.utilitybills.domain.repository
 
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
-import kotlinx.coroutines.flow.Flow
 
 interface UtilityServiceRepository {
 
@@ -10,6 +9,4 @@ interface UtilityServiceRepository {
     suspend fun deleteUtilityService(utilityServiceId: Int)
 
     suspend fun getUtilityService(utilityServiceId: Int): UtilityServiceItem
-
-    fun getUtilityServices(address: String): Flow<List<UtilityServiceItem>>
 }

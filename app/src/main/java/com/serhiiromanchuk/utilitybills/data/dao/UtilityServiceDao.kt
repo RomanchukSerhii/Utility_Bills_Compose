@@ -5,8 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.serhiiromanchuk.utilitybills.data.dbmodel.UtilityServiceItemDbModel
-import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UtilityServiceDao {
@@ -19,8 +17,5 @@ interface UtilityServiceDao {
 
     @Query("SELECT * FROM utility_services WHERE id=:utilityServiceId")
     suspend fun getUtilityService(utilityServiceId: Int): UtilityServiceItemDbModel
-
-    @Query("SELECT * FROM utility_services WHERE address=:address")
-    fun getUtilityServices(address: String): Flow<List<UtilityServiceItemDbModel>>
 
 }

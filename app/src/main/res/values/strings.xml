@@ -8,4 +8,6 @@
     <string name="card_number">Номер карти</string>
     <string name="enter_info_for_new_bill">Вкажіть дані для нового рахунку:</string>
     <string name="month">Місяць</string>
+    <string name="input_error">Input error</string>
+    <string name="utility_supporting_error_message">Поточне значення має бути більшим від попереднього або дорівнювати йому</string>
 </resources>

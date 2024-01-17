@@ -16,25 +16,29 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.core.text.isDigitsOnly
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.domain.mocks.fakeUtilityService
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.EditServiceIcon
+import com.serhiiromanchuk.utilitybills.presentation.core.components.ErrorSupportingText
 import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBox
 import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBoxDefaults
-import com.serhiiromanchuk.utilitybills.presentation.core.components.UtilityMeterTextField
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
+import com.serhiiromanchuk.utilitybills.presentation.core.components.UtilityMeterTextField
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
+import com.serhiiromanchuk.utilitybills.utils.trimSpaces
 
 
 @Composable
@@ -167,25 +171,52 @@ private fun MeterValue(
         mutableStateOf(utilityService.currentValue.toString())
     }
 
-    Row(
+    var isError by rememberSaveable { mutableStateOf(false) }
+    var isPreviousValueFocused by remember { mutableStateOf(false) }
+
+    fun compareMaterValues() {
+        val previousDigit = previousValue.trimSpaces().toIntOrNull() ?: 0
+        val currentDigit = currentValue.trimSpaces().toIntOrNull() ?: 0
+        isError = previousDigit > currentDigit
+    }
+
+    Column(
         modifier = modifier
     ) {
-        UtilityMeterTextField(
-            modifier.weight(1f),
-            value = previousValue,
-            onValueChange = { previousValue = it.trim() },
-            isError = previousValue.isDigitsOnly(),
-            label = "Попередні"
-        )
-        Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)))
-        UtilityMeterTextField(
-            modifier.weight(1f),
-            value = currentValue,
-            onValueChange = { currentValue = it.trim() },
-            isError = currentValue.isDigitsOnly(),
-            label = "Поточні"
+        Row{
+            UtilityMeterTextField(
+                modifier.weight(1f),
+                value = previousValue,
+                onValueChange = {
+                    previousValue = it
+                    compareMaterValues()
+                },
+                label = "Попередні"
+            )
+            Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)))
+            UtilityMeterTextField(
+                modifier
+                    .weight(1f)
+                    .onFocusChanged {
+                        isPreviousValueFocused = it.isFocused
+                    },
+                value = currentValue,
+                onValueChange = {
+                    currentValue = it
+                    compareMaterValues()
+                },
+                isError = isError,
+                label = "Поточні",
+                imeAction = ImeAction.Done
+            )
+        }
+
+        ErrorSupportingText(
+            supportingText = R.string.utility_supporting_error_message,
+            isEnabled = isError && isPreviousValueFocused
         )
     }
+
 }
 
 @DarkLightPreviews

@@ -12,11 +12,9 @@ val fakeBillItem = BillItem(
 )
 
 val fakeUtilityService = UtilityServiceItem(
-    address = "вул. Грушевського 23, кв. 235",
     name = "Газ",
-    month = "Січень",
-    year = "2024",
     tariff = 8.00,
     isMeterAvailable = true,
-    previousValue = 8965
+    previousValue = 8965,
+    currentValue = 25
 )
