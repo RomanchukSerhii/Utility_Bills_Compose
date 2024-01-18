@@ -11,8 +11,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.serhiiromanchuk.utilitybills.R
 
@@ -58,14 +61,17 @@ fun TitleTextOnSurface(
 @Composable
 fun BodyTextOnSurface(
     modifier: Modifier = Modifier,
-    text: String
+    text: String,
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
+    color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    lineHeight: TextUnit = 14.sp
 ) {
     Text(
         modifier = modifier,
         text = text,
-        style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        lineHeight = 14.sp
+        style = style,
+        color = color,
+        lineHeight = lineHeight
     )
 }
 

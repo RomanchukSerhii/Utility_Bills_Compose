@@ -117,8 +117,9 @@ fun UtilityMeterTextField(
             modifier = modifier.onFocusChanged { isFocused = it.isFocused },
             value = textFieldValue,
             onValueChange = {
-                textFieldValue = it
-                onValueChange(it.text.getFormattedDigitsOnly(8))
+                val formattedValue = it.text.getFormattedDigitsOnly(8)
+                textFieldValue = it.copy(text = formattedValue)
+                onValueChange(formattedValue)
             },
             textStyle = MaterialTheme.typography.bodyMedium.copy(
                 color = MaterialTheme.colorScheme.onSurface

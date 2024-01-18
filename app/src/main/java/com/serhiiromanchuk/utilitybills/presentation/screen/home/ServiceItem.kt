@@ -60,7 +60,7 @@ fun ServiceItem(
             animationSpec = tween(durationMillis = 800)
         ).padding(4.dp),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation = 2.dp
         ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
