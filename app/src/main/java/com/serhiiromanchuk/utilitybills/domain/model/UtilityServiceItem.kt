@@ -5,10 +5,10 @@ data class UtilityServiceItem(
     val name: String,
     val tariff: Double,
     val isMeterAvailable: Boolean,
-    val previousValue: Int,
+    val previousValue: Int = UNDEFINED_CURRENT_VALUE,
     val currentValue: Int = UNDEFINED_CURRENT_VALUE,
     val unitOfMeasurement: MeasurementUnit = MeasurementUnit.CUBIC_METER,
-    val isChecked: Boolean = false
+    val isChecked: Boolean = true
 ) {
     companion object {
         private const val UNDEFINED_ID = 0

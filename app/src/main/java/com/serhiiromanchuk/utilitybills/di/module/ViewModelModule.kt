@@ -1,8 +1,8 @@
 package com.serhiiromanchuk.utilitybills.di.module
 
 import androidx.lifecycle.ViewModel
-import com.serhiiromanchuk.utilitybills.di.annotation.ApplicationScope
 import com.serhiiromanchuk.utilitybills.di.annotation.ViewModelKey
+import com.serhiiromanchuk.utilitybills.presentation.screen.home.HomeScreenViewModel
 import com.serhiiromanchuk.utilitybills.presentation.viewmodel.InsertUtilityServiceViewModel
 import com.serhiiromanchuk.utilitybills.presentation.viewmodel.MainScreenViewModel
 import com.serhiiromanchuk.utilitybills.presentation.viewmodel.StartScreenViewModel
@@ -27,4 +27,9 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(StartScreenViewModel::class)
     fun bindStartScreenViewModel(viewModel: StartScreenViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HomeScreenViewModel::class)
+    fun bindHomeScreenViewModel(viewModel: HomeScreenViewModel): ViewModel
 }

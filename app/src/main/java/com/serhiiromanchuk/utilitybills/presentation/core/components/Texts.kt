@@ -64,7 +64,7 @@ fun BodyTextOnSurface(
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.surfaceVariant,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
         lineHeight = 14.sp
     )
 }

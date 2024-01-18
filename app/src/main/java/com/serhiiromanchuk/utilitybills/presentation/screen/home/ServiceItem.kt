@@ -1,5 +1,8 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.home
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,8 +54,11 @@ fun ServiceItem(
     onEditServiceClick: () -> Unit,
     isEnabled: (Boolean) -> Unit
 ) {
+    var isChecked by remember { mutableStateOf(checked) }
     Card(
-        modifier = modifier,
+        modifier = modifier.animateContentSize(
+            animationSpec = tween(durationMillis = 800)
+        ).padding(4.dp),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         ),
@@ -63,13 +69,16 @@ fun ServiceItem(
         Box(
             modifier = Modifier.height(IntrinsicSize.Min)
         ) {
-            CheckedIndicator(checked = checked)
+            CheckedIndicator(checked = isChecked)
             ServiceItemContent(
                 utilityService = utilityService,
+                checked = isChecked,
                 previousValueChange = previousValueChange,
                 currentValueChange = currentValueChange,
                 onEditServiceClick = onEditServiceClick,
-                isEnabled = isEnabled
+                isEnabled = {
+                    isChecked = it
+                }
             )
         }
     }
@@ -86,10 +95,15 @@ private fun CheckedIndicator(
         MaterialTheme.colorScheme.surfaceVariant
     }
 
+    val width by animateDpAsState(
+        animationSpec = tween(800),
+        targetValue = if (checked) 4.dp else 0.dp, label = ""
+    )
+
     Box(
         modifier = modifier
             .fillMaxHeight()
-            .width(4.dp)
+            .width(width)
             .background(backgroundColor)
     )
 }
@@ -125,6 +139,7 @@ private fun ServiceItemContent(
         ServiceDetails(
             modifier = Modifier.weight(1f),
             utilityService = utilityService,
+            isChecked = checked,
             previousValueChange = previousValueChange,
             currentValueChange = currentValueChange
         )
@@ -137,6 +152,7 @@ private fun ServiceItemContent(
 private fun ServiceDetails(
     modifier: Modifier = Modifier,
     utilityService: UtilityServiceItem,
+    isChecked: Boolean,
     previousValueChange: (Int) -> Unit,
     currentValueChange: (Int) -> Unit
 ) {
@@ -144,7 +160,7 @@ private fun ServiceDetails(
         TitleTextOnSurface(text = utilityService.name)
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_extra_small)))
         BodyTextOnSurface(text = stringResource(R.string.tariff, utilityService.tariff))
-        if (utilityService.isMeterAvailable) {
+        if (utilityService.isMeterAvailable && isChecked) {
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_large)))
             MeterValue(
                 utilityService = utilityService,
