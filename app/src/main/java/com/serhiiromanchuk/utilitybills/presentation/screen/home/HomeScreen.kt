@@ -28,6 +28,7 @@ import com.serhiiromanchuk.utilitybills.domain.mocks.fakeBillItem
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
+import com.serhiiromanchuk.utilitybills.utils.MeterValueType
 
 @Composable
 fun HomeScreen(
@@ -40,7 +41,13 @@ fun HomeScreen(
         is HomeScreenState.Content -> {
             HomeScreenContent(
                 modifier = modifier,
-                screenState = screenState
+                screenState = screenState,
+                onPreviousValueChange = { id, value ->
+                    viewModel.meterValueChange(id, value, MeterValueType.PREVIOUS)
+                },
+                onCurrentValueChange = { id, value ->
+                    viewModel.meterValueChange( id, value, MeterValueType.CURRENT)
+                }
             )
         }
     }
@@ -49,7 +56,9 @@ fun HomeScreen(
 @Composable
 fun HomeScreenContent(
     modifier: Modifier = Modifier,
-    screenState: HomeScreenState.Content
+    screenState: HomeScreenState.Content,
+    onPreviousValueChange: (id: Int, value: String) -> Unit,
+    onCurrentValueChange: (id: Int, value: String) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -71,8 +80,8 @@ fun HomeScreenContent(
         ServiceItems(
             modifier = modifier.padding(it),
             serviceItems = screenState.list,
-            previousValueChange = {},
-            currentValueChange = {},
+            onPreviousValueChange = onPreviousValueChange,
+            onCurrentValueChange = onCurrentValueChange,
             onEditServiceClick = { /*TODO*/ },
             isEnabled = {},
             onAddUtilityServiceClick = {}
@@ -84,8 +93,8 @@ fun HomeScreenContent(
 fun ServiceItems(
     modifier: Modifier = Modifier,
     serviceItems: List<UtilityServiceItem>,
-    previousValueChange: (Int) -> Unit,
-    currentValueChange: (Int) -> Unit,
+    onPreviousValueChange: (id: Int, value: String) -> Unit,
+    onCurrentValueChange: (id: Int, value: String) -> Unit,
     onEditServiceClick: () -> Unit,
     isEnabled: (Boolean) -> Unit,
     onAddUtilityServiceClick: () -> Unit
@@ -107,8 +116,8 @@ fun ServiceItems(
         items(serviceItems, key = { it.id }) { utilityService ->
             ServiceItem(
                 utilityService = utilityService,
-                previousValueChange = previousValueChange,
-                currentValueChange = currentValueChange,
+                onPreviousValueChange = onPreviousValueChange,
+                onCurrentValueChange = onCurrentValueChange,
                 onEditServiceClick = onEditServiceClick,
                 isEnabled = isEnabled
             )

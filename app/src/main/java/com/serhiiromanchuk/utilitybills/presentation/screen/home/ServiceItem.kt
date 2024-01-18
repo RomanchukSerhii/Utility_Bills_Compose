@@ -49,16 +49,18 @@ fun ServiceItem(
     modifier: Modifier = Modifier,
     utilityService: UtilityServiceItem,
     checked: Boolean = true,
-    previousValueChange: (Int) -> Unit,
-    currentValueChange: (Int) -> Unit,
+    onPreviousValueChange: (id: Int, value: String) -> Unit,
+    onCurrentValueChange: (id: Int, value: String) -> Unit,
     onEditServiceClick: () -> Unit,
     isEnabled: (Boolean) -> Unit
 ) {
     var isChecked by remember { mutableStateOf(checked) }
     Card(
-        modifier = modifier.animateContentSize(
-            animationSpec = tween(durationMillis = 800)
-        ).padding(4.dp),
+        modifier = modifier
+            .animateContentSize(
+                animationSpec = tween(durationMillis = 800)
+            )
+            .padding(4.dp),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp
         ),
@@ -73,8 +75,8 @@ fun ServiceItem(
             ServiceItemContent(
                 utilityService = utilityService,
                 checked = isChecked,
-                previousValueChange = previousValueChange,
-                currentValueChange = currentValueChange,
+                onPreviousValueChange = { onPreviousValueChange(utilityService.id, it) },
+                onCurrentValueChange = { onCurrentValueChange(utilityService.id, it) },
                 onEditServiceClick = onEditServiceClick,
                 isEnabled = {
                     isChecked = it
@@ -113,8 +115,8 @@ private fun ServiceItemContent(
     modifier: Modifier = Modifier,
     utilityService: UtilityServiceItem,
     checked: Boolean = true,
-    previousValueChange: (Int) -> Unit,
-    currentValueChange: (Int) -> Unit,
+    onPreviousValueChange: (String) -> Unit,
+    onCurrentValueChange: (String) -> Unit,
     onEditServiceClick: () -> Unit,
     isEnabled: (Boolean) -> Unit
 ) {
@@ -140,8 +142,8 @@ private fun ServiceItemContent(
             modifier = Modifier.weight(1f),
             utilityService = utilityService,
             isChecked = checked,
-            previousValueChange = previousValueChange,
-            currentValueChange = currentValueChange
+            onPreviousValueChange = onPreviousValueChange,
+            onCurrentValueChange = onCurrentValueChange
         )
         Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.width_small)))
         EditServiceIcon(onEditServiceClick = onEditServiceClick)
@@ -153,8 +155,8 @@ private fun ServiceDetails(
     modifier: Modifier = Modifier,
     utilityService: UtilityServiceItem,
     isChecked: Boolean,
-    previousValueChange: (Int) -> Unit,
-    currentValueChange: (Int) -> Unit
+    onPreviousValueChange: (String) -> Unit,
+    onCurrentValueChange: (String) -> Unit
 ) {
     Column(modifier = modifier) {
         TitleTextOnSurface(text = utilityService.name)
@@ -163,9 +165,10 @@ private fun ServiceDetails(
         if (utilityService.isMeterAvailable && isChecked) {
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_large)))
             MeterValue(
-                utilityService = utilityService,
-                previousValueChange = previousValueChange,
-                currentValueChange = currentValueChange
+                previousValue = utilityService.previousValue,
+                currentValue = utilityService.currentValue,
+                onPreviousValueChange = onPreviousValueChange,
+                onCurrentValueChange = onCurrentValueChange
             )
         }
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
@@ -176,16 +179,17 @@ private fun ServiceDetails(
 @Composable
 private fun MeterValue(
     modifier: Modifier = Modifier,
-    utilityService: UtilityServiceItem,
-    previousValueChange: (Int) -> Unit,
-    currentValueChange: (Int) -> Unit
+    previousValue: String,
+    currentValue: String,
+    onPreviousValueChange: (String) -> Unit,
+    onCurrentValueChange: (String) -> Unit
 ) {
-    var previousValue by rememberSaveable {
-        mutableStateOf(utilityService.previousValue.toString())
-    }
-    var currentValue by rememberSaveable {
-        mutableStateOf(utilityService.currentValue.toString())
-    }
+//    var previousValue by rememberSaveable {
+//        mutableStateOf(utilityService.previousValue)
+//    }
+//    var currentValue by rememberSaveable {
+//        mutableStateOf(utilityService.currentValue)
+//    }
 
     var isError by rememberSaveable { mutableStateOf(false) }
     var isPreviousValueFocused by remember { mutableStateOf(false) }
@@ -200,16 +204,21 @@ private fun MeterValue(
         modifier = modifier
     ) {
         Row{
+
+            // Previous utility meter
             UtilityMeterTextField(
                 modifier.weight(1f),
                 value = previousValue,
                 onValueChange = {
-                    previousValue = it
+                    onPreviousValueChange(it)
                     compareMaterValues()
                 },
                 label = "Попередні"
             )
+
             Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)))
+
+            // Current utility meter
             UtilityMeterTextField(
                 modifier
                     .weight(1f)
@@ -218,7 +227,7 @@ private fun MeterValue(
                     },
                 value = currentValue,
                 onValueChange = {
-                    currentValue = it
+                    onCurrentValueChange(it)
                     compareMaterValues()
                 },
                 isError = isError,
@@ -241,8 +250,8 @@ fun PreviewServiceItem() {
     UtilityBillsTheme {
         ServiceItem(
             utilityService = fakeUtilityService,
-            previousValueChange = {},
-            currentValueChange = {},
+            onPreviousValueChange = {_, _ ->},
+            onCurrentValueChange = {_, _ ->},
             onEditServiceClick = { /*TODO*/ },
             isEnabled = {}
         )

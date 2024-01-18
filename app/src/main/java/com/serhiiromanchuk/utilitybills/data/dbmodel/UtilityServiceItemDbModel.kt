@@ -11,8 +11,8 @@ data class UtilityServiceItemDbModel(
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "tariff") val tariff: Double,
     @ColumnInfo(name = "is_meter_available") val isMeterAvailable: Boolean,
-    @ColumnInfo(name = "previous_value") val previousValue: Int,
-    @ColumnInfo(name = "current_value") val currentValue: Int,
+    @ColumnInfo(name = "previous_value") val previousValue: String,
+    @ColumnInfo(name = "current_value") val currentValue: String,
     @ColumnInfo(name = "unit_of_measurement") val unitOfMeasurement: MeasurementUnit,
     @ColumnInfo(name = "is_checked") val isChecked: Boolean
 )

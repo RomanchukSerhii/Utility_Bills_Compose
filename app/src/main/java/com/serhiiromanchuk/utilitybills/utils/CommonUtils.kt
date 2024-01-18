@@ -1,5 +1,9 @@
 package com.serhiiromanchuk.utilitybills.utils
 
+enum class MeterValueType {
+    PREVIOUS, CURRENT
+}
+
 fun getMaskingCardNumber(cardNumber: String): String {
     val separateNumbers = cardNumber.split(" ")
     return "${separateNumbers.first()} **** **** ${separateNumbers.last()}"

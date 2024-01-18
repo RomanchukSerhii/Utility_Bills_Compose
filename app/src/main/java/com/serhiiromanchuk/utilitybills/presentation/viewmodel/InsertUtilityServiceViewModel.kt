@@ -65,7 +65,7 @@ class InsertUtilityServiceViewModel @Inject constructor(
                         name = name,
                         tariff = tariff.toDouble(),
                         isMeterAvailable = isMeterAvailable,
-                        previousValue = previousValue.toInt(),
+                        previousValue = previousValue,
                         unitOfMeasurement = unitOfMeasurement
                     )
                 )

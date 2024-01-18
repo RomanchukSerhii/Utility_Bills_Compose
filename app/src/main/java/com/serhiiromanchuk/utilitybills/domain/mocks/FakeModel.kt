@@ -15,8 +15,8 @@ val fakeUtilityService = UtilityServiceItem(
     name = "Газ",
     tariff = 8.00,
     isMeterAvailable = true,
-    previousValue = 8965,
-    currentValue = 25
+    previousValue = "8 965",
+    currentValue = "25"
 )
 
 val fakeUtilityServicesList = listOf(
@@ -31,21 +31,21 @@ val fakeUtilityServicesList = listOf(
         name = "Газ",
         tariff = 8.00,
         isMeterAvailable = true,
-        previousValue = 8965
+        previousValue = "8 965"
     ),
     UtilityServiceItem(
         id = 2,
         name = "Вода",
         tariff = 47.00,
         isMeterAvailable = true,
-        previousValue = 952,
+        previousValue = "952",
     ),
     UtilityServiceItem(
         id = 3,
         name = "Світло",
         tariff = 2.64,
         isMeterAvailable = true,
-        previousValue = 883,
+        previousValue = "883",
     ),
     UtilityServiceItem(
         id = 4,
