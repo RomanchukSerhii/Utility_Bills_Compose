@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -90,14 +89,14 @@ fun UtilityMeterTextField(
 
     // Set cursor to the end of string
     val direction = LocalLayoutDirection.current
-    var textFieldValue by remember {
-        mutableStateOf(
-            TextFieldValue(
-                text = value,
-                selection = if (direction == LayoutDirection.Ltr) TextRange(value.length) else TextRange.Zero
-            )
-        )
-    }
+//    var textFieldValue by remember {
+//        mutableStateOf(
+//            TextFieldValue(
+//                text = value,
+//                selection = if (direction == LayoutDirection.Ltr) TextRange(value.length) else TextRange.Zero
+//            )
+//        )
+//    }
 
     // Create transparent color to cursor handle
     val transparentTextSelectionColors = TextSelectionColors(
@@ -115,10 +114,13 @@ fun UtilityMeterTextField(
     ) {
         BasicTextField(
             modifier = modifier.onFocusChanged { isFocused = it.isFocused },
-            value = textFieldValue,
+            value = TextFieldValue(
+                text = value,
+                selection = if (direction == LayoutDirection.Ltr) TextRange(value.length) else TextRange.Zero
+            ),
             onValueChange = {
                 val formattedValue = it.text.getFormattedDigitsOnly(8)
-                textFieldValue = it.copy(text = formattedValue)
+//                textFieldValue = it.copy(text = formattedValue)
                 onValueChange(formattedValue)
             },
             textStyle = MaterialTheme.typography.bodyMedium.copy(

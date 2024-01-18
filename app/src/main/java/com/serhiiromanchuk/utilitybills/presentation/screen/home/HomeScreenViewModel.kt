@@ -23,7 +23,7 @@ class HomeScreenViewModel @Inject constructor(): ViewModel() {
     }
 
     fun meterValueChange(id: Int, value: String, meterValueType: MeterValueType) {
-        val updateList = bufferUtilityServicesList.apply {
+        bufferUtilityServicesList.apply {
             replaceAll { oldUtilityService ->
                 if (oldUtilityService.id == id) {
                     when (meterValueType) {
@@ -35,6 +35,18 @@ class HomeScreenViewModel @Inject constructor(): ViewModel() {
                 }
             }
         }
-        _screenState.value = HomeScreenState.Content(updateList)
+    }
+
+    fun changeMeterChecked(id: Int, isChecked: Boolean) {
+        bufferUtilityServicesList.apply {
+            replaceAll { oldUtilityService ->
+                if (oldUtilityService.id == id) {
+                    oldUtilityService.copy(isChecked = isChecked)
+                } else {
+                    oldUtilityService
+                }
+            }
+        }
+        bufferUtilityServicesList
     }
 }

@@ -80,6 +80,7 @@ fun ServiceItem(
                 onEditServiceClick = onEditServiceClick,
                 isEnabled = {
                     isChecked = it
+                    isEnabled(it)
                 }
             )
         }
@@ -184,19 +185,15 @@ private fun MeterValue(
     onPreviousValueChange: (String) -> Unit,
     onCurrentValueChange: (String) -> Unit
 ) {
-//    var previousValue by rememberSaveable {
-//        mutableStateOf(utilityService.previousValue)
-//    }
-//    var currentValue by rememberSaveable {
-//        mutableStateOf(utilityService.currentValue)
-//    }
+    var previousMeterValue by rememberSaveable { mutableStateOf(previousValue) }
+    var currentMeterValue by rememberSaveable { mutableStateOf(currentValue) }
 
     var isError by rememberSaveable { mutableStateOf(false) }
-    var isPreviousValueFocused by remember { mutableStateOf(false) }
+    var isCurrentValueFocused by remember { mutableStateOf(false) }
 
     fun compareMaterValues() {
-        val previousDigit = previousValue.trimSpaces().toIntOrNull() ?: 0
-        val currentDigit = currentValue.trimSpaces().toIntOrNull() ?: 0
+        val previousDigit = previousMeterValue.trimSpaces().toIntOrNull() ?: 0
+        val currentDigit = currentMeterValue.trimSpaces().toIntOrNull() ?: 0
         isError = previousDigit > currentDigit
     }
 
@@ -208,8 +205,9 @@ private fun MeterValue(
             // Previous utility meter
             UtilityMeterTextField(
                 modifier.weight(1f),
-                value = previousValue,
+                value = previousMeterValue,
                 onValueChange = {
+                    previousMeterValue = it
                     onPreviousValueChange(it)
                     compareMaterValues()
                 },
@@ -223,10 +221,11 @@ private fun MeterValue(
                 modifier
                     .weight(1f)
                     .onFocusChanged {
-                        isPreviousValueFocused = it.isFocused
+                        isCurrentValueFocused = it.isFocused
                     },
-                value = currentValue,
+                value = currentMeterValue,
                 onValueChange = {
+                    currentMeterValue = it
                     onCurrentValueChange(it)
                     compareMaterValues()
                 },
@@ -238,7 +237,7 @@ private fun MeterValue(
 
         ErrorSupportingText(
             supportingText = R.string.utility_supporting_error_message,
-            isEnabled = isError && isPreviousValueFocused
+            isEnabled = isError && isCurrentValueFocused
         )
     }
 

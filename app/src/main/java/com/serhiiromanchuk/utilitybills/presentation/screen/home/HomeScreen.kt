@@ -47,6 +47,9 @@ fun HomeScreen(
                 },
                 onCurrentValueChange = { id, value ->
                     viewModel.meterValueChange( id, value, MeterValueType.CURRENT)
+                },
+                isServiceEnabled = { id, isChecked ->
+                    viewModel.changeMeterChecked(id, isChecked)
                 }
             )
         }
@@ -59,6 +62,7 @@ fun HomeScreenContent(
     screenState: HomeScreenState.Content,
     onPreviousValueChange: (id: Int, value: String) -> Unit,
     onCurrentValueChange: (id: Int, value: String) -> Unit,
+    isServiceEnabled: (id: Int, isChecked: Boolean) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -83,7 +87,7 @@ fun HomeScreenContent(
             onPreviousValueChange = onPreviousValueChange,
             onCurrentValueChange = onCurrentValueChange,
             onEditServiceClick = { /*TODO*/ },
-            isEnabled = {},
+            isServiceEnabled = isServiceEnabled,
             onAddUtilityServiceClick = {}
         )
     }
@@ -96,7 +100,7 @@ fun ServiceItems(
     onPreviousValueChange: (id: Int, value: String) -> Unit,
     onCurrentValueChange: (id: Int, value: String) -> Unit,
     onEditServiceClick: () -> Unit,
-    isEnabled: (Boolean) -> Unit,
+    isServiceEnabled: (id: Int, isChecked: Boolean) -> Unit,
     onAddUtilityServiceClick: () -> Unit
 ) {
     LazyColumn(
@@ -119,7 +123,7 @@ fun ServiceItems(
                 onPreviousValueChange = onPreviousValueChange,
                 onCurrentValueChange = onCurrentValueChange,
                 onEditServiceClick = onEditServiceClick,
-                isEnabled = isEnabled
+                isEnabled = { isServiceEnabled(utilityService.id, it) }
             )
         }
         item {
