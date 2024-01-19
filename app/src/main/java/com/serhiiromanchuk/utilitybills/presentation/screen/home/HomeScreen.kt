@@ -49,7 +49,7 @@ fun HomeScreen(
                     viewModel.meterValueChange( id, value, MeterValueType.CURRENT)
                 },
                 isServiceEnabled = { id, isChecked ->
-                    viewModel.changeMeterChecked(id, isChecked)
+                    viewModel.changeServiceCheckedState(id, isChecked)
                 }
             )
         }
