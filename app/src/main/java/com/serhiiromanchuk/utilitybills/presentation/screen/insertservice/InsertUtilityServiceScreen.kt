@@ -53,7 +53,7 @@ fun InsertUtilityServiceScreen(
 }
 
 @Composable
-fun InsertUtilityServiceContent(
+private fun InsertUtilityServiceContent(
     modifier: Modifier = Modifier,
     screenState: State<InsertUtilityServiceScreenState>,
     onNameChanged: (String) -> Unit,
@@ -134,7 +134,7 @@ fun InsertUtilityServiceContent(
 
 @DarkLightPreviews
 @Composable
-fun InsertUtilityServiceContentPreview() {
+private fun InsertUtilityServiceContentPreview() {
 
     UtilityBillsTheme {
         Surface(

@@ -19,6 +19,10 @@ class NavigationState(
             restoreState = true
         }
     }
+
+    fun navigateToInsertServiceScreen(utilityServiceId: Int) {
+        navHostController.navigate(Screen.InsertServiceScreen.getRoutWithArgs(utilityServiceId))
+    }
 }
 
 @Composable

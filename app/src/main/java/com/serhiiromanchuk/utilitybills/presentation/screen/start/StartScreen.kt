@@ -49,7 +49,7 @@ fun StartScreenLayout(
 
     when (startScreenUiState) {
         is Initial -> { }
-        is LoadingMainScreen -> { navigationState.navigateTo(Screen.MainScreen.route)  }
+        is LoadingMainScreen -> { navigationState.navigateTo(Screen.HomeScreen.route)  }
         is Error -> {
             isAddressFieldEmpty = startScreenUiState.isAddressFieldEmpty
             isCardNumberFieldEmpty = startScreenUiState.isCardNumberFieldEmpty

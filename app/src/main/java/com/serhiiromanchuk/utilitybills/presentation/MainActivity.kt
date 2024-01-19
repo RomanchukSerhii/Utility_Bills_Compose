@@ -3,31 +3,29 @@ package com.serhiiromanchuk.utilitybills.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import com.serhiiromanchuk.utilitybills.presentation.screen.home.HomeScreen
-import com.serhiiromanchuk.utilitybills.presentation.viewmodel.ViewModelFactory
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import com.serhiiromanchuk.utilitybills.R
+import com.serhiiromanchuk.utilitybills.presentation.screen.main.MainScreen
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
-import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val component by lazy {
-        (application as UtilityBillsApplication).component
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        component.inject(this)
         super.onCreate(savedInstanceState)
         setContent {
-            Surface(
-                color = MaterialTheme.colorScheme.background
-            ) {
-                UtilityBillsTheme {
-                    HomeScreen()
+            UtilityBillsTheme {
+                Surface(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(dimensionResource(id = R.dimen.padding_medium)),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    MainScreen()
                 }
             }
         }

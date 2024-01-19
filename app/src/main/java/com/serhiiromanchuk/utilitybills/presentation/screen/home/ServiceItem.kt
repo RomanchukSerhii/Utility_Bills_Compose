@@ -51,7 +51,7 @@ fun ServiceItem(
     checked: Boolean = true,
     onPreviousValueChange: (id: Int, value: String) -> Unit,
     onCurrentValueChange: (id: Int, value: String) -> Unit,
-    onEditServiceClick: () -> Unit,
+    onEditServiceClick: (id: Int) -> Unit,
     isEnabled: (Boolean) -> Unit
 ) {
     var isChecked by remember { mutableStateOf(checked) }
@@ -118,7 +118,7 @@ private fun ServiceItemContent(
     checked: Boolean = true,
     onPreviousValueChange: (String) -> Unit,
     onCurrentValueChange: (String) -> Unit,
-    onEditServiceClick: () -> Unit,
+    onEditServiceClick: (id: Int) -> Unit,
     isEnabled: (Boolean) -> Unit
 ) {
     Row(
@@ -147,7 +147,7 @@ private fun ServiceItemContent(
             onCurrentValueChange = onCurrentValueChange
         )
         Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.width_small)))
-        EditServiceIcon(onEditServiceClick = onEditServiceClick)
+        EditServiceIcon(onEditServiceClick = { onEditServiceClick(utilityService.id) })
     }
 }
 

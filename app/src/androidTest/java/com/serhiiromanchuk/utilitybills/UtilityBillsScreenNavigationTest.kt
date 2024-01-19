@@ -13,8 +13,7 @@ import androidx.navigation.testing.TestNavHostController
 import com.serhiiromanchuk.utilitybills.presentation.navigation.AppNavGraph
 import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
-import com.serhiiromanchuk.utilitybills.presentation.screen.main.MainScreenLayout
-import com.serhiiromanchuk.utilitybills.presentation.screen.main.MainScreenUiState
+import com.serhiiromanchuk.utilitybills.presentation.screen.main.MainScreen
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenLayout
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState
 import org.junit.Before
@@ -48,15 +47,8 @@ class UtilityBillsScreenNavigationTest {
                         }
                     )
                 },
-                mainScreenContent = {
-                    MainScreenLayout(
-                        mainScreenUiState = MainScreenUiState.Initial,
-                        onDeleteButtonClick = { /*TODO*/ },
-                        onEditClick = { /*TODO*/ },
-                        onCheckIconClick = {},
-                        previousValueChange = {},
-                        currentValueChange = {}
-                    )
+                homeScreenContent = {
+                    MainScreen()
                 },
                 insertServiceScreenContent = { /*TODO*/ },
                 billsArchiveScreenContent = { /*TODO*/ },
@@ -74,7 +66,7 @@ class UtilityBillsScreenNavigationTest {
     @Test
     fun utilityBillsNavHost_clickSaveOnStartScreen_navigatesToMainScreen() {
         navigateToMainScreen()
-        navController.assertCurrentRouteName(Screen.MainScreen.route)
+        navController.assertCurrentRouteName(Screen.HomeScreen.route)
     }
 
     private fun navigateToMainScreen() {

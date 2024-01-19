@@ -18,6 +18,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -28,41 +30,45 @@ import com.serhiiromanchuk.utilitybills.domain.mocks.fakeBillItem
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
+import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onEditServiceClick: (id: Int) -> Unit,
+    onAddUtilityServiceClick: () -> Unit
 ) {
-    val viewModel: HomeScreenViewModel = viewModel()
+    val component = getApplicationComponent()
+    val viewModel: HomeScreenViewModel = viewModel(factory = component.getViewModelFactory())
+    val screenState = viewModel.screenState.collectAsState()
 
-    when (val screenState = viewModel.screenState) {
-        is HomeScreenState.Initial -> {}
-        is HomeScreenState.Content -> {
-            HomeScreenContent(
-                modifier = modifier,
-                screenState = screenState,
-                onPreviousValueChange = { id, value ->
-                    viewModel.meterValueChange(id, value, MeterValueType.PREVIOUS)
-                },
-                onCurrentValueChange = { id, value ->
-                    viewModel.meterValueChange( id, value, MeterValueType.CURRENT)
-                },
-                isServiceEnabled = { id, isChecked ->
-                    viewModel.changeServiceCheckedState(id, isChecked)
-                }
-            )
-        }
-    }
+    HomeScreenContent(
+        modifier = modifier,
+        screenState = screenState,
+        onPreviousValueChange = { id, value ->
+            viewModel.meterValueChange(id, value, MeterValueType.PREVIOUS)
+        },
+        onCurrentValueChange = { id, value ->
+            viewModel.meterValueChange( id, value, MeterValueType.CURRENT)
+        },
+        isServiceEnabled = { id, isChecked ->
+            viewModel.changeServiceCheckedState(id, isChecked)
+        },
+        onEditServiceClick = onEditServiceClick,
+        onAddUtilityServiceClick = onAddUtilityServiceClick
+    )
 }
 
 @Composable
-fun HomeScreenContent(
+private fun HomeScreenContent(
     modifier: Modifier = Modifier,
-    screenState: HomeScreenState.Content,
+    screenState: State<HomeScreenState>,
     onPreviousValueChange: (id: Int, value: String) -> Unit,
     onCurrentValueChange: (id: Int, value: String) -> Unit,
     isServiceEnabled: (id: Int, isChecked: Boolean) -> Unit,
+    onEditServiceClick: (id: Int) -> Unit,
+    onAddUtilityServiceClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -77,29 +83,29 @@ fun HomeScreenContent(
         bottomBar = {
             HomeScreenBottomBar(
                 onButtonClick = { /*TODO*/ },
-                enabled = screenState.isCreateBillEnabled
+                enabled = screenState.value.isCreateBillEnabled
             )
         }
     ) {
         ServiceItems(
             modifier = modifier.padding(it),
-            serviceItems = screenState.list,
+            serviceItems = screenState.value.list,
             onPreviousValueChange = onPreviousValueChange,
             onCurrentValueChange = onCurrentValueChange,
-            onEditServiceClick = { /*TODO*/ },
+            onEditServiceClick = onEditServiceClick,
             isServiceEnabled = isServiceEnabled,
-            onAddUtilityServiceClick = {}
+            onAddUtilityServiceClick = onAddUtilityServiceClick
         )
     }
 }
 
 @Composable
-fun ServiceItems(
+private fun ServiceItems(
     modifier: Modifier = Modifier,
     serviceItems: List<UtilityServiceItem>,
     onPreviousValueChange: (id: Int, value: String) -> Unit,
     onCurrentValueChange: (id: Int, value: String) -> Unit,
-    onEditServiceClick: () -> Unit,
+    onEditServiceClick: (id: Int) -> Unit,
     isServiceEnabled: (id: Int, isChecked: Boolean) -> Unit,
     onAddUtilityServiceClick: () -> Unit
 ) {
@@ -133,7 +139,7 @@ fun ServiceItems(
 }
 
 @Composable
-fun AddUtilityServiceCard(
+private fun AddUtilityServiceCard(
     modifier: Modifier = Modifier,
     onAddUtilityServiceClick: () -> Unit
 ) {
@@ -171,7 +177,7 @@ fun AddUtilityServiceCard(
 }
 
 @Composable
-fun HomeScreenBottomBar(
+private fun HomeScreenBottomBar(
     modifier: Modifier = Modifier,
     onButtonClick: () -> Unit,
     enabled: Boolean

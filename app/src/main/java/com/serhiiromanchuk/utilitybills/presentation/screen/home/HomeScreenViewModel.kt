@@ -1,17 +1,19 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.home
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.serhiiromanchuk.utilitybills.domain.mocks.fakeUtilityServicesList
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
-class HomeScreenViewModel @Inject constructor(): ViewModel() {
+class HomeScreenViewModel @Inject constructor() : ViewModel() {
 
-    private val _screenState = mutableStateOf<HomeScreenState>(HomeScreenState.Initial)
-    val screenState: HomeScreenState
-        get() = _screenState.value
+    private val _screenState = MutableStateFlow(HomeScreenState())
+    val screenState: StateFlow<HomeScreenState> = _screenState.asStateFlow()
 
     private val bufferUtilityServicesList = mutableListOf<UtilityServiceItem>()
 
@@ -19,7 +21,9 @@ class HomeScreenViewModel @Inject constructor(): ViewModel() {
         fakeUtilityServicesList.forEach {
             bufferUtilityServicesList.add(it)
         }
-        _screenState.value = HomeScreenState.Content(bufferUtilityServicesList)
+        _screenState.update {
+            it.copy(list = bufferUtilityServicesList)
+        }
     }
 
     fun meterValueChange(id: Int, value: String, meterValueType: MeterValueType) {
@@ -49,4 +53,16 @@ class HomeScreenViewModel @Inject constructor(): ViewModel() {
         }
         bufferUtilityServicesList
     }
+}
+
+data class HomeScreenState(
+    val list: List<UtilityServiceItem> = listOf()
+) {
+    val isCreateBillEnabled: Boolean
+        get() {
+            list.forEach { utilityService ->
+                if (utilityService.isChecked) return true
+            }
+            return false
+        }
 }
