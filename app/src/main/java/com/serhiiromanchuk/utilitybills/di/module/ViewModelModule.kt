@@ -3,7 +3,6 @@ package com.serhiiromanchuk.utilitybills.di.module
 import androidx.lifecycle.ViewModel
 import com.serhiiromanchuk.utilitybills.di.annotation.ViewModelKey
 import com.serhiiromanchuk.utilitybills.presentation.screen.home.HomeScreenViewModel
-import com.serhiiromanchuk.utilitybills.presentation.screen.insertservice.InsertUtilityServiceViewModel
 import com.serhiiromanchuk.utilitybills.presentation.viewmodel.MainScreenViewModel
 import com.serhiiromanchuk.utilitybills.presentation.viewmodel.StartScreenViewModel
 import dagger.Binds
@@ -12,11 +11,6 @@ import dagger.multibindings.IntoMap
 
 @Module
 interface ViewModelModule {
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(InsertUtilityServiceViewModel::class)
-    fun bindInsertUtilityServiceViewModel(viewModel: InsertUtilityServiceViewModel): ViewModel
 
     @Binds
     @IntoMap

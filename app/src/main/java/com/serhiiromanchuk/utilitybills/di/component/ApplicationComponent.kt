@@ -4,7 +4,7 @@ import android.app.Application
 import com.serhiiromanchuk.utilitybills.di.annotation.ApplicationScope
 import com.serhiiromanchuk.utilitybills.di.module.DataModule
 import com.serhiiromanchuk.utilitybills.di.module.ViewModelModule
-import com.serhiiromanchuk.utilitybills.presentation.MainActivity
+import com.serhiiromanchuk.utilitybills.presentation.viewmodel.ViewModelFactory
 import dagger.BindsInstance
 import dagger.Component
 
@@ -12,7 +12,10 @@ import dagger.Component
 @Component(modules = [DataModule::class, ViewModelModule::class])
 interface ApplicationComponent {
 
-    fun inject(mainActivity: MainActivity)
+    fun getViewModelFactory(): ViewModelFactory
+
+    fun getInsertServiceScreenComponentFactory(): InsertServiceScreenComponent.Factory
+
     @Component.Factory
     interface ApplicationComponentFactory {
         fun create(

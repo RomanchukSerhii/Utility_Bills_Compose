@@ -11,8 +11,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -25,15 +26,20 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.Measurement
 import com.serhiiromanchuk.utilitybills.presentation.core.components.OutlinedTextFieldOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBox
+import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 
 @Composable
 fun InsertUtilityServiceScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    utilityServiceId: Int
 ) {
-    val viewModel: InsertUtilityServiceViewModel = viewModel()
-    val screenState by viewModel.screenState.collectAsState()
+    val component = getApplicationComponent()
+        .getInsertServiceScreenComponentFactory()
+        .create(utilityServiceId)
+    val viewModel: InsertUtilityServiceViewModel = viewModel(factory = component.getViewModelFactory())
+    val screenState = viewModel.screenState.collectAsState()
 
     InsertUtilityServiceContent(
         modifier = modifier,
@@ -49,7 +55,7 @@ fun InsertUtilityServiceScreen(
 @Composable
 fun InsertUtilityServiceContent(
     modifier: Modifier = Modifier,
-    screenState: InsertUtilityServiceScreenState,
+    screenState: State<InsertUtilityServiceScreenState>,
     onNameChanged: (String) -> Unit,
     onTariffChanged: (String) -> Unit,
     onMeterAvailableChanged: (Boolean) -> Unit,
@@ -60,18 +66,18 @@ fun InsertUtilityServiceContent(
         modifier = modifier
     ) {
         OutlinedTextFieldOnSurface(
-            value = screenState.name,
+            value = screenState.value.name,
             onValueChange = onNameChanged,
-            isError = screenState.isNameEmpty,
+            isError = screenState.value.isNameEmpty,
             labelText = "Назва послуги:"
         )
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
 
         OutlinedTextFieldOnSurface(
-            value = screenState.tariff,
+            value = screenState.value.tariff,
             onValueChange = onTariffChanged,
-            isError = (screenState.isTariffEmpty || screenState.isTariffNotDouble),
+            isError = (screenState.value.isTariffEmpty || screenState.value.isTariffNotDouble),
             labelText = "Тариф:"
         )
 
@@ -81,7 +87,7 @@ fun InsertUtilityServiceContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             RoundCheckBox(
-                isChecked = screenState.isMeterAvailable,
+                isChecked = screenState.value.isMeterAvailable,
                 onClick = onMeterAvailableChanged
             )
             Text(
@@ -90,7 +96,7 @@ fun InsertUtilityServiceContent(
             )
         }
 
-        if (screenState.isMeterAvailable) {
+        if (screenState.value.isMeterAvailable) {
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
 
             Row(
@@ -98,9 +104,9 @@ fun InsertUtilityServiceContent(
             ) {
                 OutlinedTextFieldOnSurface(
                     modifier = Modifier.weight(1f),
-                    value = screenState.previousValue,
+                    value = screenState.value.previousValue,
                     onValueChange = onPreviousValueChanged,
-                    isError = (screenState.isPreviousValueEmpty || screenState.isPreviousValueNotDigit),
+                    isError = (screenState.value.isPreviousValueEmpty || screenState.value.isPreviousValueNotDigit),
                     labelText = "Попередні значення:"
                 )
 
@@ -137,7 +143,7 @@ fun InsertUtilityServiceContentPreview() {
         ) {
             InsertUtilityServiceContent(
                 modifier = Modifier.padding(16.dp),
-                screenState = InsertUtilityServiceScreenState(isMeterAvailable = true),
+                screenState = mutableStateOf(InsertUtilityServiceScreenState()),
                 onNameChanged = {},
                 onTariffChanged = {},
                 onMeterAvailableChanged = {},

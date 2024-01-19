@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class InsertUtilityServiceViewModel @Inject constructor(
-
+    private val utilityServiceId: Int,
     private val insertUtilityServiceUseCase: InsertUtilityServiceUseCase,
     private val getUtilityServiceUseCase: GetUtilityServiceUseCase
 ) : ViewModel() {
@@ -22,9 +22,9 @@ class InsertUtilityServiceViewModel @Inject constructor(
     val screenState: StateFlow<InsertUtilityServiceScreenState> = _screenState.asStateFlow()
 
     init {
-//        if (utilityServiceId >= 0) {
-//            getUtilityService(utilityServiceId)
-//        }
+        if (utilityServiceId >= 0) {
+            getUtilityService(utilityServiceId)
+        }
     }
 
 
