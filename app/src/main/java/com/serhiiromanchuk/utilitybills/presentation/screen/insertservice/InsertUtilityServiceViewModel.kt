@@ -2,7 +2,10 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.insertservice
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
+import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
+import com.serhiiromanchuk.utilitybills.domain.usecase.insert_service.ValidateNameUseCase
+import com.serhiiromanchuk.utilitybills.domain.usecase.insert_service.ValidatePreviousValueUseCase
+import com.serhiiromanchuk.utilitybills.domain.usecase.insert_service.ValidateTariffUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.GetUtilityServiceUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.InsertUtilityServiceUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +18,10 @@ import javax.inject.Inject
 class InsertUtilityServiceViewModel @Inject constructor(
     private val utilityServiceId: Int,
     private val insertUtilityServiceUseCase: InsertUtilityServiceUseCase,
-    private val getUtilityServiceUseCase: GetUtilityServiceUseCase
+    private val getUtilityServiceUseCase: GetUtilityServiceUseCase,
+    private val validateNameUseCase: ValidateNameUseCase,
+    private val validatePreviousValueUseCase: ValidatePreviousValueUseCase,
+    private val validateTariffUseCase: ValidateTariffUseCase
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow(InsertServiceFormState())
@@ -27,42 +33,116 @@ class InsertUtilityServiceViewModel @Inject constructor(
         }
     }
 
-
-    fun onNameChanged(name: String) {
-        _screenState.update {
-            it.copy(name = name)
+    fun onEvent(event: InsertServiceFormEvent) {
+        when (event) {
+            is InsertServiceFormEvent.NameChanged -> {
+                _screenState.update {
+                    it.copy(name = event.name)
+                }
+            }
+            is InsertServiceFormEvent.MeterAvailableChanged -> {
+                _screenState.update {
+                    it.copy(isMeterAvailable = event.isMeterAvailable)
+                }
+            }
+            is InsertServiceFormEvent.PreviousValueChanged -> {
+                _screenState.update {
+                    it.copy(previousValue = event.previousValue)
+                }
+            }
+            is InsertServiceFormEvent.TariffChanged -> {
+                _screenState.update {
+                    it.copy(tariff = event.tariff)
+                }
+            }
+            is InsertServiceFormEvent.UnitOfMeasurementChanged -> {
+                _screenState.update {
+                    it.copy(unitOfMeasurement = event.unitOfMeasurement)
+                }
+            }
+            InsertServiceFormEvent.Submit -> {
+                submitData()
+            }
         }
     }
 
-    fun onTariffChanged(tariff: String) {
-        _screenState.update {
-            it.copy(tariff = tariff)
+    private fun submitData() {
+        val validateNameResult = validateNameUseCase(_screenState.value.name)
+        val validateTariffResult = validateTariffUseCase(_screenState.value.tariff)
+        val validatePreviousValueResult = validatePreviousValueUseCase(_screenState.value.previousValue)
+
+        val hasError = listOf(
+            validateNameResult,
+            validateTariffResult,
+            validatePreviousValueResult
+        ).any { !it.successful }
+
+        if (hasError) {
+            _screenState.update {
+                it.copy(
+                    nameError = validateNameResult.errorMessage,
+                    tariffError = validateTariffResult.errorMessage,
+                    previousValueError = validatePreviousValueResult.errorMessage
+                )
+            }
+        } else {
+            insertUtilityService()
         }
     }
 
-    fun onMeterAvailableChanged(isMeterAvailable: Boolean) {
-        _screenState.update {
-            it.copy(isMeterAvailable = isMeterAvailable)
+    private fun insertUtilityService() {
+        val utilityService = with(screenState.value) {
+            UtilityServiceItem(
+                id = if (utilityServiceId >= 0 ) utilityServiceId else 0,
+                name = name,
+                tariff = tariff.toDouble(),
+                isMeterAvailable = isMeterAvailable,
+                previousValue = previousValue,
+                unitOfMeasurement = unitOfMeasurement
+            )
+        }
+
+        viewModelScope.launch {
+            insertUtilityServiceUseCase(utilityService)
         }
     }
 
-    fun onPreviousValueChanged(previousValue: String) {
-        _screenState.update {
-            it.copy(previousValue = previousValue)
-        }
-    }
 
-    fun onMeasurementUnitChanged(measurementUnit: MeasurementUnit) {
-        _screenState.update {
-            it.copy(unitOfMeasurement = measurementUnit)
-        }
-    }
+//    fun onNameChanged(name: String) {
+//        _screenState.update {
+//            it.copy(name = name)
+//        }
+//    }
+//
+//    fun onTariffChanged(tariff: String) {
+//        _screenState.update {
+//            it.copy(tariff = tariff)
+//        }
+//    }
+//
+//    fun onMeterAvailableChanged(isMeterAvailable: Boolean) {
+//        _screenState.update {
+//            it.copy(isMeterAvailable = isMeterAvailable)
+//        }
+//    }
+//
+//    fun onPreviousValueChanged(previousValue: String) {
+//        _screenState.update {
+//            it.copy(previousValue = previousValue)
+//        }
+//    }
+//
+//    fun onMeasurementUnitChanged(measurementUnit: MeasurementUnit) {
+//        _screenState.update {
+//            it.copy(unitOfMeasurement = measurementUnit)
+//        }
+//    }
 
 
     private fun getUtilityService(utilityServiceId: Int) {
         viewModelScope.launch {
             val utilityService = getUtilityServiceUseCase(utilityServiceId)
-            _screenState.value = InsertUtilityServiceScreenState(
+            _screenState.value = InsertServiceFormState(
                 name = utilityService.name,
                 tariff = utilityService.tariff.toString(),
                 isMeterAvailable = utilityService.isMeterAvailable,

@@ -39,24 +39,29 @@ fun InsertUtilityServiceScreen(
     val component = getApplicationComponent()
         .getInsertServiceScreenComponentFactory()
         .create(utilityServiceId)
-    val viewModel: InsertUtilityServiceViewModel = viewModel(factory = component.getViewModelFactory())
+    val viewModel: InsertUtilityServiceViewModel =
+        viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.collectAsState()
 
     InsertUtilityServiceContent(
         modifier = modifier,
         screenState = screenState,
-        onNameChanged = viewModel::onNameChanged,
-        onTariffChanged = viewModel::onTariffChanged,
-        onMeterAvailableChanged = viewModel::onMeterAvailableChanged,
-        onPreviousValueChanged = viewModel::onPreviousValueChanged,
-        onMeasurementUnitChanged = viewModel::onMeasurementUnitChanged
+        onNameChanged = { viewModel.onEvent(InsertServiceFormEvent.NameChanged(it)) },
+        onTariffChanged = { viewModel.onEvent(InsertServiceFormEvent.TariffChanged(it)) },
+        onMeterAvailableChanged = {
+            viewModel.onEvent(InsertServiceFormEvent.MeterAvailableChanged(it))
+        },
+        onPreviousValueChanged = { viewModel.onEvent(InsertServiceFormEvent.PreviousValueChanged(it)) },
+        onMeasurementUnitChanged = {
+            viewModel.onEvent(InsertServiceFormEvent.UnitOfMeasurementChanged(it))
+        }
     )
 }
 
 @Composable
 private fun InsertUtilityServiceContent(
     modifier: Modifier = Modifier,
-    screenState: State<InsertUtilityServiceScreenState>,
+    screenState: State<InsertServiceFormState>,
     onNameChanged: (String) -> Unit,
     onTariffChanged: (String) -> Unit,
     onMeterAvailableChanged: (Boolean) -> Unit,
@@ -69,7 +74,7 @@ private fun InsertUtilityServiceContent(
         OutlinedTextFieldOnSurface(
             value = screenState.value.name,
             onValueChange = onNameChanged,
-            isError = screenState.value.isNameEmpty,
+            isError = screenState.value.nameError != null,
             labelText = "Назва послуги:"
         )
 
@@ -78,7 +83,7 @@ private fun InsertUtilityServiceContent(
         OutlinedTextFieldOnSurface(
             value = screenState.value.tariff,
             onValueChange = onTariffChanged,
-            isError = (screenState.value.isTariffEmpty || screenState.value.isTariffNotDouble),
+            isError = screenState.value.tariffError != null,
             labelText = "Тариф:"
         )
 
@@ -116,7 +121,7 @@ private fun InsertUtilityServiceContent(
                     modifier = Modifier.weight(1f),
                     value = screenState.value.previousValue,
                     onValueChange = onPreviousValueChanged,
-                    isError = (screenState.value.isPreviousValueEmpty || screenState.value.isPreviousValueNotDigit),
+                    isError = screenState.value.previousValueError != null,
                     labelText = "Попередні значення:"
                 )
 
@@ -151,7 +156,7 @@ private fun InsertUtilityServiceContentPreview() {
         ) {
             InsertUtilityServiceContent(
                 modifier = Modifier.padding(16.dp),
-                screenState = mutableStateOf(InsertUtilityServiceScreenState()),
+                screenState = mutableStateOf(InsertServiceFormState()),
                 onNameChanged = {},
                 onTariffChanged = {},
                 onMeterAvailableChanged = {},
