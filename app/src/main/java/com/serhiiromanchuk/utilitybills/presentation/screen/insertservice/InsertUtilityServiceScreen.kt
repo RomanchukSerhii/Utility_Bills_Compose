@@ -26,6 +26,7 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.Measurement
 import com.serhiiromanchuk.utilitybills.presentation.core.components.OutlinedTextFieldOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBox
+import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBoxDefaults
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
@@ -88,7 +89,16 @@ private fun InsertUtilityServiceContent(
         ) {
             RoundCheckBox(
                 isChecked = screenState.value.isMeterAvailable,
-                onClick = onMeterAvailableChanged
+                onClick = onMeterAvailableChanged,
+                color = RoundCheckBoxDefaults.colors(
+                    selectedColor = MaterialTheme.colorScheme.tertiary,
+                    disabledSelectedColor = MaterialTheme.colorScheme.surface,
+                    borderColor = if (screenState.value.isMeterAvailable) {
+                        MaterialTheme.colorScheme.tertiary
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    }
+                )
             )
             Text(
                 text = "Наявність лічильника",
@@ -122,8 +132,6 @@ private fun InsertUtilityServiceContent(
         }
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_large)))
-
-
 
         PrimaryButton(
             text = "Зберегти",

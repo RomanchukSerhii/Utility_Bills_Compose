@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.domain.usecase.utilityservice
+package com.serhiiromanchuk.utilitybills.domain.usecase.utility_service
 
 import com.serhiiromanchuk.utilitybills.domain.repository.UtilityServiceRepository
 import javax.inject.Inject

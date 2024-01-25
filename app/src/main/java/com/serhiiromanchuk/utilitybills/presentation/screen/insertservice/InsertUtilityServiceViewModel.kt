@@ -3,8 +3,8 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.insertservice
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
-import com.serhiiromanchuk.utilitybills.domain.usecase.utilityservice.GetUtilityServiceUseCase
-import com.serhiiromanchuk.utilitybills.domain.usecase.utilityservice.InsertUtilityServiceUseCase
+import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.GetUtilityServiceUseCase
+import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.InsertUtilityServiceUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,8 +18,8 @@ class InsertUtilityServiceViewModel @Inject constructor(
     private val getUtilityServiceUseCase: GetUtilityServiceUseCase
 ) : ViewModel() {
 
-    private val _screenState = MutableStateFlow(InsertUtilityServiceScreenState())
-    val screenState: StateFlow<InsertUtilityServiceScreenState> = _screenState.asStateFlow()
+    private val _screenState = MutableStateFlow(InsertServiceFormState())
+    val screenState: StateFlow<InsertServiceFormState> = _screenState.asStateFlow()
 
     init {
         if (utilityServiceId >= 0) {
@@ -112,15 +112,15 @@ class InsertUtilityServiceViewModel @Inject constructor(
 
 }
 
-data class InsertUtilityServiceScreenState (
-    val name: String = "",
-    val tariff: String = "",
-    val isMeterAvailable: Boolean = false,
-    val previousValue: String = "",
-    val unitOfMeasurement: MeasurementUnit = MeasurementUnit.CUBIC_METER,
-    val isNameEmpty: Boolean = false,
-    val isTariffEmpty: Boolean = false,
-    val isTariffNotDouble: Boolean = false,
-    val isPreviousValueEmpty: Boolean = false,
-    val isPreviousValueNotDigit: Boolean = false
-)
+//data class InsertUtilityServiceScreenState (
+//    val name: String = "",
+//    val tariff: String = "",
+//    val isMeterAvailable: Boolean = false,
+//    val previousValue: String = "",
+//    val unitOfMeasurement: MeasurementUnit = MeasurementUnit.CUBIC_METER,
+//    val isNameEmpty: Boolean = false,
+//    val isTariffEmpty: Boolean = false,
+//    val isTariffNotDouble: Boolean = false,
+//    val isPreviousValueEmpty: Boolean = false,
+//    val isPreviousValueNotDigit: Boolean = false
+//)
