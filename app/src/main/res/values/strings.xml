@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Utility Bills</string>
     <string name="tariff">Тариф: %1$s</string>
+    <string name="currency_symbol">\ ₴</string>
     <string name="edit_meter_value">Редагувати значення</string>
     <string name="edit_card_number">Редагувати номер карти</string>
     <string name="save">Зберегти</string>
@@ -10,4 +11,7 @@
     <string name="month">Місяць</string>
     <string name="input_error">Input error</string>
     <string name="utility_supporting_error_message">Поточне значення має бути більшим від попереднього або дорівнювати йому</string>
+    <string name="back_to_previous_screen">Повернутися на минулий екран</string>
+    <string name="add_service_title">Додати послугу</string>
+    <string name="insert_service_title">Редагувати послугу</string>
 </resources>

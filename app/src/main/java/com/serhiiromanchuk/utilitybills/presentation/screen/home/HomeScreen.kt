@@ -43,33 +43,6 @@ fun HomeScreen(
     val viewModel: HomeScreenViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.collectAsState()
 
-    HomeScreenContent(
-        modifier = modifier,
-        screenState = screenState,
-        onPreviousValueChange = { id, value ->
-            viewModel.meterValueChange(id, value, MeterValueType.PREVIOUS)
-        },
-        onCurrentValueChange = { id, value ->
-            viewModel.meterValueChange( id, value, MeterValueType.CURRENT)
-        },
-        isServiceEnabled = { id, isChecked ->
-            viewModel.changeServiceCheckedState(id, isChecked)
-        },
-        onEditServiceClick = onEditServiceClick,
-        onAddUtilityServiceClick = onAddUtilityServiceClick
-    )
-}
-
-@Composable
-private fun HomeScreenContent(
-    modifier: Modifier = Modifier,
-    screenState: State<HomeScreenState>,
-    onPreviousValueChange: (id: Int, value: String) -> Unit,
-    onCurrentValueChange: (id: Int, value: String) -> Unit,
-    isServiceEnabled: (id: Int, isChecked: Boolean) -> Unit,
-    onEditServiceClick: (id: Int) -> Unit,
-    onAddUtilityServiceClick: () -> Unit
-) {
     Scaffold(
         topBar = {
             HomeScreenHeader(
@@ -87,16 +60,45 @@ private fun HomeScreenContent(
             )
         }
     ) {
-        ServiceItems(
+        HomeScreenContent(
             modifier = modifier.padding(it),
-            serviceItems = screenState.value.list,
-            onPreviousValueChange = onPreviousValueChange,
-            onCurrentValueChange = onCurrentValueChange,
+            screenState = screenState,
+            onPreviousValueChange = { id, value ->
+                viewModel.meterValueChange(id, value, MeterValueType.PREVIOUS)
+            },
+            onCurrentValueChange = { id, value ->
+                viewModel.meterValueChange( id, value, MeterValueType.CURRENT)
+            },
+            isServiceEnabled = { id, isChecked ->
+                viewModel.changeServiceCheckedState(id, isChecked)
+            },
             onEditServiceClick = onEditServiceClick,
-            isServiceEnabled = isServiceEnabled,
             onAddUtilityServiceClick = onAddUtilityServiceClick
         )
     }
+
+
+}
+
+@Composable
+private fun HomeScreenContent(
+    modifier: Modifier = Modifier,
+    screenState: State<HomeScreenState>,
+    onPreviousValueChange: (id: Int, value: String) -> Unit,
+    onCurrentValueChange: (id: Int, value: String) -> Unit,
+    isServiceEnabled: (id: Int, isChecked: Boolean) -> Unit,
+    onEditServiceClick: (id: Int) -> Unit,
+    onAddUtilityServiceClick: () -> Unit
+) {
+    ServiceItems(
+        modifier = modifier,
+        serviceItems = screenState.value.list,
+        onPreviousValueChange = onPreviousValueChange,
+        onCurrentValueChange = onCurrentValueChange,
+        onEditServiceClick = onEditServiceClick,
+        isServiceEnabled = isServiceEnabled,
+        onAddUtilityServiceClick = onAddUtilityServiceClick
+    )
 }
 
 @Composable

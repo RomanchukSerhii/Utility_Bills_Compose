@@ -1,5 +1,7 @@
 package com.serhiiromanchuk.utilitybills.utils
 
+import androidx.core.text.isDigitsOnly
+
 fun String.getFormattedDigitsOnly(maxLength: Int): String {
     var result = ""
     for (char in this) {
@@ -38,3 +40,25 @@ fun String.digitWithSpace(): String {
 }
 
 fun String.trimSpaces(): String = this.replace(" ", "")
+
+fun String.replaceComaToDot(): String = this.replace(",", ".")
+
+fun String.isPriceFormat(): Boolean {
+    if (this.isDigitsOnly()) return true
+
+    val decimalFormat = this.replaceComaToDot()
+    val splitPrice = decimalFormat.split(".")
+
+    return splitPrice.size == 2 && splitPrice.all { it.isDigitsOnly() } && decimalFormat.lastIndexOf('.') >= decimalFormat.length - 3
+}
+
+fun String.getFormattedDecimal(): String {
+    val result = StringBuilder()
+
+    this.replace(",", ".").forEachIndexed() { index, ch ->
+        if (ch.isDigit()) result.append(ch)
+        if (index >= this.length - 3 && ch == '.') result.append(ch)
+    }
+
+    return result.toString()
+}

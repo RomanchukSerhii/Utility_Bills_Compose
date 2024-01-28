@@ -33,6 +33,19 @@ fun LabelTextOnPrimary(
 }
 
 @Composable
+fun HeadlineTextOnPrimary(
+    modifier: Modifier = Modifier,
+    text: String,
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.titleLarge,
+        color = MaterialTheme.colorScheme.onPrimary
+    )
+}
+
+@Composable
 fun LabelTextOnSurface(
     modifier: Modifier = Modifier,
     text: String,

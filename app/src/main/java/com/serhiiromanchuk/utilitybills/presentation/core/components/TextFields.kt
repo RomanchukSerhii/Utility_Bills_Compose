@@ -33,20 +33,18 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
-import com.serhiiromanchuk.utilitybills.utils.digitWithSpace
 import com.serhiiromanchuk.utilitybills.utils.getFormattedDigitsOnly
+import com.serhiiromanchuk.utilitybills.utils.getUtilityMeterTransformedText
 
 @Composable
 fun OutlinedTextFieldOnSurface(
@@ -56,6 +54,8 @@ fun OutlinedTextFieldOnSurface(
     labelText: String = "",
     isError: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+    singleLine: Boolean = false,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
     Box(
         modifier = modifier
@@ -72,7 +72,9 @@ fun OutlinedTextFieldOnSurface(
                     text = labelText,
                     style = MaterialTheme.typography.bodyLarge
                 )
-            }
+            },
+            singleLine = singleLine,
+            visualTransformation = visualTransformation
         )
     }
 }
@@ -184,29 +186,6 @@ fun TextFieldActiveIndicator(
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.onSurfaceVariant)
     )
-}
-
-// Formats a string with numbers separated by spaces in the thousands value
-private fun getUtilityMeterTransformedText(input: AnnotatedString): TransformedText {
-    val out = input.text.digitWithSpace()
-
-    val utilityMeterOffsetTranslator = object : OffsetMapping {
-        override fun originalToTransformed(offset: Int): Int {
-            if (offset <= 3) return offset
-            if (offset <= 6) return offset + 1
-            if (offset <= 8) return offset + 2
-            return 10
-        }
-
-        override fun transformedToOriginal(offset: Int): Int {
-            if (offset <= 4) return offset
-            if (offset <= 8) return offset - 1
-            if (offset <= 10) return offset - 2
-            return 8
-        }
-
-    }
-    return TransformedText(AnnotatedString(out), utilityMeterOffsetTranslator)
 }
 
 @DarkLightPreviews

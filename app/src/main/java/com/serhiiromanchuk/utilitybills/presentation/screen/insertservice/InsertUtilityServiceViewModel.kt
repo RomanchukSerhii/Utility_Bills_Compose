@@ -85,7 +85,7 @@ class InsertUtilityServiceViewModel @Inject constructor(
                     previousValueError = validatePreviousValueResult.errorMessage
                 )
             }
-        } else {
+        } else { 
             insertUtilityService()
         }
     }
