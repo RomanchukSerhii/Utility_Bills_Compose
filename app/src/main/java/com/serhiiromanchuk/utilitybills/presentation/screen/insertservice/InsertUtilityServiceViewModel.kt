@@ -18,6 +18,7 @@ import javax.inject.Inject
 
 class InsertUtilityServiceViewModel @Inject constructor(
     private val utilityServiceId: Int,
+    private val address: String,
     private val insertUtilityServiceUseCase: InsertUtilityServiceUseCase,
     private val getUtilityServiceUseCase: GetUtilityServiceUseCase,
     private val validateNameUseCase: ValidateNameUseCase,
@@ -95,6 +96,7 @@ class InsertUtilityServiceViewModel @Inject constructor(
         val utilityService = with(screenState.value) {
             UtilityServiceItem(
                 id = if (utilityServiceId >= 0 ) utilityServiceId else 0,
+                address = address,
                 name = name,
                 tariff = tariff.removeCurrencySign().toDouble(),
                 isMeterAvailable = isMeterAvailable,

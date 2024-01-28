@@ -17,7 +17,8 @@ interface InsertServiceScreenComponent {
     @Subcomponent.Factory
     interface Factory {
         fun create(
-            @BindsInstance utilityServiceId: Int
+            @BindsInstance utilityServiceId: Int,
+            @BindsInstance address: String,
         ) : InsertServiceScreenComponent
     }
 }

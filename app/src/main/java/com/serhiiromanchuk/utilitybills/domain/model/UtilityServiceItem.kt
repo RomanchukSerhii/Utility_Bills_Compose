@@ -2,6 +2,7 @@ package com.serhiiromanchuk.utilitybills.domain.model
 
 data class UtilityServiceItem(
     val id: Int = UNDEFINED_ID,
+    val address: String,
     val name: String,
     val tariff: Double,
     val isMeterAvailable: Boolean,

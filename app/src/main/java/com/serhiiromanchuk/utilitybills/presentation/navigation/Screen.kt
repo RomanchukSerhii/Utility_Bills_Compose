@@ -12,8 +12,8 @@ sealed class Screen (
 
         private const val ROUTE_FOR_ARGS = "insert_service_screen"
 
-        fun getRoutWithArgs(utilityServiceId: Int): String {
-            return "$ROUTE_FOR_ARGS/$utilityServiceId"
+        fun getRoutWithArgs(utilityServiceId: Int, address: String): String {
+            return "$ROUTE_FOR_ARGS/$utilityServiceId/$address"
         }
     }
 
@@ -25,10 +25,11 @@ sealed class Screen (
 
     companion object {
         const val KEY_SERVICE_ID = "utility_service_id"
+        const val KEY_SERVICE_ADDRESS = "utility_service_address"
 
         private const val ROUTE_START_SCREEN = "start_screen"
         private const val ROUTE_HOME_SCREEN = "home_screen"
-        private const val ROUTE_INSERT_SERVICE_SCREEN = "insert_service_screen/{$KEY_SERVICE_ID}"
+        private const val ROUTE_INSERT_SERVICE_SCREEN = "insert_service_screen/{$KEY_SERVICE_ID}/{$KEY_SERVICE_ADDRESS}"
         private const val ROUTE_BILLS_ARCHIVE_SCREEN = "bills_archive_screen"
         private const val ROUTE_BILL_SCREEN = "bill_screen"
         private const val ROUTE_BILL_DETAILS = "bill_details_screen"

@@ -8,6 +8,7 @@ import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
 @Entity(tableName = "utility_services")
 data class UtilityServiceItemDbModel(
     @PrimaryKey(autoGenerate = true) val id: Int,
+    @ColumnInfo(name = "address") val address: String,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "tariff") val tariff: Double,
     @ColumnInfo(name = "is_meter_available") val isMeterAvailable: Boolean,

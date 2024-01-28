@@ -20,8 +20,8 @@ class NavigationState(
         }
     }
 
-    fun navigateToInsertServiceScreen(utilityServiceId: Int) {
-        navHostController.navigate(Screen.InsertServiceScreen.getRoutWithArgs(utilityServiceId))
+    fun navigateToInsertServiceScreen(utilityServiceId: Int, address: String) {
+        navHostController.navigate(Screen.InsertServiceScreen.getRoutWithArgs(utilityServiceId, address))
     }
 }
 

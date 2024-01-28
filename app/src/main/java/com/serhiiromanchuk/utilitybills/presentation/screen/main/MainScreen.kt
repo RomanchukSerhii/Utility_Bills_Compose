@@ -21,17 +21,18 @@ fun MainScreen(
         startScreenContent = { /*TODO*/ },
         homeScreenContent = {
             HomeScreen(
-                onEditServiceClick = { navigationState.navigateToInsertServiceScreen(it) },
-                onAddUtilityServiceClick = {
+                onEditServiceClick = { id, address ->  navigationState.navigateToInsertServiceScreen(id, address) },
+                onAddUtilityServiceClick = { address ->
                     val undefinedId = -1
-                    navigationState.navigateToInsertServiceScreen(undefinedId)
+                    navigationState.navigateToInsertServiceScreen(undefinedId, address)
                 }
             )
         },
-        insertServiceScreenContent = { utilityServiceId ->
+        insertServiceScreenContent = { utilityServiceId, address ->
             InsertUtilityServiceScreen(
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
                 utilityServiceId = utilityServiceId,
+                address = address,
                 onBackPressed = { /*TODO*/ }
             )
         },
