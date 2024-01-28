@@ -54,6 +54,7 @@ fun OutlinedTextFieldOnSurface(
     labelText: String = "",
     isError: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
@@ -65,6 +66,7 @@ fun OutlinedTextFieldOnSurface(
             value = value,
             onValueChange = onValueChange,
             keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
             isError = isError,
             textStyle = MaterialTheme.typography.bodyLarge,
             label = {

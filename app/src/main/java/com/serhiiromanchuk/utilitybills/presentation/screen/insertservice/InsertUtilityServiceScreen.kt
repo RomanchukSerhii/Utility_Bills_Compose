@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -27,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -37,6 +39,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
+import com.serhiiromanchuk.utilitybills.presentation.core.components.ErrorTextMessage
 import com.serhiiromanchuk.utilitybills.presentation.core.components.HeadlineTextOnPrimary
 import com.serhiiromanchuk.utilitybills.presentation.core.components.MeasurementExposeDropdownMenuBox
 import com.serhiiromanchuk.utilitybills.presentation.core.components.OutlinedTextFieldOnSurface
@@ -79,10 +82,9 @@ fun InsertUtilityServiceScreen(
         },
         bottomBar = {
             PrimaryButton(
-                modifier = modifier
-                    .fillMaxWidth(),
+                modifier = modifier.fillMaxWidth(),
                 text = "Зберегти",
-                onClick = { }
+                onClick = { viewModel.onEvent(InsertServiceFormEvent.Submit) }
             )
         }
     ) {
@@ -118,14 +120,15 @@ private fun InsertUtilityServiceContent(
     onPreviousValueChanged: (String) -> Unit,
     onMeasurementUnitChanged: (MeasurementUnit) -> Unit
 ) {
+    val currentScreenState = screenState.value
     Column(
         modifier = modifier
     ) {
         val context = LocalContext.current
         OutlinedTextFieldOnSurface(
-            value = screenState.value.name,
+            value = currentScreenState.name,
             onValueChange = onNameChanged,
-            isError = screenState.value.nameError != null,
+            isError = currentScreenState.nameError != null,
             labelText = "Назва послуги:",
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,
@@ -134,16 +137,20 @@ private fun InsertUtilityServiceContent(
             singleLine = true
         )
 
+        if (currentScreenState.nameError != null) {
+            ErrorTextMessage(text = currentScreenState.nameError)
+        }
+
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
 
         OutlinedTextFieldOnSurface(
-            value = screenState.value.tariff,
+            value = currentScreenState.tariff,
             onValueChange = {
                 if (it.isPriceFormat()) {
                     onTariffChanged(it.replaceComaToDot())
                 }
             },
-            isError = screenState.value.tariffError != null,
+            isError = currentScreenState.tariffError != null,
             labelText = "Тариф:",
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -153,13 +160,17 @@ private fun InsertUtilityServiceContent(
             visualTransformation = { input -> getPriceTransformedText(input, context) }
         )
 
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
+        if (currentScreenState.tariffError != null) {
+            ErrorTextMessage(text = currentScreenState.tariffError)
+        }
+
+        Spacer(modifier = Modifier.height(14.dp))
 
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
             RoundCheckBox(
-                isChecked = screenState.value.isMeterAvailable,
+                isChecked = currentScreenState.isMeterAvailable,
                 onClick = onMeterAvailableChanged,
                 color = RoundCheckBoxDefaults.colors(
                     selectedColor = MaterialTheme.colorScheme.tertiary,
@@ -178,6 +189,8 @@ private fun InsertUtilityServiceContent(
         }
 
         if (screenState.value.isMeterAvailable) {
+            val focusManager = LocalFocusManager.current
+
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
 
             Row(
@@ -185,16 +198,19 @@ private fun InsertUtilityServiceContent(
             ) {
                 OutlinedTextFieldOnSurface(
                     modifier = Modifier.weight(1f),
-                    value = screenState.value.previousValue,
+                    value = currentScreenState.previousValue,
                     onValueChange = {
                         val formattedValue = it.getFormattedDigitsOnly(8)
                         onPreviousValueChanged(formattedValue)
                     },
-                    isError = screenState.value.previousValueError != null,
+                    isError = currentScreenState.previousValueError != null,
                     labelText = "Попередні значення:",
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = { focusManager.clearFocus() }
                     ),
                     visualTransformation = { input -> getUtilityMeterTransformedText(input) },
                 )
@@ -202,9 +218,13 @@ private fun InsertUtilityServiceContent(
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.width_medium)))
 
                 MeasurementExposeDropdownMenuBox(
-                    modifier = Modifier.width(100.dp),
+                    modifier = Modifier.width(110.dp),
                     onValueChange = onMeasurementUnitChanged
                 )
+            }
+
+            if (currentScreenState.previousValueError != null) {
+                ErrorTextMessage(text = currentScreenState.previousValueError)
             }
         }
     }

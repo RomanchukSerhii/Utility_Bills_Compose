@@ -47,6 +47,7 @@ fun MeasurementExposeDropdownMenuBox(
             value = selectedUnit.title,
             onValueChange = {},
             readOnly = true,
+            singleLine = true,
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) }
         )
 

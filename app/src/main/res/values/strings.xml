@@ -14,4 +14,5 @@
     <string name="back_to_previous_screen">Повернутися на минулий екран</string>
     <string name="add_service_title">Додати послугу</string>
     <string name="insert_service_title">Редагувати послугу</string>
+    <string name="choose_utility_service_title">Виберіть комунальні послуги для формування рахунку</string>
 </resources>

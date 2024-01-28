@@ -7,7 +7,7 @@ data class InsertServiceFormState(
     val nameError: String? = null,
     val tariff: String = "0",
     val tariffError: String? = null,
-    val isMeterAvailable: Boolean = false,
+    val isMeterAvailable: Boolean = true,
     val previousValue: String = "",
     val previousValueError: String? = null,
     val unitOfMeasurement: MeasurementUnit = MeasurementUnit.CUBIC_METER,

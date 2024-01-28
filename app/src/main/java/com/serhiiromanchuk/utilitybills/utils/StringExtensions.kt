@@ -52,13 +52,5 @@ fun String.isPriceFormat(): Boolean {
     return splitPrice.size == 2 && splitPrice.all { it.isDigitsOnly() } && decimalFormat.lastIndexOf('.') >= decimalFormat.length - 3
 }
 
-fun String.getFormattedDecimal(): String {
-    val result = StringBuilder()
+fun String.removeCurrencySign(): String = this.replace(" ₴", "")
 
-    this.replace(",", ".").forEachIndexed() { index, ch ->
-        if (ch.isDigit()) result.append(ch)
-        if (index >= this.length - 3 && ch == '.') result.append(ch)
-    }
-
-    return result.toString()
-}

@@ -23,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
@@ -76,8 +77,6 @@ fun HomeScreen(
             onAddUtilityServiceClick = onAddUtilityServiceClick
         )
     }
-
-
 }
 
 @Composable
@@ -122,7 +121,7 @@ private fun ServiceItems(
                     start = dimensionResource(id = R.dimen.padding_small),
                     top = dimensionResource(id = R.dimen.padding_small)
                 ),
-                text = "Виберіть комунальні послуги для формування рахунку"
+                text = stringResource(R.string.choose_utility_service_title)
             )
         }
         items(serviceItems, key = { it.id }) { utilityService ->

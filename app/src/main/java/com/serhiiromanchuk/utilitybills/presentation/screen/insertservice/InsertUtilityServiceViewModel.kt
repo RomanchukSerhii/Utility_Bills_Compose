@@ -8,6 +8,7 @@ import com.serhiiromanchuk.utilitybills.domain.usecase.insert_service.ValidatePr
 import com.serhiiromanchuk.utilitybills.domain.usecase.insert_service.ValidateTariffUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.GetUtilityServiceUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.InsertUtilityServiceUseCase
+import com.serhiiromanchuk.utilitybills.utils.removeCurrencySign
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -86,7 +87,7 @@ class InsertUtilityServiceViewModel @Inject constructor(
                 )
             }
         } else { 
-            insertUtilityService()
+//            insertUtilityService()
         }
     }
 
@@ -95,7 +96,7 @@ class InsertUtilityServiceViewModel @Inject constructor(
             UtilityServiceItem(
                 id = if (utilityServiceId >= 0 ) utilityServiceId else 0,
                 name = name,
-                tariff = tariff.toDouble(),
+                tariff = tariff.removeCurrencySign().toDouble(),
                 isMeterAvailable = isMeterAvailable,
                 previousValue = previousValue,
                 unitOfMeasurement = unitOfMeasurement

@@ -134,3 +134,20 @@ fun ErrorSupportingText(
         }
     }
 }
+
+@Composable
+fun ErrorTextMessage(
+    modifier: Modifier = Modifier,
+    text: String,
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
+    color: Color = MaterialTheme.colorScheme.error,
+    lineHeight: TextUnit = 14.sp
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        style = style,
+        color = color,
+        lineHeight = lineHeight
+    )
+}
