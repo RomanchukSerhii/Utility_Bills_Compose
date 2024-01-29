@@ -33,7 +33,7 @@ fun MainScreen(
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
                 utilityServiceId = utilityServiceId,
                 address = address,
-                onBackPressed = { /*TODO*/ }
+                onBackPressed = { navigationState.navHostController.popBackStack() }
             )
         },
         billsArchiveScreenContent = { /*TODO*/ },

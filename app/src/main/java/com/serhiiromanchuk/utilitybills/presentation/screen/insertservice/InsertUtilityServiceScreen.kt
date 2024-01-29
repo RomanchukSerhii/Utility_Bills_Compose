@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -61,6 +62,14 @@ fun InsertUtilityServiceScreen(
         viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.collectAsState()
 
+    LaunchedEffect(key1 = true) {
+        viewModel.validationEvents.collect { event ->
+            when (event) {
+                InsertUtilityServiceViewModel.ValidationEvent.Success -> onBackPressed()
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             TopBarApp(
@@ -76,7 +85,9 @@ fun InsertUtilityServiceScreen(
             PrimaryButton(
                 modifier = modifier.fillMaxWidth(),
                 text = "Зберегти",
-                onClick = { viewModel.onEvent(InsertServiceFormEvent.Submit) }
+                onClick = {
+                    viewModel.onEvent(InsertServiceFormEvent.Submit)
+                }
             )
         }
     ) {
