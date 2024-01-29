@@ -130,7 +130,7 @@ private fun InsertUtilityServiceContent(
         )
 
         if (currentScreenState.nameError != null) {
-            ErrorTextMessage(text = currentScreenState.nameError)
+            ErrorTextMessage(text = currentScreenState.nameError.asString())
         }
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
@@ -153,7 +153,7 @@ private fun InsertUtilityServiceContent(
         )
 
         if (currentScreenState.tariffError != null) {
-            ErrorTextMessage(text = currentScreenState.tariffError)
+            ErrorTextMessage(text = currentScreenState.tariffError.asString())
         }
 
         Spacer(modifier = Modifier.height(14.dp))
@@ -216,7 +216,7 @@ private fun InsertUtilityServiceContent(
             }
 
             if (currentScreenState.previousValueError != null) {
-                ErrorTextMessage(text = currentScreenState.previousValueError)
+                ErrorTextMessage(text = currentScreenState.previousValueError.asString())
             }
         }
     }

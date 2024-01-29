@@ -15,4 +15,7 @@
     <string name="add_service_title">Додати послугу</string>
     <string name="insert_service_title">Редагувати послугу</string>
     <string name="choose_utility_service_title">Виберіть комунальні послуги для формування рахунку</string>
+    <string name="enter_service_name">Вкажіть ім\'я послуги</string>
+    <string name="enter_previous_meter_value">Вкажіть останні значення лічильника</string>
+    <string name="enter_tariff_for_service">Вкажіть тариф для послуги</string>
 </resources>

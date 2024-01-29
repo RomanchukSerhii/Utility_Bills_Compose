@@ -1,5 +1,7 @@
 package com.serhiiromanchuk.utilitybills.domain.usecase.insert_service
 
+import com.serhiiromanchuk.utilitybills.R
+import com.serhiiromanchuk.utilitybills.utils.UiText
 import com.serhiiromanchuk.utilitybills.utils.removeCurrencySign
 import javax.inject.Inject
 
@@ -9,7 +11,7 @@ class ValidateTariffUseCase @Inject constructor() {
         if (tariff.removeCurrencySign().isBlank()) {
             return ValidationResult(
                 successful = false,
-                errorMessage = "Вкажіть тариф для послуги"
+                errorMessage = UiText.StringResource(R.string.enter_tariff_for_service)
             )
         }
         return ValidationResult(successful = true)
