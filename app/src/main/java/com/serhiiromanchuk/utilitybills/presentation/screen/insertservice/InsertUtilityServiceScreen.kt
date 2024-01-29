@@ -1,5 +1,7 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.insertservice
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,9 +18,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,7 +32,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
-import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.ErrorTextMessage
 import com.serhiiromanchuk.utilitybills.presentation.core.components.MeasurementExposeDropdownMenuBox
@@ -93,22 +94,8 @@ fun InsertUtilityServiceScreen(
     ) {
         InsertUtilityServiceContent(
             modifier = modifier.padding(it),
-            screenState = screenState,
-            onNameChanged = { name ->
-                viewModel.onEvent(InsertServiceFormEvent.NameChanged(name))
-            },
-            onTariffChanged = { tariff ->
-                viewModel.onEvent(InsertServiceFormEvent.TariffChanged(tariff))
-            },
-            onMeterAvailableChanged = { isAvailable ->
-                viewModel.onEvent(InsertServiceFormEvent.MeterAvailableChanged(isAvailable))
-            },
-            onPreviousValueChanged = { previousValue ->
-                viewModel.onEvent(InsertServiceFormEvent.PreviousValueChanged(previousValue))
-            },
-            onMeasurementUnitChanged = { measurementUnit ->
-                viewModel.onEvent(InsertServiceFormEvent.UnitOfMeasurementChanged(measurementUnit))
-            }
+            screenState = screenState.value,
+            onEvent = viewModel::onEvent
         )
     }
 }
@@ -116,22 +103,21 @@ fun InsertUtilityServiceScreen(
 @Composable
 private fun InsertUtilityServiceContent(
     modifier: Modifier = Modifier,
-    screenState: State<InsertServiceFormState>,
-    onNameChanged: (String) -> Unit,
-    onTariffChanged: (String) -> Unit,
-    onMeterAvailableChanged: (Boolean) -> Unit,
-    onPreviousValueChanged: (String) -> Unit,
-    onMeasurementUnitChanged: (MeasurementUnit) -> Unit
+    screenState: InsertServiceFormState,
+    onEvent: (InsertServiceFormEvent) -> Unit
 ) {
-    val currentScreenState = screenState.value
     Column(
         modifier = modifier
     ) {
+        val focusManager = LocalFocusManager.current
         val context = LocalContext.current
+        val interactionSource = remember { MutableInteractionSource() }
+        val isFocused by interactionSource.collectIsFocusedAsState()
+
         OutlinedTextFieldOnSurface(
-            value = currentScreenState.name,
-            onValueChange = onNameChanged,
-            isError = currentScreenState.nameError != null,
+            value = screenState.name,
+            onValueChange = { onEvent(InsertServiceFormEvent.NameChanged(it)) },
+            isError = screenState.nameError != null,
             labelText = "Назва послуги:",
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,
@@ -140,31 +126,32 @@ private fun InsertUtilityServiceContent(
             singleLine = true
         )
 
-        if (currentScreenState.nameError != null) {
-            ErrorTextMessage(text = currentScreenState.nameError.asString())
+        if (screenState.nameError != null) {
+            ErrorTextMessage(text = screenState.nameError.asString())
         }
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
 
         OutlinedTextFieldOnSurface(
-            value = currentScreenState.tariff,
+            value = getTariffValue(isFocused, screenState.tariff),
             onValueChange = {
                 if (it.isPriceFormat()) {
-                    onTariffChanged(it.replaceComaToDot())
+                    onEvent(InsertServiceFormEvent.TariffChanged(it.replaceComaToDot()))
                 }
             },
-            isError = currentScreenState.tariffError != null,
+            isError = screenState.tariffError != null,
             labelText = "Тариф:",
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
                 imeAction = ImeAction.Next
             ),
             singleLine = true,
-            visualTransformation = { input -> getPriceTransformedText(input, context) }
+            visualTransformation = { input -> getPriceTransformedText(input, context) },
+            interactionSource = interactionSource
         )
 
-        if (currentScreenState.tariffError != null) {
-            ErrorTextMessage(text = currentScreenState.tariffError.asString())
+        if (screenState.tariffError != null) {
+            ErrorTextMessage(text = screenState.tariffError.asString())
         }
 
         Spacer(modifier = Modifier.height(14.dp))
@@ -173,12 +160,12 @@ private fun InsertUtilityServiceContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             RoundCheckBox(
-                isChecked = currentScreenState.isMeterAvailable,
-                onClick = onMeterAvailableChanged,
+                isChecked = screenState.isMeterAvailable,
+                onClick = { onEvent(InsertServiceFormEvent.MeterAvailableChanged(it)) },
                 color = RoundCheckBoxDefaults.colors(
                     selectedColor = MaterialTheme.colorScheme.tertiary,
                     disabledSelectedColor = MaterialTheme.colorScheme.surface,
-                    borderColor = if (screenState.value.isMeterAvailable) {
+                    borderColor = if (screenState.isMeterAvailable) {
                         MaterialTheme.colorScheme.tertiary
                     } else {
                         MaterialTheme.colorScheme.onSurfaceVariant
@@ -191,9 +178,7 @@ private fun InsertUtilityServiceContent(
             )
         }
 
-        if (screenState.value.isMeterAvailable) {
-            val focusManager = LocalFocusManager.current
-
+        if (screenState.isMeterAvailable) {
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
 
             Row(
@@ -201,12 +186,12 @@ private fun InsertUtilityServiceContent(
             ) {
                 OutlinedTextFieldOnSurface(
                     modifier = Modifier.weight(1f),
-                    value = currentScreenState.previousValue,
+                    value = screenState.previousValue,
                     onValueChange = {
                         val formattedValue = it.getFormattedDigitsOnly(8)
-                        onPreviousValueChanged(formattedValue)
+                        onEvent(InsertServiceFormEvent.PreviousValueChanged(formattedValue))
                     },
-                    isError = currentScreenState.previousValueError != null,
+                    isError = screenState.previousValueError != null,
                     labelText = "Попередні значення:",
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
@@ -222,15 +207,21 @@ private fun InsertUtilityServiceContent(
 
                 MeasurementExposeDropdownMenuBox(
                     modifier = Modifier.width(110.dp),
-                    onValueChange = onMeasurementUnitChanged
+                    onValueChange = { onEvent(InsertServiceFormEvent.UnitOfMeasurementChanged(it)) }
                 )
             }
 
-            if (currentScreenState.previousValueError != null) {
-                ErrorTextMessage(text = currentScreenState.previousValueError.asString())
+            if (screenState.previousValueError != null) {
+                ErrorTextMessage(text = screenState.previousValueError.asString())
             }
         }
     }
+}
+
+private fun getTariffValue(isFocused: Boolean, value: String): String {
+    return if (isFocused && value == "0") ""
+    else if (!isFocused && value == "") "0"
+    else value
 }
 
 @DarkLightPreviews
@@ -244,12 +235,8 @@ private fun InsertUtilityServiceContentPreview() {
         ) {
             InsertUtilityServiceContent(
                 modifier = Modifier.padding(16.dp),
-                screenState = mutableStateOf(InsertServiceFormState()),
-                onNameChanged = {},
-                onTariffChanged = {},
-                onMeterAvailableChanged = {},
-                onPreviousValueChanged = {},
-                onMeasurementUnitChanged = {}
+                screenState = InsertServiceFormState(),
+                onEvent = {}
             )
         }
     }

@@ -1,6 +1,7 @@
 package com.serhiiromanchuk.utilitybills.presentation.core.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -57,6 +59,7 @@ fun OutlinedTextFieldOnSurface(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
     Box(
         modifier = modifier
@@ -76,7 +79,8 @@ fun OutlinedTextFieldOnSurface(
                 )
             },
             singleLine = singleLine,
-            visualTransformation = visualTransformation
+            visualTransformation = visualTransformation,
+            interactionSource = interactionSource
         )
     }
 }
