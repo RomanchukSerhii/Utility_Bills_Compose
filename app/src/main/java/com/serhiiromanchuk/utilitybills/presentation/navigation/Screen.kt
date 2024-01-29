@@ -12,7 +12,7 @@ sealed class Screen (
 
         private const val ROUTE_FOR_ARGS = "insert_service_screen"
 
-        fun getRoutWithArgs(utilityServiceId: Int, address: String): String {
+        fun getRoutWithArgs(utilityServiceId: Long, address: String): String {
             return "$ROUTE_FOR_ARGS/$utilityServiceId/$address"
         }
     }

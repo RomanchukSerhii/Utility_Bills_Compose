@@ -1,7 +1,7 @@
 package com.serhiiromanchuk.utilitybills.domain.model
 
 data class BillItem(
-    val id: Int = UNDEFINED_ID,
+    val id: Long = UNDEFINED_ID,
     val address: String,
     val month: String,
     val year: String,
@@ -9,6 +9,6 @@ data class BillItem(
     val billDescription: String = ""
 ) {
     companion object {
-        private const val UNDEFINED_ID = 0
+        private const val UNDEFINED_ID = 0L
     }
 }

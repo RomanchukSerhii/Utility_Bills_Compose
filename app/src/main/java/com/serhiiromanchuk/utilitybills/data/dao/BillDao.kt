@@ -14,7 +14,7 @@ interface BillDao {
     suspend fun insertBillItem(billItemDbModel: BillItemDbModel)
 
     @Query("DELETE FROM bill_items WHERE id=:billItemId")
-    suspend fun deleteBillItem(billItemId: Int)
+    suspend fun deleteBillItem(billItemId: Long)
 
     @Query("SELECT * FROM bill_items WHERE address=:address")
     fun getBillItemsForAddress(address: String): Flow<List<BillItemDbModel>>

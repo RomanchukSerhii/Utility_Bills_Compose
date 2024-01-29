@@ -1,7 +1,7 @@
 package com.serhiiromanchuk.utilitybills.domain.model
 
 data class UtilityServiceItem(
-    val id: Int = UNDEFINED_ID,
+    val id: Long = UNDEFINED_ID,
     val address: String,
     val name: String,
     val tariff: Double,
@@ -12,7 +12,7 @@ data class UtilityServiceItem(
     val isChecked: Boolean = true
 ) {
     companion object {
-        private const val UNDEFINED_ID = 0
+        private const val UNDEFINED_ID = 0L
         private const val UNDEFINED_CURRENT_VALUE = "0"
     }
 }

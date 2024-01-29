@@ -1,6 +1,5 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.insertservice
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,14 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -26,11 +20,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -40,13 +32,12 @@ import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.ErrorTextMessage
-import com.serhiiromanchuk.utilitybills.presentation.core.components.HeadlineTextOnPrimary
 import com.serhiiromanchuk.utilitybills.presentation.core.components.MeasurementExposeDropdownMenuBox
 import com.serhiiromanchuk.utilitybills.presentation.core.components.OutlinedTextFieldOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBox
 import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBoxDefaults
-import com.serhiiromanchuk.utilitybills.presentation.core.components.SecondaryHeader
+import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.utils.getFormattedDigitsOnly
@@ -59,7 +50,7 @@ import com.serhiiromanchuk.utilitybills.utils.replaceComaToDot
 @Composable
 fun InsertUtilityServiceScreen(
     modifier: Modifier = Modifier,
-    utilityServiceId: Int,
+    utilityServiceId: Long,
     address: String,
     onBackPressed: () -> Unit
 ) {
@@ -72,7 +63,7 @@ fun InsertUtilityServiceScreen(
 
     Scaffold(
         topBar = {
-            SecondaryHeader(
+            TopBarApp(
                 titleId = if (utilityServiceId > 0) {
                     R.string.insert_service_title
                 } else {

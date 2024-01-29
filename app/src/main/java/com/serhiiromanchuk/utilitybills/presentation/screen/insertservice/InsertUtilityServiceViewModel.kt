@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class InsertUtilityServiceViewModel @Inject constructor(
-    private val utilityServiceId: Int,
+    private val utilityServiceId: Long,
     private val address: String,
     private val insertUtilityServiceUseCase: InsertUtilityServiceUseCase,
     private val getUtilityServiceUseCase: GetUtilityServiceUseCase,
@@ -88,7 +88,7 @@ class InsertUtilityServiceViewModel @Inject constructor(
                 )
             }
         } else { 
-//            insertUtilityService()
+            insertUtilityService()
         }
     }
 
@@ -142,7 +142,7 @@ class InsertUtilityServiceViewModel @Inject constructor(
 //    }
 
 
-    private fun getUtilityService(utilityServiceId: Int) {
+    private fun getUtilityService(utilityServiceId: Long) {
         viewModelScope.launch {
             val utilityService = getUtilityServiceUseCase(utilityServiceId)
             _screenState.value = InsertServiceFormState(

@@ -6,7 +6,7 @@ interface UtilityServiceRepository {
 
     suspend fun insertUtilityService(utilityService: UtilityServiceItem)
 
-    suspend fun deleteUtilityService(utilityServiceId: Int)
+    suspend fun deleteUtilityService(utilityServiceId: Long)
 
-    suspend fun getUtilityService(utilityServiceId: Int): UtilityServiceItem
+    suspend fun getUtilityService(utilityServiceId: Long): UtilityServiceItem
 }

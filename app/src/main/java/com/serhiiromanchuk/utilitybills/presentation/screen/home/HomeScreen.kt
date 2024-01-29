@@ -37,7 +37,7 @@ import com.serhiiromanchuk.utilitybills.utils.MeterValueType
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    onEditServiceClick: (id: Int, address: String) -> Unit,
+    onEditServiceClick: (id: Long, address: String) -> Unit,
     onAddUtilityServiceClick: (address: String) -> Unit
 ) {
     val component = getApplicationComponent()
@@ -83,10 +83,10 @@ fun HomeScreen(
 private fun HomeScreenContent(
     modifier: Modifier = Modifier,
     screenState: State<HomeScreenState>,
-    onPreviousValueChange: (id: Int, value: String) -> Unit,
-    onCurrentValueChange: (id: Int, value: String) -> Unit,
-    isServiceEnabled: (id: Int, isChecked: Boolean) -> Unit,
-    onEditServiceClick: (id: Int) -> Unit,
+    onPreviousValueChange: (id: Long, value: String) -> Unit,
+    onCurrentValueChange: (id: Long, value: String) -> Unit,
+    isServiceEnabled: (id: Long, isChecked: Boolean) -> Unit,
+    onEditServiceClick: (id: Long) -> Unit,
     onAddUtilityServiceClick: () -> Unit
 ) {
     ServiceItems(
@@ -104,10 +104,10 @@ private fun HomeScreenContent(
 private fun ServiceItems(
     modifier: Modifier = Modifier,
     serviceItems: List<UtilityServiceItem>,
-    onPreviousValueChange: (id: Int, value: String) -> Unit,
-    onCurrentValueChange: (id: Int, value: String) -> Unit,
-    onEditServiceClick: (id: Int) -> Unit,
-    isServiceEnabled: (id: Int, isChecked: Boolean) -> Unit,
+    onPreviousValueChange: (id: Long, value: String) -> Unit,
+    onCurrentValueChange: (id: Long, value: String) -> Unit,
+    onEditServiceClick: (id: Long) -> Unit,
+    isServiceEnabled: (id: Long, isChecked: Boolean) -> Unit,
     onAddUtilityServiceClick: () -> Unit
 ) {
     LazyColumn(

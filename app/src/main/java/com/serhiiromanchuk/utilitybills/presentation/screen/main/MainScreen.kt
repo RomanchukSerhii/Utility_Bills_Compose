@@ -23,7 +23,7 @@ fun MainScreen(
             HomeScreen(
                 onEditServiceClick = { id, address ->  navigationState.navigateToInsertServiceScreen(id, address) },
                 onAddUtilityServiceClick = { address ->
-                    val undefinedId = -1
+                    val undefinedId = -1L
                     navigationState.navigateToInsertServiceScreen(undefinedId, address)
                 }
             )

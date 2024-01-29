@@ -49,9 +49,9 @@ fun ServiceItem(
     modifier: Modifier = Modifier,
     utilityService: UtilityServiceItem,
     checked: Boolean = true,
-    onPreviousValueChange: (id: Int, value: String) -> Unit,
-    onCurrentValueChange: (id: Int, value: String) -> Unit,
-    onEditServiceClick: (id: Int) -> Unit,
+    onPreviousValueChange: (id: Long, value: String) -> Unit,
+    onCurrentValueChange: (id: Long, value: String) -> Unit,
+    onEditServiceClick: (id: Long) -> Unit,
     isEnabled: (Boolean) -> Unit
 ) {
     var isChecked by remember { mutableStateOf(checked) }
@@ -118,7 +118,7 @@ private fun ServiceItemContent(
     checked: Boolean = true,
     onPreviousValueChange: (String) -> Unit,
     onCurrentValueChange: (String) -> Unit,
-    onEditServiceClick: (id: Int) -> Unit,
+    onEditServiceClick: (id: Long) -> Unit,
     isEnabled: (Boolean) -> Unit
 ) {
     Row(

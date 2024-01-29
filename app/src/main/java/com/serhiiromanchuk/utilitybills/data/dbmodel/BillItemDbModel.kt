@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "bill_items")
 data class BillItemDbModel (
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Long,
     @ColumnInfo(name = "address") val address: String,
     @ColumnInfo(name = "month") val month: String,
     @ColumnInfo(name = "year") val year: String,

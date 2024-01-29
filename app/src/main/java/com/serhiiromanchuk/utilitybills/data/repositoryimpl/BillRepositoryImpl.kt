@@ -16,7 +16,7 @@ class BillRepositoryImpl @Inject constructor(
         billDao.insertBillItem(mapper.mapEntityToDbModel(billItem))
     }
 
-    override suspend fun deleteBillItem(billItemId: Int) {
+    override suspend fun deleteBillItem(billItemId: Long) {
         billDao.deleteBillItem(billItemId)
     }
 

@@ -7,7 +7,7 @@ interface BillRepository {
 
     suspend fun insertBillItem(billItem: BillItem)
 
-    suspend fun deleteBillItem(billItemId: Int)
+    suspend fun deleteBillItem(billItemId: Long)
 
     fun getBillItemsForAddress(address: String): Flow<List<BillItem>>
 

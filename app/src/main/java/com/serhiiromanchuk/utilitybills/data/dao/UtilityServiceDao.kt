@@ -13,9 +13,9 @@ interface UtilityServiceDao {
     suspend fun insertUtilityService(utilityService: UtilityServiceItemDbModel)
 
     @Query("DELETE FROM utility_services WHERE id=:utilityServiceId")
-    suspend fun deleteUtilityService(utilityServiceId: Int)
+    suspend fun deleteUtilityService(utilityServiceId: Long)
 
     @Query("SELECT * FROM utility_services WHERE id=:utilityServiceId")
-    suspend fun getUtilityService(utilityServiceId: Int): UtilityServiceItemDbModel
+    suspend fun getUtilityService(utilityServiceId: Long): UtilityServiceItemDbModel
 
 }

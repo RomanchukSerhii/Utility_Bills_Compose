@@ -7,7 +7,7 @@ class DeleteUtilityServiceUseCase @Inject constructor(
     private val repository: UtilityServiceRepository
 ) {
 
-    suspend operator fun invoke(utilityServiceId: Int) {
+    suspend operator fun invoke(utilityServiceId: Long) {
         repository.deleteUtilityService(utilityServiceId)
     }
 }
