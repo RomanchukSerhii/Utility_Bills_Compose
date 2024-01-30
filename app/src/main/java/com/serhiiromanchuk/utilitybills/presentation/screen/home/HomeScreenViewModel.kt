@@ -1,16 +1,21 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.home
 
 import androidx.lifecycle.ViewModel
-import com.serhiiromanchuk.utilitybills.domain.mocks.fakeUtilityServicesList
+import androidx.lifecycle.viewModelScope
+import com.serhiiromanchuk.utilitybills.domain.mocks.fakeBillItem
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
+import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillWithUtilityServicesUseCase
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class HomeScreenViewModel @Inject constructor() : ViewModel() {
+class HomeScreenViewModel @Inject constructor(
+    private val getBillWithUtilityServicesUseCase: GetBillWithUtilityServicesUseCase
+) : ViewModel() {
 
     private val _screenState = MutableStateFlow(HomeScreenState())
     val screenState: StateFlow<HomeScreenState> = _screenState.asStateFlow()
@@ -18,11 +23,16 @@ class HomeScreenViewModel @Inject constructor() : ViewModel() {
     private val bufferUtilityServicesList = mutableListOf<UtilityServiceItem>()
 
     init {
-        fakeUtilityServicesList.forEach {
-            bufferUtilityServicesList.add(it)
-        }
-        _screenState.update {
-            it.copy(list = bufferUtilityServicesList)
+        viewModelScope.launch {
+            val billWithUtilityServices = getBillWithUtilityServicesUseCase()
+            val currentBill = billWithUtilityServices.firstOrNull { it.bill.id == fakeBillItem.id }
+            currentBill?.utilityServices?.forEach {
+                bufferUtilityServicesList.add(it)
+            }
+
+            _screenState.update {
+                it.copy(list = bufferUtilityServicesList)
+            }
         }
     }
 
