@@ -12,7 +12,7 @@ fun AppNavGraph(
     navHostController: NavHostController,
     startScreenContent: @Composable () -> Unit,
     homeScreenContent: @Composable () -> Unit,
-    insertServiceScreenContent: @Composable (id: Long, address: String) -> Unit,
+    insertServiceScreenContent: @Composable (id: Long, billCreatorId: Long) -> Unit,
     billsArchiveScreenContent: @Composable () -> Unit,
     billScreenContent: @Composable () -> Unit,
     billDetailsScreenContent: @Composable () -> Unit,
@@ -34,14 +34,14 @@ fun AppNavGraph(
                 navArgument(name = Screen.KEY_SERVICE_ID) {
                     type = NavType.LongType
                 },
-                navArgument(name = Screen.KEY_SERVICE_ADDRESS) {
-                    type = NavType.StringType
+                navArgument(name = Screen.KEY_BILL_CREATOR_ID) {
+                    type = NavType.LongType
                 }
             )
         ) {
             val id = it.arguments?.getLong(Screen.KEY_SERVICE_ID) ?: -1L
-            val address = it.arguments?.getString(Screen.KEY_SERVICE_ADDRESS) ?: ""
-            insertServiceScreenContent(id, address)
+            val billCreatorId = it.arguments?.getLong(Screen.KEY_BILL_CREATOR_ID) ?: -1L
+            insertServiceScreenContent(id, billCreatorId)
         }
         composable(Screen.BillsArchiveScreen.route) {
             billsArchiveScreenContent()

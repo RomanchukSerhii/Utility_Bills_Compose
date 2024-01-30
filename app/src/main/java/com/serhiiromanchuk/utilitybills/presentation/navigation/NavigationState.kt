@@ -20,8 +20,12 @@ class NavigationState(
         }
     }
 
-    fun navigateToInsertServiceScreen(utilityServiceId: Long, address: String) {
-        navHostController.navigate(Screen.InsertServiceScreen.getRoutWithArgs(utilityServiceId, address))
+    fun navigateToInsertServiceScreen(utilityServiceId: Long = UNDEFINED_ID, billCreatorId: Long) {
+        navHostController.navigate(Screen.InsertServiceScreen.getRoutWithArgs(utilityServiceId, billCreatorId))
+    }
+
+    companion object {
+        private const val UNDEFINED_ID = -1L
     }
 }
 

@@ -37,8 +37,8 @@ import com.serhiiromanchuk.utilitybills.utils.MeterValueType
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    onEditServiceClick: (id: Long, address: String) -> Unit,
-    onAddUtilityServiceClick: (address: String) -> Unit
+    onEditServiceClick: (id: Long, billCreatorId: Long) -> Unit,
+    onAddUtilityServiceClick: (billCreatorId: Long) -> Unit
 ) {
     val component = getApplicationComponent()
     val viewModel: HomeScreenViewModel = viewModel(factory = component.getViewModelFactory())
@@ -73,8 +73,8 @@ fun HomeScreen(
             isServiceEnabled = { id, isChecked ->
                 viewModel.changeServiceCheckedState(id, isChecked)
             },
-            onEditServiceClick = { id -> onEditServiceClick(id, "вул. Грушевського 23, кв. 235") },
-            onAddUtilityServiceClick = { onAddUtilityServiceClick("вул. Грушевського 23, кв. 235") }
+            onEditServiceClick = { id -> onEditServiceClick(id, fakeBillItem.id) },
+            onAddUtilityServiceClick = { onAddUtilityServiceClick(fakeBillItem.id) }
         )
     }
 }

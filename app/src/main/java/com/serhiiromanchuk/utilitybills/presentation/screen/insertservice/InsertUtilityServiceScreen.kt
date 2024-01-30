@@ -53,12 +53,12 @@ import com.serhiiromanchuk.utilitybills.utils.replaceComaToDot
 fun InsertUtilityServiceScreen(
     modifier: Modifier = Modifier,
     utilityServiceId: Long,
-    address: String,
+    billCreatorId: Long,
     onBackPressed: () -> Unit
 ) {
     val component = getApplicationComponent()
         .getInsertServiceScreenComponentFactory()
-        .create(utilityServiceId, address)
+        .create(utilityServiceId, billCreatorId)
     val viewModel: InsertUtilityServiceViewModel =
         viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.collectAsState()

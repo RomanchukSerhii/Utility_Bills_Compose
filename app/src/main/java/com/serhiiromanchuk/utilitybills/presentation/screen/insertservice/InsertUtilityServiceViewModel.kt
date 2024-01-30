@@ -17,10 +17,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 
 class InsertUtilityServiceViewModel @Inject constructor(
-    private val utilityServiceId: Long,
-    private val address: String,
+    @Named("utilityServiceId") private val utilityServiceId: Long,
+    @Named("billCreatorId") private val billCreatorId: Long,
     private val insertUtilityServiceUseCase: InsertUtilityServiceUseCase,
     private val getUtilityServiceUseCase: GetUtilityServiceUseCase,
     private val validateNameUseCase: ValidateNameUseCase,
@@ -110,7 +111,7 @@ class InsertUtilityServiceViewModel @Inject constructor(
         val utilityService = with(screenState.value) {
             UtilityServiceItem(
                 id = if (utilityServiceId >= 0) utilityServiceId else 0,
-                address = address,
+                billCreatorId = billCreatorId,
                 name = name,
                 tariff = tariff.removeCurrencySign().toDouble(),
                 isMeterAvailable = isMeterAvailable,

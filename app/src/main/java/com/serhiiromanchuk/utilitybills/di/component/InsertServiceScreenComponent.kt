@@ -4,6 +4,7 @@ import com.serhiiromanchuk.utilitybills.di.module.InsertServiceViewModelModule
 import com.serhiiromanchuk.utilitybills.presentation.viewmodel.ViewModelFactory
 import dagger.BindsInstance
 import dagger.Subcomponent
+import javax.inject.Named
 
 @Subcomponent(
     modules = [
@@ -17,8 +18,8 @@ interface InsertServiceScreenComponent {
     @Subcomponent.Factory
     interface Factory {
         fun create(
-            @BindsInstance utilityServiceId: Long,
-            @BindsInstance address: String,
+            @BindsInstance @Named("utilityServiceId") utilityServiceId: Long,
+            @BindsInstance @Named("billCreatorId") billCreatorId: Long,
         ) : InsertServiceScreenComponent
     }
 }

@@ -12,7 +12,7 @@ val fakeBillItem = BillItem(
 )
 
 val fakeUtilityService = UtilityServiceItem(
-    address = "вул. Грушевського 23, кв. 235",
+    billCreatorId = 0,
     name = "Газ",
     tariff = 8.00,
     isMeterAvailable = true,
@@ -23,14 +23,14 @@ val fakeUtilityService = UtilityServiceItem(
 val fakeUtilityServicesList = listOf(
     UtilityServiceItem(
         id = 0,
-        address = "вул. Грушевського 23, кв. 235",
+        billCreatorId = 0,
         name = "Газ (доставка)",
         tariff = 57.00,
         isMeterAvailable = false
     ),
     UtilityServiceItem(
         id = 1,
-        address = "вул. Грушевського 23, кв. 235",
+        billCreatorId = 0,
         name = "Газ",
         tariff = 8.00,
         isMeterAvailable = true,
@@ -38,7 +38,7 @@ val fakeUtilityServicesList = listOf(
     ),
     UtilityServiceItem(
         id = 2,
-        address = "вул. Грушевського 23, кв. 235",
+        billCreatorId = 0,
         name = "Вода",
         tariff = 47.00,
         isMeterAvailable = true,
@@ -46,7 +46,7 @@ val fakeUtilityServicesList = listOf(
     ),
     UtilityServiceItem(
         id = 3,
-        address = "вул. Грушевського 23, кв. 235",
+        billCreatorId = 0,
         name = "Світло",
         tariff = 2.64,
         isMeterAvailable = true,
@@ -54,7 +54,7 @@ val fakeUtilityServicesList = listOf(
     ),
     UtilityServiceItem(
         id = 4,
-        address = "вул. Грушевського 23, кв. 235",
+        billCreatorId = 0,
         name = "ОСББ",
         tariff = 218.00,
         isMeterAvailable = false

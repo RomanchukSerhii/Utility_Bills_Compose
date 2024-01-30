@@ -21,18 +21,19 @@ fun MainScreen(
         startScreenContent = { /*TODO*/ },
         homeScreenContent = {
             HomeScreen(
-                onEditServiceClick = { id, address ->  navigationState.navigateToInsertServiceScreen(id, address) },
-                onAddUtilityServiceClick = { address ->
-                    val undefinedId = -1L
-                    navigationState.navigateToInsertServiceScreen(undefinedId, address)
+                onEditServiceClick = { id, billCreatorId ->
+                    navigationState.navigateToInsertServiceScreen(id, billCreatorId)
+                },
+                onAddUtilityServiceClick = { billCreatorId ->
+                    navigationState.navigateToInsertServiceScreen(billCreatorId = billCreatorId)
                 }
             )
         },
-        insertServiceScreenContent = { utilityServiceId, address ->
+        insertServiceScreenContent = { utilityServiceId, billCreatorId ->
             InsertUtilityServiceScreen(
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
                 utilityServiceId = utilityServiceId,
-                address = address,
+                billCreatorId = billCreatorId,
                 onBackPressed = { navigationState.navHostController.popBackStack() }
             )
         },

@@ -8,7 +8,7 @@ class UtilityServiceItemMapper @Inject constructor() {
     fun mapEntityToDbModel(entity: UtilityServiceItem): UtilityServiceItemDbModel {
         return UtilityServiceItemDbModel(
             id = entity.id,
-            address = entity.address,
+            billCreatorId = entity.billCreatorId,
             name = entity.name,
             tariff = entity.tariff,
             isMeterAvailable = entity.isMeterAvailable,
@@ -22,7 +22,7 @@ class UtilityServiceItemMapper @Inject constructor() {
     fun mapDbModelToEntity(dbModel: UtilityServiceItemDbModel): UtilityServiceItem {
         return UtilityServiceItem(
             id = dbModel.id,
-            address = dbModel.address,
+            billCreatorId = dbModel.billCreatorId,
             name = dbModel.name,
             tariff = dbModel.tariff,
             isMeterAvailable = dbModel.isMeterAvailable,
