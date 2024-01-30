@@ -1,6 +1,7 @@
 package com.serhiiromanchuk.utilitybills.domain.usecase.insert_service
 
 import com.serhiiromanchuk.utilitybills.R
+import com.serhiiromanchuk.utilitybills.domain.usecase.ValidationResult
 import com.serhiiromanchuk.utilitybills.utils.UiText
 import com.serhiiromanchuk.utilitybills.utils.removeCurrencySign
 import javax.inject.Inject

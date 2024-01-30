@@ -1,13 +1,12 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.start
 
-sealed class StartScreenUiState {
-    data object Initial : StartScreenUiState()
+import com.serhiiromanchuk.utilitybills.utils.UiText
 
-    data object LoadingMainScreen : StartScreenUiState()
+data class StartScreenUiState (
+    val address: String = "",
+    val addressError: UiText? = null,
+    val cardNumber: String = "",
+    val cardNumberError: UiText? = null
+)
 
-    data class Error(
-        val isAddressFieldEmpty: Boolean,
-        val isCardNumberFieldEmpty: Boolean,
-        val isCardNumberNotValid: Boolean
-    ) : StartScreenUiState()
-}
+

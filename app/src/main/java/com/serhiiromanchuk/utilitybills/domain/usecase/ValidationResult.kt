@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.domain.usecase.insert_service
+package com.serhiiromanchuk.utilitybills.domain.usecase
 
 import com.serhiiromanchuk.utilitybills.utils.UiText
 

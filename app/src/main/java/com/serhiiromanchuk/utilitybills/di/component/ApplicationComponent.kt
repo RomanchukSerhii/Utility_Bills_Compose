@@ -4,7 +4,7 @@ import android.app.Application
 import com.serhiiromanchuk.utilitybills.di.annotation.ApplicationScope
 import com.serhiiromanchuk.utilitybills.di.module.DataModule
 import com.serhiiromanchuk.utilitybills.di.module.ViewModelModule
-import com.serhiiromanchuk.utilitybills.presentation.viewmodel.ViewModelFactory
+import com.serhiiromanchuk.utilitybills.presentation.ViewModelFactory
 import dagger.BindsInstance
 import dagger.Component
 

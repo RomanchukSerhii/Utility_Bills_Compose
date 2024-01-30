@@ -43,3 +43,10 @@ fun MainScreen(
     }
 
 }
+
+@Composable
+fun AddNewBillScreen(
+    modifier: Modifier = Modifier
+) {
+
+}

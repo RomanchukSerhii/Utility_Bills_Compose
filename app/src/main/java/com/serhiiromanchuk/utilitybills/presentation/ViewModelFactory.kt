@@ -1,8 +1,7 @@
-package com.serhiiromanchuk.utilitybills.presentation.viewmodel
+package com.serhiiromanchuk.utilitybills.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.serhiiromanchuk.utilitybills.di.annotation.ApplicationScope
 import javax.inject.Inject
 import javax.inject.Provider
 
