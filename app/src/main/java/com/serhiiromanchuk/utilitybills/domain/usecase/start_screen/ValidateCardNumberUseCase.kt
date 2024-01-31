@@ -14,7 +14,7 @@ class ValidateCardNumberUseCase @Inject constructor() {
                 errorMessage = UiText.StringResource(R.string.empty_card_number_field_error)
             )
         }
-        if (cardNumber.length < 19) {
+        if (cardNumber.length < 16) {
             return ValidationResult(
                 successful = false,
                 errorMessage = UiText.StringResource(R.string.not_enough_card_number_digits_error)

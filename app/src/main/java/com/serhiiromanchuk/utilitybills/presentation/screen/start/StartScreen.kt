@@ -13,10 +13,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
@@ -26,6 +29,7 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButt
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
+import com.serhiiromanchuk.utilitybills.utils.getCreditCardTransformedText
 
 @Composable
 fun StartScreen(
@@ -59,6 +63,7 @@ fun StartScreenContent(
     screenState: StartScreenUiState,
     onEvent: (StartScreenEvent) -> Unit
 ) {
+    val context = LocalContext.current
 
     Column(
         modifier = modifier.fillMaxSize(),
@@ -74,6 +79,10 @@ fun StartScreenContent(
             value = screenState.address,
             onValueChange = { onEvent(StartScreenEvent.AddressChanged(it)) },
             labelText = stringResource(R.string.address),
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Sentences,
+                imeAction = ImeAction.Next
+            ),
             isError = screenState.addressError != null
         )
 
@@ -88,13 +97,18 @@ fun StartScreenContent(
 
         OutlinedTextFieldOnSurface(
             value = screenState.cardNumber,
-            onValueChange = { onEvent(StartScreenEvent.CardNumberChanged(it)) },
+            onValueChange = { input ->
+                if (input.isDigitsOnly() && input.length <= 16) {
+                    onEvent(StartScreenEvent.CardNumberChanged(input))
+                }
+            },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Number
             ),
             labelText = stringResource(R.string.card_number),
-            isError = screenState.cardNumberError != null
+            isError = screenState.cardNumberError != null,
+            visualTransformation = { input -> getCreditCardTransformedText(input, context) }
         )
 
         if (screenState.cardNumberError != null) {
