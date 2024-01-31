@@ -6,7 +6,7 @@
     <string name="edit_card_number">Редагувати номер карти</string>
     <string name="save">Зберегти</string>
     <string name="address">Адреса</string>
-    <string name="card_number">Номер карти</string>
+    <string name="card_number">Номер картки</string>
     <string name="enter_info_for_new_bill">Вкажіть дані для нового рахунку:</string>
     <string name="month">Місяць</string>
     <string name="input_error">Input error</string>
@@ -15,10 +15,10 @@
     <string name="add_service_title">Додати послугу</string>
     <string name="insert_service_title">Редагувати послугу</string>
     <string name="choose_utility_service_title">Виберіть комунальні послуги для формування рахунку</string>
-    <string name="enter_service_name">Вкажіть ім\'я послуги</string>
-    <string name="enter_previous_meter_value">Вкажіть останні значення лічильника</string>
-    <string name="enter_tariff_for_service">Вкажіть тариф для послуги</string>
-    <string name="empty_address_field_error">Заповніть поле. Вкажіть адресу рахунків</string>
-    <string name="empty_card_number_field_error">Заповніть поле. Вкажіть номер картки</string>
-    <string name="not_enough_card_number_digits_error">Потрібно ввести 16 цифр</string>
+    <string name="enter_service_name">*Вкажіть ім\'я послуги</string>
+    <string name="enter_previous_meter_value">*Вкажіть останні значення лічильника</string>
+    <string name="enter_tariff_for_service">*Вкажіть тариф для послуги</string>
+    <string name="empty_address_field_error">*Заповніть поле. Вкажіть адресу рахунків</string>
+    <string name="empty_card_number_field_error">*Заповніть поле. Вкажіть номер картки</string>
+    <string name="not_enough_card_number_digits_error">*Потрібно ввести 16 цифр</string>
 </resources>

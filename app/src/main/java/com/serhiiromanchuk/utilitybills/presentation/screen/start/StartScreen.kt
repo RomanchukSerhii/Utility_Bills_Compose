@@ -7,55 +7,58 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
+import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
+import com.serhiiromanchuk.utilitybills.presentation.core.components.ErrorTextMessage
 import com.serhiiromanchuk.utilitybills.presentation.core.components.OutlinedTextFieldOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
-import com.serhiiromanchuk.utilitybills.presentation.navigation.NavigationState
-import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
-import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState.Error
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState.Initial
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState.LoadingMainScreen
+import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
-import com.serhiiromanchuk.utilitybills.utils.formatToCardNumberType
 
 @Composable
-fun StartScreenLayout(
+fun StartScreen(
     modifier: Modifier = Modifier,
-    startScreenUiState: StartScreenUiState,
-    navigationState: NavigationState,
-    onEvent: (StartScreenEvent) -> Unit
+    loadMainScreen: () -> Unit
 ) {
-    var address by rememberSaveable { mutableStateOf("") }
-    var cardNumber by rememberSaveable { mutableStateOf("") }
+    val component = getApplicationComponent()
+    val viewModel: StartScreenViewModel = viewModel(factory = component.getViewModelFactory())
+    val screenState = viewModel.screenState.collectAsState()
 
-    var isAddressFieldEmpty by rememberSaveable { mutableStateOf(false) }
-    var isCardNumberFieldEmpty by rememberSaveable { mutableStateOf(false) }
-    var isCardNumberNotValid by rememberSaveable { mutableStateOf(false) }
-
-    when (startScreenUiState) {
-        is Initial -> { }
-        is LoadingMainScreen -> { navigationState.navigateTo(Screen.HomeScreen.route)  }
-        is Error -> {
-            isAddressFieldEmpty = startScreenUiState.isAddressFieldEmpty
-            isCardNumberFieldEmpty = startScreenUiState.isCardNumberFieldEmpty
-            isCardNumberNotValid = startScreenUiState.isCardNumberNotValid
+    LaunchedEffect(key1 = true) {
+        viewModel.validationEvents.collect { event ->
+            when (event) {
+                StartScreenViewModel.ValidationEvents.Success -> loadMainScreen()
+            }
         }
     }
+
+    Scaffold {
+        StartScreenContent(
+            modifier = modifier.padding(it),
+            screenState = screenState.value,
+            onEvent = viewModel::onEvent
+        )
+    }
+}
+
+@Composable
+fun StartScreenContent(
+    modifier: Modifier = Modifier,
+    screenState: StartScreenUiState,
+    onEvent: (StartScreenEvent) -> Unit
+) {
 
     Column(
         modifier = modifier.fillMaxSize(),
@@ -68,45 +71,54 @@ fun StartScreenLayout(
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_medium)))
 
         OutlinedTextFieldOnSurface(
-            value = address,
-            onValueChange = { address = it.trim() },
+            value = screenState.address,
+            onValueChange = { onEvent(StartScreenEvent.AddressChanged(it)) },
             labelText = stringResource(R.string.address),
-            isError = isAddressFieldEmpty
+            isError = screenState.addressError != null
         )
+
+        if (screenState.addressError != null) {
+            ErrorTextMessage(
+                modifier = Modifier.align(Alignment.Start),
+                text = screenState.addressError.asString()
+            )
+        }
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
 
         OutlinedTextFieldOnSurface(
-            value = cardNumber,
-            onValueChange = { cardNumber = formatToCardNumberType(it.trim()) },
+            value = screenState.cardNumber,
+            onValueChange = { onEvent(StartScreenEvent.CardNumberChanged(it)) },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Number
             ),
             labelText = stringResource(R.string.card_number),
-            isError = isCardNumberFieldEmpty || isCardNumberNotValid
+            isError = screenState.cardNumberError != null
         )
+
+        if (screenState.cardNumberError != null) {
+            ErrorTextMessage(
+                modifier = Modifier.align(Alignment.Start),
+                text = screenState.cardNumberError.asString()
+            )
+        }
 
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_medium)))
 
         PrimaryButton(
             text = stringResource(R.string.save),
-            onClick = { onEvent(StartScreenEvent.InsertUtilityBill(address, cardNumber)) }
+            onClick = { onEvent(StartScreenEvent.Submit) }
         )
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
+@DarkLightPreviews
 @Composable
 fun StartScreenLayoutPreview() {
     UtilityBillsTheme(darkTheme = false) {
-        StartScreenLayout(
-            modifier = Modifier.padding(16.dp),
-            startScreenUiState = Initial,
-            navigationState = rememberNavigationState(),
+        StartScreenContent(
+            screenState = StartScreenUiState(),
             onEvent = {}
         )
     }

@@ -45,7 +45,10 @@ class InsertUtilityServiceViewModel @Inject constructor(
         when (event) {
             is InsertServiceFormEvent.NameChanged -> {
                 _screenState.update {
-                    it.copy(name = event.name)
+                    it.copy(
+                        name = event.name,
+                        nameError = null
+                    )
                 }
             }
 
@@ -57,13 +60,19 @@ class InsertUtilityServiceViewModel @Inject constructor(
 
             is InsertServiceFormEvent.PreviousValueChanged -> {
                 _screenState.update {
-                    it.copy(previousValue = event.previousValue)
+                    it.copy(
+                        previousValue = event.previousValue,
+                        previousValueError = null
+                    )
                 }
             }
 
             is InsertServiceFormEvent.TariffChanged -> {
                 _screenState.update {
-                    it.copy(tariff = event.tariff)
+                    it.copy(
+                        tariff = event.tariff,
+                        tariffError = null
+                    )
                 }
             }
 

@@ -14,7 +14,7 @@ import com.serhiiromanchuk.utilitybills.presentation.navigation.AppNavGraph
 import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
 import com.serhiiromanchuk.utilitybills.presentation.screen.main.MainScreen
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenLayout
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenScreen
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState
 import org.junit.Before
 import org.junit.Rule
@@ -39,7 +39,7 @@ class UtilityBillsScreenNavigationTest {
                 navHostController = navigationState.navHostController,
                 startScreenContent = {
                     var screenUiState by remember { mutableStateOf<StartScreenUiState>(StartScreenUiState.Initial) }
-                    StartScreenLayout(
+                    StartScreenScreen(
                         startScreenUiState = screenUiState,
                         navigationState = navigationState,
                         onEvent = {
