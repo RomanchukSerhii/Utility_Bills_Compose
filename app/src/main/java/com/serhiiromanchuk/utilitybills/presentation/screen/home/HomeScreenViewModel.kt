@@ -6,35 +6,29 @@ import com.serhiiromanchuk.utilitybills.domain.mocks.fakeBillItem
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillWithUtilityServicesUseCase
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 class HomeScreenViewModel @Inject constructor(
     private val getBillWithUtilityServicesUseCase: GetBillWithUtilityServicesUseCase
 ) : ViewModel() {
 
-    private val _screenState = MutableStateFlow(HomeScreenState())
-    val screenState: StateFlow<HomeScreenState> = _screenState.asStateFlow()
-
     private val bufferUtilityServicesList = mutableListOf<UtilityServiceItem>()
 
-    init {
-        viewModelScope.launch {
-            val billWithUtilityServices = getBillWithUtilityServicesUseCase()
-            val currentBill = billWithUtilityServices.firstOrNull { it.bill.id == fakeBillItem.id }
+    val screenState = getBillWithUtilityServicesUseCase()
+        .map {billList ->
+            val currentBill = billList.firstOrNull { it.bill.id == fakeBillItem.id }
             currentBill?.utilityServices?.forEach {
                 bufferUtilityServicesList.add(it)
             }
-
-            _screenState.update {
-                it.copy(list = bufferUtilityServicesList)
-            }
-        }
-    }
+            HomeScreenState(list = bufferUtilityServicesList)
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = HomeScreenState()
+        )
 
     fun meterValueChange(id: Long, value: String, meterValueType: MeterValueType) {
         bufferUtilityServicesList.apply {

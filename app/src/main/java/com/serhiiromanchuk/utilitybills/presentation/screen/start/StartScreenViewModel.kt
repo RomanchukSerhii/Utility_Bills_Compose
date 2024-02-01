@@ -32,6 +32,16 @@ class StartScreenViewModel @Inject constructor(
     private val _validationEvents = MutableSharedFlow<ValidationEvents>()
     val validationEvents: SharedFlow<ValidationEvents> = _validationEvents.asSharedFlow()
 
+    init {
+        viewModelScope.launch {
+            getBillWithUtilityServicesUseCase().collect {
+                if (it.isNotEmpty()) {
+                    _validationEvents.emit(ValidationEvents.Success)
+                }
+            }
+        }
+    }
+
     fun onEvent(event: StartScreenEvent) {
         when (event) {
             is StartScreenEvent.AddressChanged -> {
@@ -42,6 +52,7 @@ class StartScreenViewModel @Inject constructor(
                     )
                 }
             }
+
             is StartScreenEvent.CardNumberChanged -> {
                 _screenState.update {
                     it.copy(
@@ -50,7 +61,10 @@ class StartScreenViewModel @Inject constructor(
                     )
                 }
             }
-            StartScreenEvent.Submit -> { submitData() }
+
+            StartScreenEvent.Submit -> {
+                submitData()
+            }
         }
     }
 

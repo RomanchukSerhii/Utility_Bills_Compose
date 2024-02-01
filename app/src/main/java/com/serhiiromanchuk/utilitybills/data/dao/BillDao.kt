@@ -26,5 +26,5 @@ interface BillDao {
 
     @Transaction
     @Query("SELECT * FROM bill_items")
-    suspend fun getBillWithUtilityServices(): List<BillWithUtilityServiceListsDbModel>
+    fun getBillWithUtilityServices(): Flow<List<BillWithUtilityServiceListsDbModel>>
 }

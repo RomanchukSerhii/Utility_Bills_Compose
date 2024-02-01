@@ -21,8 +21,9 @@ class BillRepositoryImpl @Inject constructor(
         billDao.deleteBillItem(billItemId)
     }
 
-    override suspend fun getBillWithUtilityServices(): List<BillWithUtilityServiceLists> {
-        return mapper.mapListBillWithServiceDbModelToListEntity(billDao.getBillWithUtilityServices())
+    override fun getBillWithUtilityServices(): Flow<List<BillWithUtilityServiceLists>> {
+        return billDao.getBillWithUtilityServices()
+            .map { mapper.mapListBillWithServiceDbModelToListEntity(it) }
     }
 
     override fun getBillItemsForAddress(address: String): Flow<List<BillItem>> {
