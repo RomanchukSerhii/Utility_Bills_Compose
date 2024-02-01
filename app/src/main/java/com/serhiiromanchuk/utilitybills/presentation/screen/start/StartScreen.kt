@@ -1,12 +1,15 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.start
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -58,7 +61,36 @@ fun StartScreen(
 }
 
 @Composable
-fun StartScreenContent(
+private fun StartScreenContent(
+    modifier: Modifier = Modifier,
+    screenState: StartScreenUiState,
+    onEvent: (StartScreenEvent) -> Unit
+) {
+    if (screenState.isLoading) {
+        LoadingScreen(modifier = modifier)
+    } else {
+        AddBillForm(
+            modifier = modifier,
+            screenState = screenState,
+            onEvent = onEvent
+        )
+    }
+}
+
+@Composable
+private fun LoadingScreen(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+    }
+}
+
+@Composable
+private fun AddBillForm(
     modifier: Modifier = Modifier,
     screenState: StartScreenUiState,
     onEvent: (StartScreenEvent) -> Unit
@@ -129,7 +161,7 @@ fun StartScreenContent(
 
 @DarkLightPreviews
 @Composable
-fun StartScreenLayoutPreview() {
+private fun StartScreenLayoutPreview() {
     UtilityBillsTheme(darkTheme = false) {
         StartScreenContent(
             screenState = StartScreenUiState(),

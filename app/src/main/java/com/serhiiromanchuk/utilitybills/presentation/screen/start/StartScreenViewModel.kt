@@ -33,10 +33,17 @@ class StartScreenViewModel @Inject constructor(
     val validationEvents: SharedFlow<ValidationEvents> = _validationEvents.asSharedFlow()
 
     init {
+        _screenState.update {
+            it.copy(isLoading = true)
+        }
         viewModelScope.launch {
-            getBillWithUtilityServicesUseCase().collect {
-                if (it.isNotEmpty()) {
+            getBillWithUtilityServicesUseCase().collect { billList ->
+                if (billList.isNotEmpty()) {
                     _validationEvents.emit(ValidationEvents.Success)
+                } else {
+                    _screenState.update {
+                        it.copy(isLoading = true)
+                    }
                 }
             }
         }
