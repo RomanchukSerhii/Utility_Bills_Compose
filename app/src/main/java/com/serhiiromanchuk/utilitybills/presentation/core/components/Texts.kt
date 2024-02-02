@@ -2,6 +2,7 @@ package com.serhiiromanchuk.utilitybills.presentation.core.components
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,11 +11,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
@@ -82,14 +85,20 @@ fun BodyTextOnSurface(
     text: String,
     style: TextStyle = MaterialTheme.typography.bodyMedium,
     color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-    lineHeight: TextUnit = 14.sp
+    lineHeight: TextUnit = 14.sp,
+    textAlign: TextAlign? = null,
+    maxLines: Int = Int.MAX_VALUE,
+    overflow: TextOverflow = TextOverflow.Clip,
 ) {
     Text(
         modifier = modifier,
         text = text,
         style = style,
         color = color,
-        lineHeight = lineHeight
+        lineHeight = lineHeight,
+        textAlign = textAlign,
+        maxLines = maxLines,
+        overflow = overflow
     )
 }
 
@@ -104,6 +113,30 @@ fun BodyTextOnPrimary(
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onPrimary,
     )
+}
+
+@Composable
+fun TextOnBillCard(
+    modifier: Modifier = Modifier,
+    text: String
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(dimensionResource(id = R.dimen.padding_small)),
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+            textAlign = TextAlign.Center,
+            lineHeight = 18.sp,
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
 }
 
 @Composable

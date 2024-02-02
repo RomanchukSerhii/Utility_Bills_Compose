@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,6 +32,7 @@ import com.serhiiromanchuk.utilitybills.domain.mocks.fakeUtilityService
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
+import com.serhiiromanchuk.utilitybills.presentation.core.components.CardOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.EditServiceIcon
 import com.serhiiromanchuk.utilitybills.presentation.core.components.ErrorSupportingText
 import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBox
@@ -55,18 +54,11 @@ fun ServiceItem(
     isEnabled: (Boolean) -> Unit
 ) {
     var isChecked by remember { mutableStateOf(checked) }
-    Card(
+    CardOnSurface(
         modifier = modifier
             .animateContentSize(
                 animationSpec = tween(durationMillis = 800)
             )
-            .padding(4.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 2.dp
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        )
     ) {
         Box(
             modifier = Modifier.height(IntrinsicSize.Min)

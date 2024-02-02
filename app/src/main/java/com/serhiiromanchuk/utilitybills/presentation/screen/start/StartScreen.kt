@@ -22,13 +22,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
+import com.serhiiromanchuk.utilitybills.presentation.core.components.BillCardIcon
+import com.serhiiromanchuk.utilitybills.presentation.core.components.CardOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.ErrorTextMessage
 import com.serhiiromanchuk.utilitybills.presentation.core.components.OutlinedTextFieldOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
+import com.serhiiromanchuk.utilitybills.presentation.core.components.TextOnBillCard
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
@@ -159,10 +163,63 @@ private fun AddBillForm(
     }
 }
 
+@Composable
+private fun AddNewBill(
+    modifier: Modifier = Modifier,
+    onAddBillClick: () -> Unit
+) {
+    CardOnSurface(
+        modifier = modifier
+            .height(170.dp),
+        onCardClick = onAddBillClick
+    ) {
+        BillCardIcon(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            iconId = R.drawable.ic_add_folder,
+            contentDescriptionId = R.string.add_bill_address,
+            isAddIcon = true
+        )
+        TextOnBillCard(
+            modifier = Modifier.weight(1f),
+            text = stringResource(R.string.add_bill_address)
+        )
+    }
+}
+
+@Composable
+private fun BillAddressCard(
+    modifier: Modifier = Modifier,
+    billAddress: String
+) {
+    CardOnSurface(
+        modifier = modifier
+    ) {
+        BillCardIcon(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            iconId = R.drawable.ic_home,
+            contentDescriptionId = null
+        )
+        TextOnBillCard(
+            modifier = Modifier.weight(1f),
+            text = billAddress
+        )
+    }
+}
+
+@DarkLightPreviews
+@Composable
+private fun AddNewBillPreview() {
+    UtilityBillsTheme() {
+        AddNewBill(
+            onAddBillClick = {}
+        )
+    }
+}
+
 @DarkLightPreviews
 @Composable
 private fun StartScreenLayoutPreview() {
-    UtilityBillsTheme(darkTheme = false) {
+    UtilityBillsTheme() {
         StartScreenContent(
             screenState = StartScreenUiState(),
             onEvent = {}

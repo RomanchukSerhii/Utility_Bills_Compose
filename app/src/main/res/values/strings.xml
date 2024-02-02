@@ -21,4 +21,6 @@
     <string name="empty_address_field_error">*Заповніть поле. Вкажіть адресу рахунків</string>
     <string name="empty_card_number_field_error">*Заповніть поле. Вкажіть номер картки</string>
     <string name="not_enough_card_number_digits_error">*Потрібно ввести 16 цифр</string>
+    <string name="add_new_bill">Додати новий рахунок</string>
+    <string name="add_bill_address">Додати адресу</string>
 </resources>

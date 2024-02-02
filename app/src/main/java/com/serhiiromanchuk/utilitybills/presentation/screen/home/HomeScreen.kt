@@ -1,6 +1,5 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.home
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,8 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -24,12 +21,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.domain.mocks.fakeBillItem
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
+import com.serhiiromanchuk.utilitybills.presentation.core.components.CardOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
@@ -144,17 +141,8 @@ private fun AddUtilityServiceCard(
     modifier: Modifier = Modifier,
     onAddUtilityServiceClick: () -> Unit
 ) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(4.dp)
-            .clickable { onAddUtilityServiceClick() },
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 2.dp
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        )
+    CardOnSurface(
+        onCardClick = onAddUtilityServiceClick
     ) {
         Row(
             modifier = modifier
