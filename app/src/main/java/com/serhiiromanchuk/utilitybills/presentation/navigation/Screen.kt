@@ -6,6 +6,10 @@ sealed class Screen (
 
     data object StartScreen : Screen(ROUTE_START_SCREEN)
 
+    data object AddBillScreen : Screen(ROUTE_ADD_BILL_SCREEN)
+
+    data object ChooseBillScreen : Screen(ROUTE_CHOOSE_BILL_SCREEN)
+
     data object HomeScreen : Screen(ROUTE_HOME_SCREEN)
 
     data object InsertServiceScreen : Screen(ROUTE_INSERT_SERVICE_SCREEN) {
@@ -28,6 +32,8 @@ sealed class Screen (
         const val KEY_BILL_CREATOR_ID = "bill_creator_id"
 
         private const val ROUTE_START_SCREEN = "start_screen"
+        private const val ROUTE_ADD_BILL_SCREEN = "add_bill_screen"
+        private const val ROUTE_CHOOSE_BILL_SCREEN = "choose_bill_screen"
         private const val ROUTE_HOME_SCREEN = "home_screen"
         private const val ROUTE_INSERT_SERVICE_SCREEN = "insert_service_screen/{$KEY_SERVICE_ID}/{$KEY_BILL_CREATOR_ID}"
         private const val ROUTE_BILLS_ARCHIVE_SCREEN = "bills_archive_screen"

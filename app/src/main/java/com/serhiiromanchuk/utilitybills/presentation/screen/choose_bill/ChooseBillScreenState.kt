@@ -1,8 +1,8 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start
+package com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill
 
 import com.serhiiromanchuk.utilitybills.domain.model.BillItem
 
-data class StartScreenState (
+data class ChooseBillScreenState (
     val billList: List<BillItem> = listOf()
 )
 

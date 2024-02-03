@@ -10,7 +10,8 @@ import androidx.navigation.navArgument
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,
-    startScreenContent: @Composable () -> Unit,
+    chooseBillScreenContent: @Composable () -> Unit,
+    addBillScreenContent: @Composable () -> Unit,
     homeScreenContent: @Composable () -> Unit,
     insertServiceScreenContent: @Composable (id: Long, billCreatorId: Long) -> Unit,
     billsArchiveScreenContent: @Composable () -> Unit,
@@ -22,9 +23,10 @@ fun AppNavGraph(
         navController = navHostController,
         startDestination = Screen.StartScreen.route
     ) {
-        composable(Screen.StartScreen.route) {
-            startScreenContent()
-        }
+        startScreenNavGraph(
+            chooseBillScreenContent = chooseBillScreenContent,
+            addBillScreenContent = addBillScreenContent
+        )
         composable(Screen.HomeScreen.route) {
             homeScreenContent()
         }

@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start
+package com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,12 +27,12 @@ import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @Composable
-fun StartScreen(
+fun ChooseBillScreen(
     modifier: Modifier = Modifier,
     onAddBillClick: () -> Unit
 ) {
     val component = getApplicationComponent()
-    val viewModel: StartScreenViewModel = viewModel(factory = component.getViewModelFactory())
+    val viewModel: ChooseBillScreenViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.collectAsState()
 
     Scaffold(
@@ -40,7 +40,7 @@ fun StartScreen(
             TopBarApp(titleId = R.string.utility_bills)
         }
     ) {
-        StartScreenContent(
+        ChooseBillScreenContent(
             modifier = modifier.padding(it),
             screenState = screenState.value,
             onAddBillClick = onAddBillClick,
@@ -50,11 +50,11 @@ fun StartScreen(
 }
 
 @Composable
-private fun StartScreenContent(
+private fun ChooseBillScreenContent(
     modifier: Modifier = Modifier,
-    screenState: StartScreenState,
+    screenState: ChooseBillScreenState,
     onAddBillClick: () -> Unit,
-    onEvent: (StartScreenEvent) -> Unit
+    onEvent: (ChooseBillScreenEvent) -> Unit
 ) {
     LazyVerticalGrid(
         modifier = modifier,
@@ -127,10 +127,10 @@ private fun AddNewBillPreview() {
 
 @DarkLightPreviews
 @Composable
-private fun StartScreenLayoutPreview() {
+private fun ChooseBillScreenLayoutPreview() {
     UtilityBillsTheme() {
-        StartScreenContent(
-            screenState = StartScreenState(
+        ChooseBillScreenContent(
+            screenState = ChooseBillScreenState(
                 listOf(
                     fakeBillItem,
                     fakeBillItem.copy(

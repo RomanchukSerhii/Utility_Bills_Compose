@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start
+package com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,19 +8,19 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-class StartScreenViewModel @Inject constructor(
+class ChooseBillScreenViewModel @Inject constructor(
     getBillItemsUseCase: GetBillItemsUseCase
 ) : ViewModel() {
 
     val screenState = getBillItemsUseCase()
-        .map { StartScreenState(it) }
+        .map { ChooseBillScreenState(it) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
-            initialValue = StartScreenState()
+            initialValue = ChooseBillScreenState()
         )
 
-    fun onEvent(event: StartScreenEvent) {
+    fun onEvent(event: ChooseBillScreenEvent) {
 
     }
 }

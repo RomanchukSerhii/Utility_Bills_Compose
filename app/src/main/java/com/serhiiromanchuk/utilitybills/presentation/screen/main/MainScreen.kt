@@ -6,10 +6,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.navigation.AppNavGraph
+import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
+import com.serhiiromanchuk.utilitybills.presentation.screen.add_bill.AddBillScreen
+import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.ChooseBillScreen
 import com.serhiiromanchuk.utilitybills.presentation.screen.home.HomeScreen
 import com.serhiiromanchuk.utilitybills.presentation.screen.insert_service.InsertUtilityServiceScreen
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreen
 
 @Composable
 fun MainScreen(
@@ -19,9 +21,14 @@ fun MainScreen(
 
     AppNavGraph(
         navHostController = navigationState.navHostController,
-        startScreenContent = {
-            StartScreen(
-                onAddBillClick = { /* TODO */ }
+        addBillScreenContent = {
+            AddBillScreen(
+                onBackPressed = { navigationState.navHostController.popBackStack() }
+            )
+        },
+        chooseBillScreenContent = {
+            ChooseBillScreen(
+                onAddBillClick = { navigationState.navigateTo(Screen.AddBillScreen.route) }
             )
         },
         homeScreenContent = {
