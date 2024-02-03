@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.insertservice
+package com.serhiiromanchuk.utilitybills.presentation.screen.insert_service
 
 import com.serhiiromanchuk.utilitybills.domain.model.MeasurementUnit
 import com.serhiiromanchuk.utilitybills.utils.UiText

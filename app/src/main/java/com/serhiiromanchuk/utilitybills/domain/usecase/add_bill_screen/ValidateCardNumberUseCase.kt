@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.domain.usecase.start_screen
+package com.serhiiromanchuk.utilitybills.domain.usecase.add_bill_screen
 
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.domain.usecase.ValidationResult

@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.insertservice
+package com.serhiiromanchuk.utilitybills.presentation.screen.insert_service
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState

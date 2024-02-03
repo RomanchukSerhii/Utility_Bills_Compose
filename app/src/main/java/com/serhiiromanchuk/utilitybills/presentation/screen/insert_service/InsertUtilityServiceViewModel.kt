@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.insertservice
+package com.serhiiromanchuk.utilitybills.presentation.screen.insert_service
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

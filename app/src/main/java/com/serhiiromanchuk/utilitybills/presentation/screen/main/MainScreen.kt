@@ -9,7 +9,7 @@ import com.serhiiromanchuk.utilitybills.presentation.navigation.AppNavGraph
 import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
 import com.serhiiromanchuk.utilitybills.presentation.screen.home.HomeScreen
-import com.serhiiromanchuk.utilitybills.presentation.screen.insertservice.InsertUtilityServiceScreen
+import com.serhiiromanchuk.utilitybills.presentation.screen.insert_service.InsertUtilityServiceScreen
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreen
 
 @Composable
