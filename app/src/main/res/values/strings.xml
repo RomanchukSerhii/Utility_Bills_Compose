@@ -23,4 +23,5 @@
     <string name="not_enough_card_number_digits_error">*Потрібно ввести 16 цифр</string>
     <string name="add_new_bill">Додати новий рахунок</string>
     <string name="add_bill_address">Додати адресу</string>
+    <string name="utility_bills">Комунальні рахунки</string>
 </resources>

@@ -21,15 +21,13 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.ErrorTextMe
 import com.serhiiromanchuk.utilitybills.presentation.core.components.OutlinedTextFieldOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenEvent
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState
 import com.serhiiromanchuk.utilitybills.utils.getCreditCardTransformedText
 
 @Composable
 private fun AddBillForm(
     modifier: Modifier = Modifier,
-    screenState: StartScreenUiState,
-    onEvent: (StartScreenEvent) -> Unit
+    screenState: AddBillScreenState,
+    onEvent: (AddBillScreenEvent) -> Unit
 ) {
     val context = LocalContext.current
 
@@ -45,7 +43,7 @@ private fun AddBillForm(
 
         OutlinedTextFieldOnSurface(
             value = screenState.address,
-            onValueChange = { onEvent(StartScreenEvent.AddressChanged(it)) },
+            onValueChange = { onEvent(AddBillScreenEvent.AddressChanged(it)) },
             labelText = stringResource(R.string.address),
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,
@@ -67,7 +65,7 @@ private fun AddBillForm(
             value = screenState.cardNumber,
             onValueChange = { input ->
                 if (input.isDigitsOnly() && input.length <= 16) {
-                    onEvent(StartScreenEvent.CardNumberChanged(input))
+                    onEvent(AddBillScreenEvent.CardNumberChanged(input))
                 }
             },
             keyboardOptions = KeyboardOptions(
@@ -90,7 +88,7 @@ private fun AddBillForm(
 
         PrimaryButton(
             text = stringResource(R.string.save),
-            onClick = { onEvent(StartScreenEvent.Submit) }
+            onClick = { onEvent(AddBillScreenEvent.Submit) }
         )
     }
 }

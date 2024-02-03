@@ -25,7 +25,7 @@ import com.serhiiromanchuk.utilitybills.R
 fun TopBarApp(
     modifier: Modifier = Modifier,
     @StringRes titleId: Int,
-    onBackPressed: () -> Unit
+    onBackPressed: (() -> Unit)? = null
 ) {
 
     TopAppBar(
@@ -50,11 +50,13 @@ fun TopBarApp(
             titleContentColor = MaterialTheme.colorScheme.onPrimary
         ),
         navigationIcon = {
-            IconButton(onClick = onBackPressed) {
-                Icon(
-                    imageVector = Icons.Rounded.ArrowBack,
-                    contentDescription = stringResource(R.string.back_to_previous_screen)
-                )
+            if (onBackPressed != null ) {
+                IconButton(onClick = onBackPressed) {
+                    Icon(
+                        imageVector = Icons.Rounded.ArrowBack,
+                        contentDescription = stringResource(R.string.back_to_previous_screen)
+                    )
+                }
             }
         }
     )

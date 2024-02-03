@@ -6,7 +6,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.navigation.AppNavGraph
-import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
 import com.serhiiromanchuk.utilitybills.presentation.screen.home.HomeScreen
 import com.serhiiromanchuk.utilitybills.presentation.screen.insert_service.InsertUtilityServiceScreen
@@ -22,10 +21,7 @@ fun MainScreen(
         navHostController = navigationState.navHostController,
         startScreenContent = {
             StartScreen(
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
-                loadMainScreen = {
-                    navigationState.navigateTo(Screen.HomeScreen.route)
-                }
+                onAddBillClick = { /* TODO */ }
             )
         },
         homeScreenContent = {

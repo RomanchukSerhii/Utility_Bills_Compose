@@ -6,8 +6,6 @@ import com.serhiiromanchuk.utilitybills.domain.model.BillItem
 import com.serhiiromanchuk.utilitybills.domain.usecase.add_bill_screen.ValidateAddressUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.add_bill_screen.ValidateCardNumberUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.InsertBillItemUseCase
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenEvent
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.StartScreenUiState
 import com.serhiiromanchuk.utilitybills.utils.getCurrentMonth
 import com.serhiiromanchuk.utilitybills.utils.getCurrentYear
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,15 +24,15 @@ class AddBillViewModel @Inject constructor(
     private val validateCardNumberUseCase: ValidateCardNumberUseCase
 ) : ViewModel() {
 
-    private val _screenState = MutableStateFlow(StartScreenUiState())
-    val screenState: StateFlow<StartScreenUiState> = _screenState.asStateFlow()
+    private val _screenState = MutableStateFlow(AddBillScreenState())
+    val screenState: StateFlow<AddBillScreenState> = _screenState.asStateFlow()
 
     private val _validationEvents = MutableSharedFlow<ValidationEvents>()
     val validationEvents: SharedFlow<ValidationEvents> = _validationEvents.asSharedFlow()
 
-    fun onEvent(event: StartScreenEvent) {
+    fun onEvent(event: AddBillScreenEvent) {
         when (event) {
-            is StartScreenEvent.AddressChanged -> {
+            is AddBillScreenEvent.AddressChanged -> {
                 _screenState.update {
                     it.copy(
                         address = event.address,
@@ -43,7 +41,7 @@ class AddBillViewModel @Inject constructor(
                 }
             }
 
-            is StartScreenEvent.CardNumberChanged -> {
+            is AddBillScreenEvent.CardNumberChanged -> {
                 _screenState.update {
                     it.copy(
                         cardNumber = event.cardNumber,
@@ -52,7 +50,7 @@ class AddBillViewModel @Inject constructor(
                 }
             }
 
-            StartScreenEvent.Submit -> {
+            AddBillScreenEvent.Submit -> {
                 submitData()
             }
         }

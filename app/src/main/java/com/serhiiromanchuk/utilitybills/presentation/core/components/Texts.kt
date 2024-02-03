@@ -127,7 +127,12 @@ fun TextOnBillCard(
     ) {
         Text(
             modifier = Modifier
-                .padding(dimensionResource(id = R.dimen.padding_small)),
+                .padding(
+                    start = dimensionResource(id = R.dimen.padding_small),
+                    end = dimensionResource(id = R.dimen.padding_small),
+                    bottom = dimensionResource(id = R.dimen.padding_medium),
+                    top = dimensionResource(id = R.dimen.padding_small),
+                ),
             text = text,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface,
