@@ -3,9 +3,9 @@ package com.serhiiromanchuk.utilitybills.di.module
 import androidx.lifecycle.ViewModel
 import com.serhiiromanchuk.utilitybills.di.annotation.ViewModelKey
 import com.serhiiromanchuk.utilitybills.presentation.screen.add_bill.AddBillViewModel
+import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.ChooseBillViewModel
 import com.serhiiromanchuk.utilitybills.presentation.screen.home.HomeScreenViewModel
 import com.serhiiromanchuk.utilitybills.presentation.screen.main.MainScreenViewModel
-import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.ChooseBillScreenViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -20,8 +20,8 @@ interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(ChooseBillScreenViewModel::class)
-    fun bindStartScreenViewModel(viewModel: ChooseBillScreenViewModel): ViewModel
+    @ViewModelKey(ChooseBillViewModel::class)
+    fun bindStartScreenViewModel(viewModel: ChooseBillViewModel): ViewModel
 
     @Binds
     @IntoMap

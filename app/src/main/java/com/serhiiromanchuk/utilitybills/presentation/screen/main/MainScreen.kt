@@ -28,7 +28,8 @@ fun MainScreen(
         },
         chooseBillScreenContent = {
             ChooseBillScreen(
-                onAddBillClick = { navigationState.navigateTo(Screen.AddBillScreen.route) }
+                onAddBillClick = { navigationState.navigateTo(Screen.AddBillScreen.route) },
+                onBillItemClick = {}
             )
         },
         homeScreenContent = {

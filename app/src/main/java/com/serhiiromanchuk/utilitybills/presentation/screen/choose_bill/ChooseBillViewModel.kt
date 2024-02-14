@@ -8,19 +8,15 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-class ChooseBillScreenViewModel @Inject constructor(
+class ChooseBillViewModel @Inject constructor(
     getBillItemsUseCase: GetBillItemsUseCase
 ) : ViewModel() {
 
     val screenState = getBillItemsUseCase()
-        .map { ChooseBillScreenState(it) }
+        .map { ChooseBillState(it) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
-            initialValue = ChooseBillScreenState()
+            initialValue = ChooseBillState()
         )
-
-    fun onEvent(event: ChooseBillScreenEvent) {
-
-    }
 }
