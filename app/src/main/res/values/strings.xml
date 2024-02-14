@@ -24,4 +24,8 @@
     <string name="add_new_bill">Додати новий рахунок</string>
     <string name="add_bill_address">Додати адресу</string>
     <string name="utility_bills">Комунальні рахунки</string>
+    <string name="package_settings">Налаштування папки</string>
+    <string name="change_package_name">Перейменувати назву папки</string>
+    <string name="change_name">Перейменувати</string>
+    <string name="move_or_delete">Перемістити / Видалити</string>
 </resources>

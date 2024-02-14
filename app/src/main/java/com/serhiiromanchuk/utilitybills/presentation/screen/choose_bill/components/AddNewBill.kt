@@ -1,5 +1,6 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,8 +21,8 @@ fun AddNewBill(
 ) {
     CardOnSurface(
         modifier = modifier
-            .height(170.dp),
-        onCardClick = onAddBillClick
+            .height(170.dp)
+            .clickable { onAddBillClick() }
     ) {
         BillCardIcon(
             modifier = Modifier.align(Alignment.CenterHorizontally),

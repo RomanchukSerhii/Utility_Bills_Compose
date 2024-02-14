@@ -1,5 +1,6 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -142,7 +143,7 @@ private fun AddUtilityServiceCard(
     onAddUtilityServiceClick: () -> Unit
 ) {
     CardOnSurface(
-        onCardClick = onAddUtilityServiceClick
+        modifier = Modifier.clickable { onAddUtilityServiceClick() }
     ) {
         Row(
             modifier = modifier

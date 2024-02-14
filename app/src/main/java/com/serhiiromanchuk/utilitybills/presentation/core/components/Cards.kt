@@ -1,6 +1,5 @@
 package com.serhiiromanchuk.utilitybills.presentation.core.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,15 +16,15 @@ import com.serhiiromanchuk.utilitybills.R
 @Composable
 fun CardOnSurface(
     modifier: Modifier = Modifier,
-    onCardClick: (() -> Unit)? = null,
+//    onCardClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .height(170.dp)
-            .padding(dimensionResource(id = R.dimen.padding_extra_small))
-            .clickable { if (onCardClick != null) onCardClick() },
+            .padding(dimensionResource(id = R.dimen.padding_extra_small)),
+//            .clickable { if (onCardClick != null) onCardClick() },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp
         ),
