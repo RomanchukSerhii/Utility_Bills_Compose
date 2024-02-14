@@ -1,7 +1,9 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.add_bill
 
 sealed class AddBillScreenEvent {
-    data class AddressChanged(val address: String) : AddBillScreenEvent()
-    data class CardNumberChanged(val cardNumber: String) : AddBillScreenEvent()
-    data object Submit : AddBillScreenEvent()
+    data class StreetChanged(val street: String) : AddBillScreenEvent()
+    data class HouseChanged(val house: String) : AddBillScreenEvent()
+    data class BuildingChanged(val building: String) : AddBillScreenEvent()
+    data class ApartmentChanged(val apartment: String) : AddBillScreenEvent()
+    data class Submit(val address: String) : AddBillScreenEvent()
 }

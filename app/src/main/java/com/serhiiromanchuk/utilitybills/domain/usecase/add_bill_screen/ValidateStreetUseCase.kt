@@ -5,13 +5,13 @@ import com.serhiiromanchuk.utilitybills.domain.usecase.ValidationResult
 import com.serhiiromanchuk.utilitybills.utils.UiText
 import javax.inject.Inject
 
-class ValidateAddressUseCase @Inject constructor() {
+class ValidateStreetUseCase @Inject constructor() {
 
-    operator fun invoke(address: String): ValidationResult {
-        if (address.isBlank()) {
+    operator fun invoke(street: String): ValidationResult {
+        if (street.isBlank()) {
             return ValidationResult(
                 successful = false,
-                errorMessage = UiText.StringResource(R.string.empty_address_field_error)
+                errorMessage = UiText.StringResource(R.string.empty_street_field_error)
             )
         }
         return ValidationResult(true)

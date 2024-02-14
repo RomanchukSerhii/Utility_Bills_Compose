@@ -3,8 +3,8 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.add_bill
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhiiromanchuk.utilitybills.domain.model.BillItem
-import com.serhiiromanchuk.utilitybills.domain.usecase.add_bill_screen.ValidateAddressUseCase
-import com.serhiiromanchuk.utilitybills.domain.usecase.add_bill_screen.ValidateCardNumberUseCase
+import com.serhiiromanchuk.utilitybills.domain.usecase.add_bill_screen.ValidateHouseUseCase
+import com.serhiiromanchuk.utilitybills.domain.usecase.add_bill_screen.ValidateStreetUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.InsertBillItemUseCase
 import com.serhiiromanchuk.utilitybills.utils.getCurrentMonth
 import com.serhiiromanchuk.utilitybills.utils.getCurrentYear
@@ -20,8 +20,8 @@ import javax.inject.Inject
 
 class AddBillViewModel @Inject constructor(
     private val insertBillItemUseCase: InsertBillItemUseCase,
-    private val validateAddressUseCase: ValidateAddressUseCase,
-    private val validateCardNumberUseCase: ValidateCardNumberUseCase
+    private val validateStreetUseCase: ValidateStreetUseCase,
+    private val validateHouseUseCase: ValidateHouseUseCase
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow(AddBillScreenState())
@@ -32,44 +32,57 @@ class AddBillViewModel @Inject constructor(
 
     fun onEvent(event: AddBillScreenEvent) {
         when (event) {
-            is AddBillScreenEvent.AddressChanged -> {
+            is AddBillScreenEvent.ApartmentChanged -> {
                 _screenState.update {
                     it.copy(
-                        address = event.address,
-                        addressError = null
+                        apartment = event.apartment
+                    )
+                }
+            }
+            is AddBillScreenEvent.BuildingChanged -> {
+                _screenState.update {
+                    it.copy(
+                        building = event.building
+                    )
+                }
+            }
+            is AddBillScreenEvent.HouseChanged -> {
+                _screenState.update {
+                    it.copy(
+                        house = event.house,
+                        houseError = null
+                    )
+                }
+            }
+            is AddBillScreenEvent.StreetChanged -> {
+                _screenState.update {
+                    it.copy(
+                        street = event.street,
+                        streetError = null
                     )
                 }
             }
 
-            is AddBillScreenEvent.CardNumberChanged -> {
-                _screenState.update {
-                    it.copy(
-                        cardNumber = event.cardNumber,
-                        cardNumberError = null
-                    )
-                }
-            }
-
-            AddBillScreenEvent.Submit -> {
-                submitData()
+            is AddBillScreenEvent.Submit -> {
+                submitData(event.address)
             }
         }
     }
 
-    private fun submitData() {
-        val validateAddressResult = validateAddressUseCase(_screenState.value.address)
-        val validateCardNumberResult = validateCardNumberUseCase(_screenState.value.cardNumber)
+    private fun submitData(address: String) {
+        val validateStreetResult = validateStreetUseCase(_screenState.value.street)
+        val validateHouseResult = validateHouseUseCase(_screenState.value.house)
 
         val hasError = listOf(
-            validateAddressResult,
-            validateCardNumberResult
+            validateStreetResult,
+            validateHouseResult
         ).any { !it.successful }
 
         if (hasError) {
             _screenState.update {
                 it.copy(
-                    addressError = validateAddressResult.errorMessage,
-                    cardNumberError = validateCardNumberResult.errorMessage
+                    streetError = validateStreetResult.errorMessage,
+                    houseError = validateHouseResult.errorMessage
                 )
             }
             return
@@ -78,10 +91,10 @@ class AddBillViewModel @Inject constructor(
         viewModelScope.launch {
             insertBillItemUseCase(
                 BillItem(
-                    address = screenState.value.address,
+                    address = address,
                     month = getCurrentMonth(),
                     year = getCurrentYear(),
-                    cardNumber = screenState.value.cardNumber
+                    cardNumber = ""
                 )
             )
             _validationEvents.emit(ValidationEvents.Success)

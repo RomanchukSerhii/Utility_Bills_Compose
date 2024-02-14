@@ -5,7 +5,7 @@ data class BillItem(
     val address: String,
     val month: String,
     val year: String,
-    val cardNumber: String,
+    val cardNumber: String = "0000 0000 0000 0000",
     val billDescription: String = ""
 ) {
     companion object {
