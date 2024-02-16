@@ -1,8 +1,8 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill
 
 import android.util.Log
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,10 +12,11 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
@@ -29,8 +30,8 @@ import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.componen
 import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.components.BillAddressCard
 import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.components.SettingsBottomSheet
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
+import com.serhiiromanchuk.utilitybills.ui.theme.editModeBackground
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ChooseBillScreen(
     modifier: Modifier = Modifier,
@@ -41,10 +42,24 @@ fun ChooseBillScreen(
     val viewModel: ChooseBillViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.collectAsState()
 
+    Log.d("ChooseBillScreen", "Recomposition")
+
     Scaffold(
-        modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
+        modifier = Modifier
+            .windowInsetsPadding(WindowInsets.safeDrawing)
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) {
+                if (screenState.value.isEditMode) viewModel.onEvent(ChooseBillEvent.ChangeEditMode)
+            },
         topBar = {
             TopBarApp(titleId = R.string.utility_bills)
+        },
+        containerColor = if (screenState.value.isEditMode) {
+            editModeBackground
+        } else {
+            MaterialTheme.colorScheme.background
         }
     ) {
         ChooseBillScreenContent(
@@ -68,18 +83,17 @@ private fun ChooseBillScreenContent(
     LazyVerticalGrid(
         modifier = modifier.fillMaxSize(),
         columns = GridCells.Adaptive(minSize = 140.dp),
-        contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_large)),
-        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_extra_small)),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_extra_small)),
+        contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_medium)),
     ) {
         items(screenState.billList, key = { it.id }) { billItem ->
             BillAddressCard(
-                billAddress = billItem.address,
+                bill = billItem,
+                editMode = screenState.isEditMode,
                 onLongClick = {
-                    Log.d("ChooseBillScreen", "LongClick")
                     onEvent(ChooseBillEvent.ChangeBottomSheetState)
-                              },
-                onClick = { onBillItemClick(billItem.id) }
+                },
+                onClick = { onBillItemClick(billItem.id) },
+                onDeleteIconClick = { onEvent(ChooseBillEvent.DeleteBill(it)) }
             )
         }
         item {
@@ -89,11 +103,12 @@ private fun ChooseBillScreenContent(
 
     if (screenState.isSheetOpen) {
         SettingsBottomSheet(
-            onDismissRequest = { onEvent(ChooseBillEvent.ChangeBottomSheetState)} ,
-            onChangeNameClick = { /*TODO*/ }
-        ) {
-            
-        }
+            onDismissRequest = { onEvent(ChooseBillEvent.ChangeBottomSheetState) },
+            onChangeNameClick = { /*TODO*/ },
+            onEditClick = {
+                onEvent(ChooseBillEvent.ChangeEditMode)
+            }
+        )
     }
 }
 

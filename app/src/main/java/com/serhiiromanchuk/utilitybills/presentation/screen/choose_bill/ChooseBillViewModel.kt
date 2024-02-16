@@ -2,6 +2,7 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.serhiiromanchuk.utilitybills.domain.usecase.bill.DeleteBillItemUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillItemsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +12,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ChooseBillViewModel @Inject constructor(
-    getBillItemsUseCase: GetBillItemsUseCase
+    getBillItemsUseCase: GetBillItemsUseCase,
+    private val deleteBillItemUseCase: DeleteBillItemUseCase
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow(ChooseBillState())
@@ -34,7 +36,8 @@ class ChooseBillViewModel @Inject constructor(
             ChooseBillEvent.ChangeEditMode -> {
                 _screenState.update { state ->
                     state.copy(
-                        isEditMode = !state.isEditMode
+                        isEditMode = !state.isEditMode,
+                        isSheetOpen = false
                     )
                 }
             }
@@ -43,6 +46,17 @@ class ChooseBillViewModel @Inject constructor(
                     state.copy(
                         isSheetOpen = !state.isSheetOpen
                     )
+                }
+            }
+
+            is ChooseBillEvent.DeleteBill -> {
+                viewModelScope.launch {
+                    deleteBillItemUseCase(event.id)
+                    _screenState.update { state ->
+                        state.copy(
+                            isEditMode = !state.isEditMode
+                        )
+                    }
                 }
             }
         }

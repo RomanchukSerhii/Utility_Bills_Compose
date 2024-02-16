@@ -37,4 +37,5 @@
     <string name="apartment_value">, кв. %1$s</string>
     <string name="address_value">вул. %1$s, буд. %2$s%3$s%4$s</string>
     <string name="next">Далі</string>
+    <string name="delete_bill">Видалити рахунок</string>
 </resources>
