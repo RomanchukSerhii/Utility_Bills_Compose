@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
+import com.serhiiromanchuk.utilitybills.ui.theme.disabledButtonContainer
+import com.serhiiromanchuk.utilitybills.ui.theme.disabledButtonContent
 
 @Composable
 fun PrimaryButton(
@@ -33,13 +35,15 @@ fun PrimaryButton(
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(52.dp),
-            shape = MaterialTheme.shapes.small,
+                .height(58.dp),
+            shape = MaterialTheme.shapes.medium,
             enabled = enabled,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = MaterialTheme.colorScheme.onSecondary
+                contentColor = MaterialTheme.colorScheme.onSecondary,
+                disabledContainerColor = disabledButtonContainer,
+                disabledContentColor = disabledButtonContent
             )
         ) {
             Text(

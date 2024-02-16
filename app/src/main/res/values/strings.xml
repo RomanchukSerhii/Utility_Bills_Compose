@@ -29,5 +29,12 @@
     <string name="change_package_name">Перейменувати назву папки</string>
     <string name="change_name">Перейменувати</string>
     <string name="move_or_delete">Перемістити / Видалити</string>
-    <string name="address_value">вул. %1$s, буд. %2$s</string>
+    <string name="street">Вулиця*</string>
+    <string name="house">Будинок*</string>
+    <string name="building">Корпус</string>
+    <string name="appartment">Квартира</string>
+    <string name="building_value">, корп. %1$s</string>
+    <string name="apartment_value">, кв. %1$s</string>
+    <string name="address_value">вул. %1$s, буд. %2$s%3$s%4$s</string>
+    <string name="next">Далі</string>
 </resources>

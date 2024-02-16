@@ -65,3 +65,5 @@ val md_theme_dark_scrim = Color(0xFF000000)
 
 
 val lightBlue = Color(0xFF01A9E7)
+val disabledButtonContainer = Color(0xFFCCCCCC)
+val disabledButtonContent = Color(0xFFE6E6E6)

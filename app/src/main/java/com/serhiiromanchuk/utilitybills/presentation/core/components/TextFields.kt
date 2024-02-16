@@ -2,6 +2,7 @@ package com.serhiiromanchuk.utilitybills.presentation.core.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,9 +17,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -36,12 +39,14 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
@@ -97,14 +102,6 @@ fun UtilityMeterTextField(
 
     // Set cursor to the end of string
     val direction = LocalLayoutDirection.current
-//    var textFieldValue by remember {
-//        mutableStateOf(
-//            TextFieldValue(
-//                text = value,
-//                selection = if (direction == LayoutDirection.Ltr) TextRange(value.length) else TextRange.Zero
-//            )
-//        )
-//    }
 
     // Create transparent color to cursor handle
     val transparentTextSelectionColors = TextSelectionColors(
@@ -128,7 +125,6 @@ fun UtilityMeterTextField(
             ),
             onValueChange = {
                 val formattedValue = it.text.getFormattedDigitsOnly(8)
-//                textFieldValue = it.copy(text = formattedValue)
                 onValueChange(formattedValue)
             },
             textStyle = MaterialTheme.typography.bodyMedium.copy(
@@ -167,6 +163,95 @@ fun UtilityMeterTextField(
 }
 
 @Composable
+fun TextFieldWithoutPadding(
+    modifier: Modifier = Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
+    textStyle: TextStyle = LocalTextStyle.current,
+    singleLine: Boolean = false,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    label: String = ""
+) {
+
+    // Create transparent color to cursor handle
+    val transparentTextSelectionColors = TextSelectionColors(
+        handleColor = Color.White.copy(alpha = 0f),
+        backgroundColor = MaterialTheme.colorScheme.inversePrimary
+    )
+
+    // Clear focus if user press onDone Button
+    var isFocused by rememberSaveable { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
+
+    // Set transparent color to cursor handle
+    CompositionLocalProvider(
+        LocalTextSelectionColors provides transparentTextSelectionColors
+    ) {
+        BasicTextField(
+            modifier = modifier
+                .height(TextFieldDefaults.MinHeight)
+                .onFocusChanged { isFocused = it.isFocused },
+            value = value,
+            onValueChange = onValueChange,
+            textStyle = textStyle,
+            singleLine = singleLine,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                }
+            ),
+            cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
+            decorationBox = @Composable { innerTextField ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = MaterialTheme.colorScheme.background),
+                    verticalArrangement = Arrangement.Bottom
+                ) {
+                    if (value.isEmpty() && !isFocused) {
+                        Text(
+                            text = label,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    } else {
+                        Text(
+                            text = label,
+                            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 12.sp),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
+                        innerTextField()
+                    }
+
+                    TextFieldActiveIndicator(isEnabled = isFocused)
+                }
+            }
+        )
+    }
+}
+
+@Composable
+private fun TextFieldActiveIndicator(
+    isEnabled: Boolean = false
+) {
+    Box(
+        modifier = Modifier
+            .padding(top = dimensionResource(id = R.dimen.padding_extra_small))
+            .height(if (isEnabled) 2.dp else 1.dp)
+            .fillMaxWidth()
+            .background(
+                if (isEnabled) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                }
+            )
+    )
+}
+
+@Composable
 fun ErrorTrailingIcon(
     modifier: Modifier = Modifier,
     isError: Boolean = false
@@ -179,19 +264,6 @@ fun ErrorTrailingIcon(
             tint = MaterialTheme.colorScheme.error
         )
     }
-}
-
-@Composable
-fun TextFieldActiveIndicator(
-    isEnabled: Boolean = false
-) {
-    Box(
-        modifier = Modifier
-            .padding(top = dimensionResource(id = R.dimen.padding_extra_small))
-            .height(if (isEnabled) 2.dp else 1.dp)
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.onSurfaceVariant)
-    )
 }
 
 @DarkLightPreviews
@@ -210,6 +282,17 @@ private fun TextFieldOnSurfacePreview() {
             value = "9624",
             onValueChange = {},
             label = "Попередні"
+        )
+    }
+}
+
+@DarkLightPreviews
+@Composable
+private fun TextFieldWithoutPaddingPreview() {
+    UtilityBillsTheme {
+        TextFieldWithoutPadding(
+            value = "",
+            onValueChange = {}
         )
     }
 }
