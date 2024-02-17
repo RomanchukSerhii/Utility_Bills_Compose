@@ -12,4 +12,6 @@ sealed interface ChooseBillEvent {
     data class OpenDialog(val id: Long) : ChooseBillEvent
 
     data object CloseDialog : ChooseBillEvent
+
+    data object SetInitialState : ChooseBillEvent
 }

@@ -78,11 +78,21 @@ class ChooseBillViewModel @Inject constructor(
                     )
                 }
             }
+
             is ChooseBillEvent.OpenBottomSheet -> {
                 _screenState.update { state ->
                     state.copy(
-                        isEditMode = !state.isEditMode,
                         visibleSheetState = VisibleSheetState.Open(event.billAddress)
+                    )
+                }
+            }
+
+            ChooseBillEvent.SetInitialState -> {
+                _screenState.update {
+                    it.copy(
+                        isEditMode = false,
+                        dialogState = DialogState.Close,
+                        visibleSheetState = VisibleSheetState.Close
                     )
                 }
             }

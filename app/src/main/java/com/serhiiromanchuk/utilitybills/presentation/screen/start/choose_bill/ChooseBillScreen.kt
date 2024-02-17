@@ -115,7 +115,7 @@ private fun ChooseBillScreenContent(
         visibleState = screenState.visibleSheetState,
         onDismissRequest = { onEvent(ChooseBillEvent.CloseBottomSheet) },
         onChangeNameClick = {
-            onEvent(ChooseBillEvent.ChangeEditMode)
+            onEvent(ChooseBillEvent.SetInitialState)
             onEditPackageClick(it)
         },
         onEditModeClick = { onEvent(ChooseBillEvent.ChangeEditMode) }
