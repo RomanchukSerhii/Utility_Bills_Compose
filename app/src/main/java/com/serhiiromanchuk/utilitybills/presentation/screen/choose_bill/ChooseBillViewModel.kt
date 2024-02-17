@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.DeleteBillItemUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillItemsUseCase
+import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.ChooseBillState.DialogState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -54,9 +55,25 @@ class ChooseBillViewModel @Inject constructor(
                     deleteBillItemUseCase(event.id)
                     _screenState.update { state ->
                         state.copy(
-                            isEditMode = !state.isEditMode
+                            isEditMode = !state.isEditMode,
+                            dialogState = DialogState.CloseDialog
                         )
                     }
+                }
+            }
+
+            ChooseBillEvent.CloseDialog -> {
+                _screenState.update { state ->
+                    state.copy(
+                        dialogState = DialogState.CloseDialog
+                    )
+                }
+            }
+            is ChooseBillEvent.OpenDialog -> {
+                _screenState.update { state ->
+                    state.copy(
+                        dialogState = DialogState.OpenDialog(event.id)
+                    )
                 }
             }
         }

@@ -6,4 +6,8 @@ sealed interface ChooseBillEvent {
     data object ChangeBottomSheetState : ChooseBillEvent
 
     data class DeleteBill(val id: Long) : ChooseBillEvent
+
+    data class OpenDialog(val id: Long) : ChooseBillEvent
+
+    data object CloseDialog : ChooseBillEvent
 }

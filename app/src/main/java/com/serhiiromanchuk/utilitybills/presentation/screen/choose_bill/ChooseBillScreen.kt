@@ -28,6 +28,7 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
 import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.components.AddNewBill
 import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.components.BillAddressCard
+import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.components.DeletePackageDialog
 import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.components.SettingsBottomSheet
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.ui.theme.editModeBackground
@@ -93,13 +94,19 @@ private fun ChooseBillScreenContent(
                     onEvent(ChooseBillEvent.ChangeBottomSheetState)
                 },
                 onClick = { onBillItemClick(billItem.id) },
-                onDeleteIconClick = { onEvent(ChooseBillEvent.DeleteBill(it)) }
+                onDeleteIconClick = { onEvent(ChooseBillEvent.OpenDialog(it)) }
             )
         }
         item {
             AddNewBill(onAddBillClick = onAddBillClick)
         }
     }
+
+    DeletePackageDialog(
+        dialogState = screenState.dialogState,
+        closeDialog = { onEvent(ChooseBillEvent.CloseDialog) },
+        onConfirmClick = { onEvent(ChooseBillEvent.DeleteBill(it))}
+    )
 
     if (screenState.isSheetOpen) {
         SettingsBottomSheet(

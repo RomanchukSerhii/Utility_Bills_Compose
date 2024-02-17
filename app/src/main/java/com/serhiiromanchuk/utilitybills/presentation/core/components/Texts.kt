@@ -69,12 +69,13 @@ fun LabelTextOnSurface(
 @Composable
 fun TitleTextOnSurface(
     modifier: Modifier = Modifier,
+    style: TextStyle = MaterialTheme.typography.titleMedium,
     text: String
 ) {
     Text(
         modifier = modifier,
         text = text,
-        style = MaterialTheme.typography.titleMedium,
+        style = style,
         color = MaterialTheme.colorScheme.onSurface
     )
 }
