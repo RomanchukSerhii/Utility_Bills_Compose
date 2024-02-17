@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.add_bill
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

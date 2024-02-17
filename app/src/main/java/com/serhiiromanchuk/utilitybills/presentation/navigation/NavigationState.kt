@@ -24,6 +24,10 @@ class NavigationState(
         navHostController.navigate(Screen.InsertServiceScreen.getRoutWithArgs(utilityServiceId, billCreatorId))
     }
 
+    fun navigateToEditPackageScreen(packageName: String) {
+        navHostController.navigate(Screen.EditPackageScreen.getRoutWithArgs(packageName))
+    }
+
     companion object {
         private const val UNDEFINED_ID = -1L
     }

@@ -2,8 +2,8 @@ package com.serhiiromanchuk.utilitybills.di.module
 
 import androidx.lifecycle.ViewModel
 import com.serhiiromanchuk.utilitybills.di.annotation.ViewModelKey
-import com.serhiiromanchuk.utilitybills.presentation.screen.add_bill.AddBillViewModel
-import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.ChooseBillViewModel
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillViewModel
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillViewModel
 import com.serhiiromanchuk.utilitybills.presentation.screen.home.HomeScreenViewModel
 import com.serhiiromanchuk.utilitybills.presentation.screen.main.MainScreenViewModel
 import dagger.Binds

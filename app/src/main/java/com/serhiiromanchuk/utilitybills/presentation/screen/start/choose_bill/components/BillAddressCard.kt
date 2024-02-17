@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -37,7 +37,7 @@ fun BillAddressCard(
     modifier: Modifier = Modifier,
     bill: BillItem,
     editMode: Boolean,
-    onLongClick: () -> Unit,
+    onLongClick: (String) -> Unit,
     onClick: () -> Unit,
     onDeleteIconClick: (Long) -> Unit
 ) {
@@ -58,7 +58,7 @@ fun BillAddressCard(
                 modifier = Modifier
                     .fillMaxSize()
                     .combinedClickable(
-                        onLongClick = onLongClick,
+                        onLongClick = { onLongClick(bill.address) },
                         onClick = onClick
                     )
             ) {

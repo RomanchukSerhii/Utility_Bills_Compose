@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill
 
 import android.util.Log
 import androidx.compose.foundation.clickable
@@ -26,10 +26,10 @@ import com.serhiiromanchuk.utilitybills.domain.mocks.fakeBillItem
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
-import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.components.AddNewBill
-import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.components.BillAddressCard
-import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.components.DeletePackageDialog
-import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.components.SettingsBottomSheet
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components.AddNewBill
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components.BillAddressCard
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components.DeletePackageDialog
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components.SettingsBottomSheet
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.ui.theme.editModeBackground
 
@@ -37,7 +37,8 @@ import com.serhiiromanchuk.utilitybills.ui.theme.editModeBackground
 fun ChooseBillScreen(
     modifier: Modifier = Modifier,
     onAddBillClick: () -> Unit,
-    onBillItemClick: (Long) -> Unit
+    onBillItemClick: (Long) -> Unit,
+    onEditPackageClick: (String) -> Unit
 ) {
     val component = getApplicationComponent()
     val viewModel: ChooseBillViewModel = viewModel(factory = component.getViewModelFactory())
@@ -68,6 +69,7 @@ fun ChooseBillScreen(
             screenState = screenState.value,
             onAddBillClick = onAddBillClick,
             onBillItemClick = onBillItemClick,
+            onEditPackageClick = onEditPackageClick,
             onEvent = viewModel::onEvent
         )
     }
@@ -79,6 +81,7 @@ private fun ChooseBillScreenContent(
     screenState: ChooseBillState,
     onAddBillClick: () -> Unit,
     onBillItemClick: (Long) -> Unit,
+    onEditPackageClick: (String) -> Unit,
     onEvent: (ChooseBillEvent) -> Unit
 ) {
     LazyVerticalGrid(
@@ -90,8 +93,8 @@ private fun ChooseBillScreenContent(
             BillAddressCard(
                 bill = billItem,
                 editMode = screenState.isEditMode,
-                onLongClick = {
-                    onEvent(ChooseBillEvent.ChangeBottomSheetState)
+                onLongClick = { billAddress ->
+                    onEvent(ChooseBillEvent.OpenBottomSheet(billAddress))
                 },
                 onClick = { onBillItemClick(billItem.id) },
                 onDeleteIconClick = { onEvent(ChooseBillEvent.OpenDialog(it)) }
@@ -105,18 +108,19 @@ private fun ChooseBillScreenContent(
     DeletePackageDialog(
         dialogState = screenState.dialogState,
         closeDialog = { onEvent(ChooseBillEvent.CloseDialog) },
-        onConfirmClick = { onEvent(ChooseBillEvent.DeleteBill(it))}
+        onConfirmClick = { onEvent(ChooseBillEvent.DeleteBill(it)) }
     )
 
-    if (screenState.isSheetOpen) {
-        SettingsBottomSheet(
-            onDismissRequest = { onEvent(ChooseBillEvent.ChangeBottomSheetState) },
-            onChangeNameClick = { /*TODO*/ },
-            onEditClick = {
-                onEvent(ChooseBillEvent.ChangeEditMode)
-            }
-        )
-    }
+    SettingsBottomSheet(
+        visibleState = screenState.visibleSheetState,
+        onDismissRequest = { onEvent(ChooseBillEvent.CloseBottomSheet) },
+        onChangeNameClick = {
+            onEvent(ChooseBillEvent.ChangeEditMode)
+            onEditPackageClick(it)
+        },
+        onEditModeClick = { onEvent(ChooseBillEvent.ChangeEditMode) }
+    )
+
 }
 
 @DarkLightPreviews
@@ -139,6 +143,7 @@ private fun ChooseBillScreenLayoutPreview() {
             ),
             onAddBillClick = {},
             onBillItemClick = {},
+            onEditPackageClick = {},
             onEvent = {}
         )
     }

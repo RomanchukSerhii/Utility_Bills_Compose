@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 fun AppNavGraph(
     navHostController: NavHostController,
     chooseBillScreenContent: @Composable () -> Unit,
+    editPackageScreenContent: @Composable (String) -> Unit,
     addBillScreenContent: @Composable () -> Unit,
     homeScreenContent: @Composable () -> Unit,
     insertServiceScreenContent: @Composable (id: Long, billCreatorId: Long) -> Unit,
@@ -25,7 +26,8 @@ fun AppNavGraph(
     ) {
         startScreenNavGraph(
             chooseBillScreenContent = chooseBillScreenContent,
-            addBillScreenContent = addBillScreenContent
+            addBillScreenContent = addBillScreenContent,
+            editPackageScreenContent = editPackageScreenContent
         )
         composable(Screen.HomeScreen.route) {
             homeScreenContent()

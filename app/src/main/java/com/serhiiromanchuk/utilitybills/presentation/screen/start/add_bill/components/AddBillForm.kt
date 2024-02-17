@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.add_bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
-import com.serhiiromanchuk.utilitybills.presentation.screen.add_bill.AddBillScreenEvent
-import com.serhiiromanchuk.utilitybills.presentation.screen.add_bill.AddBillScreenState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreenEvent
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreenState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @Composable

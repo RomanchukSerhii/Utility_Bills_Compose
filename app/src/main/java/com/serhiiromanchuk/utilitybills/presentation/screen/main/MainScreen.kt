@@ -8,9 +8,10 @@ import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.navigation.AppNavGraph
 import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
-import com.serhiiromanchuk.utilitybills.presentation.screen.add_bill.AddBillScreen
-import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.ChooseBillScreen
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreen
 import com.serhiiromanchuk.utilitybills.presentation.screen.home.HomeScreen
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillScreen
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package.EditPackageScreen
 import com.serhiiromanchuk.utilitybills.presentation.screen.insert_service.InsertUtilityServiceScreen
 
 @Composable
@@ -29,7 +30,14 @@ fun MainScreen(
         chooseBillScreenContent = {
             ChooseBillScreen(
                 onAddBillClick = { navigationState.navigateTo(Screen.AddBillScreen.route) },
-                onBillItemClick = {}
+                onBillItemClick = {},
+                onEditPackageClick = { navigationState.navigateToEditPackageScreen(it) }
+            )
+        },
+        editPackageScreenContent = { billAddress ->
+            EditPackageScreen(
+                billAddress = billAddress,
+                onBackPressed = { navigationState.navHostController.popBackStack() }
             )
         },
         homeScreenContent = {

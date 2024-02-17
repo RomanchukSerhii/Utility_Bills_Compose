@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

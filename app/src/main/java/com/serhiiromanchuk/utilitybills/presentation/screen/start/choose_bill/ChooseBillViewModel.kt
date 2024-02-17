@@ -1,10 +1,11 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.DeleteBillItemUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillItemsUseCase
-import com.serhiiromanchuk.utilitybills.presentation.screen.choose_bill.ChooseBillState.DialogState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillState.DialogState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillState.VisibleSheetState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,18 +35,11 @@ class ChooseBillViewModel @Inject constructor(
 
     fun onEvent(event: ChooseBillEvent) {
         when(event) {
-            ChooseBillEvent.ChangeEditMode -> {
+            is ChooseBillEvent.ChangeEditMode -> {
                 _screenState.update { state ->
                     state.copy(
                         isEditMode = !state.isEditMode,
-                        isSheetOpen = false
-                    )
-                }
-            }
-            ChooseBillEvent.ChangeBottomSheetState -> {
-                _screenState.update { state ->
-                    state.copy(
-                        isSheetOpen = !state.isSheetOpen
+                        visibleSheetState = VisibleSheetState.Close
                     )
                 }
             }
@@ -56,7 +50,7 @@ class ChooseBillViewModel @Inject constructor(
                     _screenState.update { state ->
                         state.copy(
                             isEditMode = !state.isEditMode,
-                            dialogState = DialogState.CloseDialog
+                            dialogState = DialogState.Close
                         )
                     }
                 }
@@ -65,14 +59,30 @@ class ChooseBillViewModel @Inject constructor(
             ChooseBillEvent.CloseDialog -> {
                 _screenState.update { state ->
                     state.copy(
-                        dialogState = DialogState.CloseDialog
+                        dialogState = DialogState.Close
                     )
                 }
             }
             is ChooseBillEvent.OpenDialog -> {
                 _screenState.update { state ->
                     state.copy(
-                        dialogState = DialogState.OpenDialog(event.id)
+                        dialogState = DialogState.Open(event.id)
+                    )
+                }
+            }
+
+            ChooseBillEvent.CloseBottomSheet -> {
+                _screenState.update { state ->
+                    state.copy(
+                        visibleSheetState = VisibleSheetState.Close
+                    )
+                }
+            }
+            is ChooseBillEvent.OpenBottomSheet -> {
+                _screenState.update { state ->
+                    state.copy(
+                        isEditMode = !state.isEditMode,
+                        visibleSheetState = VisibleSheetState.Open(event.billAddress)
                     )
                 }
             }

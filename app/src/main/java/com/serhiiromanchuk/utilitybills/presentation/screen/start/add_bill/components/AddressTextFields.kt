@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.add_bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.components
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +13,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.core.text.isDigitsOnly
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TextFieldWithoutPadding
-import com.serhiiromanchuk.utilitybills.presentation.screen.add_bill.AddBillScreenEvent
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreenEvent
 
 
 @Composable

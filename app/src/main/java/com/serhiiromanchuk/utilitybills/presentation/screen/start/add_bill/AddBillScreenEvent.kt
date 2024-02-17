@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.add_bill
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill
 
 sealed class AddBillScreenEvent {
     data class StreetChanged(val street: String) : AddBillScreenEvent()
