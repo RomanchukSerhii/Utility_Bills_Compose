@@ -74,7 +74,9 @@ class ChooseBillViewModel @Inject constructor(
 
             is ChooseBillEvent.OpenBottomSheet -> {
                 _screenState.update { state ->
-                    state.copy(visibleSheetState = VisibleSheetState.Open(event.billAddress))
+                    state.copy(
+                        visibleSheetState = VisibleSheetState.Open(event.billAddress, event.billId)
+                    )
                 }
             }
 

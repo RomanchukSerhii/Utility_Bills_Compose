@@ -14,8 +14,8 @@ sealed class Screen (
 
         private const val ROUT_FOR_ARGS = "edit_package_screen"
 
-        fun getRoutWithArgs(packageName: String): String {
-            return "$ROUT_FOR_ARGS/$packageName"
+        fun getRoutWithArgs(packageName: String, billId: Long): String {
+            return "$ROUT_FOR_ARGS/$packageName/$billId"
         }
     }
 
@@ -40,11 +40,12 @@ sealed class Screen (
         const val KEY_SERVICE_ID = "utility_service_id"
         const val KEY_BILL_CREATOR_ID = "bill_creator_id"
         const val KEY_PACKAGE_NAME = "package_name"
+        const val KEY_PACKAGE_ID = "package_id"
 
         private const val ROUTE_START_SCREEN = "start_screen"
         private const val ROUTE_ADD_BILL_SCREEN = "add_bill_screen"
         private const val ROUTE_CHOOSE_BILL_SCREEN = "choose_bill_screen"
-        private const val ROUTE_EDIT_PACKAGE_SCREEN = "edit_package_screen/{$KEY_PACKAGE_NAME}"
+        private const val ROUTE_EDIT_PACKAGE_SCREEN = "edit_package_screen/{$KEY_PACKAGE_NAME}/{$KEY_PACKAGE_ID}"
         private const val ROUTE_HOME_SCREEN = "home_screen"
         private const val ROUTE_INSERT_SERVICE_SCREEN = "insert_service_screen/{$KEY_SERVICE_ID}/{$KEY_BILL_CREATOR_ID}"
         private const val ROUTE_BILLS_ARCHIVE_SCREEN = "bills_archive_screen"

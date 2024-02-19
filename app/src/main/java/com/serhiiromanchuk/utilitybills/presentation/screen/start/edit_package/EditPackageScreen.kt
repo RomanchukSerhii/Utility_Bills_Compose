@@ -21,6 +21,7 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 @Composable
 fun EditPackageScreen(
     modifier: Modifier = Modifier,
+    billId: Long,
     billAddress: String,
     onBackPressed: () -> Unit
 ) {
@@ -55,7 +56,7 @@ fun EditPackageScreen(
             contentAlignment = Alignment.Center
         ) {
             Box(modifier = Modifier.size(300.dp))
-            Text(text = billAddress)
+            Text(text = billAddress + billId)
         }
     }
 }

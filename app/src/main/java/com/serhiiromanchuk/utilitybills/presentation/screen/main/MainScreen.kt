@@ -8,11 +8,11 @@ import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.navigation.AppNavGraph
 import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreen
 import com.serhiiromanchuk.utilitybills.presentation.screen.home.HomeScreen
+import com.serhiiromanchuk.utilitybills.presentation.screen.insert_service.InsertUtilityServiceScreen
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreen
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillScreenRoot
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package.EditPackageScreen
-import com.serhiiromanchuk.utilitybills.presentation.screen.insert_service.InsertUtilityServiceScreen
 
 @Composable
 fun MainScreen(
@@ -31,12 +31,15 @@ fun MainScreen(
             ChooseBillScreenRoot(
                 onAddBillClick = { navigationState.navigateTo(Screen.AddBillScreen.route) },
                 onBillItemClick = {},
-                onEditPackageClick = { navigationState.navigateToEditPackageScreen(it) }
+                onEditPackageClick = { address, id ->
+                    navigationState.navigateToEditPackageScreen(address, id)
+                }
             )
         },
-        editPackageScreenContent = { billAddress ->
+        editPackageScreenContent = { billAddress, billId ->
             EditPackageScreen(
                 billAddress = billAddress,
+                billId = billId,
                 onBackPressed = { navigationState.navHostController.popBackStack() }
             )
         },

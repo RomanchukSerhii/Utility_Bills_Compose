@@ -6,12 +6,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.serhiiromanchuk.utilitybills.utils.UNDEFINED_ID
 
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,
     chooseBillScreenContent: @Composable () -> Unit,
-    editPackageScreenContent: @Composable (String) -> Unit,
+    editPackageScreenContent: @Composable (String, Long) -> Unit,
     addBillScreenContent: @Composable () -> Unit,
     homeScreenContent: @Composable () -> Unit,
     insertServiceScreenContent: @Composable (id: Long, billCreatorId: Long) -> Unit,
@@ -43,8 +44,8 @@ fun AppNavGraph(
                 }
             )
         ) {
-            val id = it.arguments?.getLong(Screen.KEY_SERVICE_ID) ?: -1L
-            val billCreatorId = it.arguments?.getLong(Screen.KEY_BILL_CREATOR_ID) ?: -1L
+            val id = it.arguments?.getLong(Screen.KEY_SERVICE_ID) ?: UNDEFINED_ID
+            val billCreatorId = it.arguments?.getLong(Screen.KEY_BILL_CREATOR_ID) ?: UNDEFINED_ID
             insertServiceScreenContent(id, billCreatorId)
         }
         composable(Screen.BillsArchiveScreen.route) {

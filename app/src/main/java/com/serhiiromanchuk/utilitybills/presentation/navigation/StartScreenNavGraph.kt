@@ -6,11 +6,12 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.serhiiromanchuk.utilitybills.utils.UNDEFINED_ID
 
 fun NavGraphBuilder.startScreenNavGraph(
     chooseBillScreenContent: @Composable () -> Unit,
     addBillScreenContent: @Composable () -> Unit,
-    editPackageScreenContent: @Composable (String) -> Unit
+    editPackageScreenContent: @Composable (String, Long) -> Unit
 ) {
     navigation(
         startDestination = Screen.ChooseBillScreen.route,
@@ -23,11 +24,15 @@ fun NavGraphBuilder.startScreenNavGraph(
             arguments = listOf(
                 navArgument(name = Screen.KEY_PACKAGE_NAME) {
                     type = NavType.StringType
+                },
+                navArgument(name = Screen.KEY_PACKAGE_ID) {
+                    type = NavType.LongType
                 }
             )
         ) {
             val packageName = it.arguments?.getString(Screen.KEY_PACKAGE_NAME) ?: ""
-            editPackageScreenContent(packageName)
+            val billId = it.arguments?.getLong(Screen.KEY_PACKAGE_ID) ?: UNDEFINED_ID
+            editPackageScreenContent(packageName, billId)
         }
     }
 }

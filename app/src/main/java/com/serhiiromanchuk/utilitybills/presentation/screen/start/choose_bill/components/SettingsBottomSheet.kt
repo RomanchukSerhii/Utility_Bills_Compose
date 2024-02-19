@@ -42,7 +42,7 @@ import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 fun SettingsBottomSheet(
     visibleState: VisibleSheetState,
     onDismissRequest: () -> Unit,
-    onChangeNameClick: (String) -> Unit,
+    onChangeNameClick: (String, Long) -> Unit,
     onEditModeClick: () -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState()
@@ -58,6 +58,7 @@ fun SettingsBottomSheet(
             shape = MaterialTheme.shapes.medium
         ) {
             BottomSheetContent(
+                billId = visibleState.billId,
                 billAddress = visibleState.billAddress,
                 onChangeNameClick = onChangeNameClick,
                 onEditModeClick = onEditModeClick
@@ -68,8 +69,9 @@ fun SettingsBottomSheet(
 
 @Composable
 private fun BottomSheetContent(
+    billId: Long,
     billAddress: String,
-    onChangeNameClick: (String) -> Unit,
+    onChangeNameClick: (String, Long) -> Unit,
     onEditModeClick: () -> Unit
 ) {
     val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
@@ -84,6 +86,7 @@ private fun BottomSheetContent(
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_medium)))
 
         EditPackageButton(
+            billId = billId,
             billAddress = billAddress,
             onClick = onChangeNameClick
         )
@@ -112,8 +115,9 @@ private fun BottomSheetHeader() {
 
 @Composable
 private fun EditPackageButton(
+    billId: Long,
     billAddress: String,
-    onClick: (String) -> Unit
+    onClick: (String, Long) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -122,7 +126,7 @@ private fun EditPackageButton(
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
-            ) { onClick(billAddress) },
+            ) { onClick(billAddress, billId) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -178,8 +182,9 @@ private fun MoveOrDeleteButton(
 private fun BottomSheetContentPreview() {
     UtilityBillsTheme {
         BottomSheetContent(
+            billId = 1,
             billAddress = "",
-            onChangeNameClick = { },
+            onChangeNameClick = { _, _ -> },
             onEditModeClick = {}
         )
     }

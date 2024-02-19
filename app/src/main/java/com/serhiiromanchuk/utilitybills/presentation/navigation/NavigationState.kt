@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.serhiiromanchuk.utilitybills.utils.UNDEFINED_ID
 
 class NavigationState(
     val navHostController: NavHostController
@@ -24,12 +25,8 @@ class NavigationState(
         navHostController.navigate(Screen.InsertServiceScreen.getRoutWithArgs(utilityServiceId, billCreatorId))
     }
 
-    fun navigateToEditPackageScreen(packageName: String) {
-        navHostController.navigate(Screen.EditPackageScreen.getRoutWithArgs(packageName))
-    }
-
-    companion object {
-        private const val UNDEFINED_ID = -1L
+    fun navigateToEditPackageScreen(packageName: String, billId: Long) {
+        navHostController.navigate(Screen.EditPackageScreen.getRoutWithArgs(packageName, billId))
     }
 }
 

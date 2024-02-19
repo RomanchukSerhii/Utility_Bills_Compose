@@ -31,7 +31,7 @@ fun ChooseBillScreenRoot(
     modifier: Modifier = Modifier,
     onAddBillClick: () -> Unit,
     onBillItemClick: (Long) -> Unit,
-    onEditPackageClick: (String) -> Unit
+    onEditPackageClick: (String, Long) -> Unit
 ) {
     val component = getApplicationComponent()
     val viewModel: ChooseBillViewModel = viewModel(factory = component.getViewModelFactory())
@@ -53,7 +53,7 @@ private fun ChooseBillScreen(
     screenState: State<ChooseBillState>,
     onAddBillClick: () -> Unit,
     onBillItemClick: (Long) -> Unit,
-    onEditPackageClick: (String) -> Unit,
+    onEditPackageClick: (String, Long) -> Unit,
     onEvent: (ChooseBillEvent) -> Unit
 ) {
     val currentState = screenState.value
@@ -92,9 +92,9 @@ private fun ChooseBillScreen(
         SettingsBottomSheet(
             visibleState = currentState.visibleSheetState,
             onDismissRequest = { onEvent(ChooseBillEvent.CloseBottomSheet) },
-            onChangeNameClick = {
+            onChangeNameClick = { address, id ->
                 onEvent(ChooseBillEvent.SetInitialState)
-                onEditPackageClick(it)
+                onEditPackageClick(address, id)
             },
             onEditModeClick = { onEvent(ChooseBillEvent.ChangeEditMode) }
         )
@@ -122,7 +122,7 @@ private fun ChooseBillScreenPreview() {
             screenState = mutableStateOf(mockState),
             onAddBillClick = {},
             onBillItemClick = {},
-            onEditPackageClick = {},
+            onEditPackageClick = { _, _ ->},
             onEvent = {}
         )
     }

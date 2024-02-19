@@ -28,13 +28,13 @@ fun BillAddressList(
     ) {
         items(screenState.billList, key = { it.id }) { billItem ->
             BillAddressCard(
-                bill = billItem,
+                billAddress = billItem.address,
                 cardState = screenState.billCardState,
-                onLongClick = { billAddress ->
-                    onEvent(ChooseBillEvent.OpenBottomSheet(billAddress))
+                onLongClick = {
+                    onEvent(ChooseBillEvent.OpenBottomSheet(billItem.address, billItem.id))
                 },
                 onClick = { onBillItemClick(billItem.id) },
-                onDeleteIconClick = { onEvent(ChooseBillEvent.OpenDialog(it)) }
+                onDeleteIconClick = { onEvent(ChooseBillEvent.OpenDialog(billItem.id)) }
             )
         }
         item {

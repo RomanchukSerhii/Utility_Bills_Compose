@@ -21,9 +21,9 @@ data class ChooseBillState (
         data object Close : DialogState
     }
 
-    sealed class VisibleSheetState(val address: String? = null) {
-        data class Open(val billAddress: String) : VisibleSheetState(billAddress)
-        data object Close : VisibleSheetState()
+    sealed interface VisibleSheetState {
+        data class Open(val billAddress: String, val billId: Long) : VisibleSheetState
+        data object Close : VisibleSheetState
     }
 }
 

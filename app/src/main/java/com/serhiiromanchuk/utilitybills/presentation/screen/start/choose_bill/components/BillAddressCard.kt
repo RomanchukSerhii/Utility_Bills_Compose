@@ -36,8 +36,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
-import com.serhiiromanchuk.utilitybills.domain.mocks.fakeBillItem
-import com.serhiiromanchuk.utilitybills.domain.model.BillItem
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BillCardIcon
 import com.serhiiromanchuk.utilitybills.presentation.core.components.CardOnSurface
@@ -49,11 +47,11 @@ import com.serhiiromanchuk.utilitybills.ui.theme.editCardColor
 @Composable
 fun BillAddressCard(
     modifier: Modifier = Modifier,
-    bill: BillItem,
+    billAddress: String,
     cardState: BillCardState,
-    onLongClick: (String) -> Unit,
+    onLongClick: () -> Unit,
     onClick: () -> Unit,
-    onDeleteIconClick: (Long) -> Unit
+    onDeleteIconClick: () -> Unit
 ) {
     Box(
         modifier = modifier,
@@ -61,14 +59,14 @@ fun BillAddressCard(
         when (cardState) {
             is BillCardState.EditMode -> {
                 EditableBillCard(
-                    bill = bill,
+                    billAddress = billAddress,
                     onDeleteIconClick = onDeleteIconClick,
                     onLongClick = {}
                 )
             }
             BillCardState.Initial -> {
                 RegularBillCard(
-                    bill = bill,
+                    billAddress = billAddress,
                     onLongClick = onLongClick,
                     onClick = onClick
                 )
@@ -81,8 +79,8 @@ fun BillAddressCard(
 @Composable
 private fun RegularBillCard(
     modifier: Modifier = Modifier,
-    bill: BillItem,
-    onLongClick: (String) -> Unit,
+    billAddress: String,
+    onLongClick: () -> Unit,
     onClick: () -> Unit,
 ) {
     CardOnSurface(
@@ -98,7 +96,7 @@ private fun RegularBillCard(
                 .combinedClickable(
                     onLongClick = {
                         haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                        onLongClick(bill.address)
+                        onLongClick()
                     },
                     onClick = onClick
                 )
@@ -110,7 +108,7 @@ private fun RegularBillCard(
             )
             TextOnBillCard(
                 modifier = Modifier.weight(1f),
-                text = bill.address
+                text = billAddress
             )
         }
     }
@@ -121,9 +119,9 @@ private fun RegularBillCard(
 @Composable
 fun BoxScope.EditableBillCard(
     modifier: Modifier = Modifier,
-    bill: BillItem,
-    onDeleteIconClick: (Long) -> Unit,
-    onLongClick: (String) -> Unit,
+    billAddress: String,
+    onDeleteIconClick: () -> Unit,
+    onLongClick: () -> Unit,
 ) {
     val haptics = LocalHapticFeedback.current
     var isExpanded by rememberSaveable { mutableStateOf(false) }
@@ -174,7 +172,7 @@ fun BoxScope.EditableBillCard(
             )
             TextOnBillCard(
                 modifier = Modifier.weight(1f),
-                text = bill.address
+                text = billAddress
             )
         }
     }
@@ -188,7 +186,7 @@ fun BoxScope.EditableBillCard(
                     .clip(MaterialTheme.shapes.extraLarge)
                     .background(Color.Black)
                     .size(32.dp),
-                onClick = { onDeleteIconClick(bill.id) }
+                onClick = { onDeleteIconClick() }
             ) {
                 Icon(
                     imageVector = Icons.Default.Clear,
@@ -205,7 +203,7 @@ fun BoxScope.EditableBillCard(
 private fun AddNewBillPreview() {
     UtilityBillsTheme {
         BillAddressCard(
-            bill = fakeBillItem,
+            billAddress = "вул. Грушевського 23, кв. 235",
             cardState = BillCardState.Initial,
             onLongClick = { },
             onClick = { },
