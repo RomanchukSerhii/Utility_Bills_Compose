@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.DeleteBillItemUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillItemsUseCase
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillState.BillCardState
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillState.DialogState
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillState.VisibleSheetState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,21 +25,21 @@ class ChooseBillViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             getBillItemsUseCase().collect { billList ->
-                _screenState.update {
-                    it.copy(
-                        billList = billList
-                    )
-                }
+                _screenState.update { it.copy(billList = billList) }
             }
         }
     }
 
     fun onEvent(event: ChooseBillEvent) {
-        when(event) {
+        when (event) {
             is ChooseBillEvent.ChangeEditMode -> {
                 _screenState.update { state ->
+                    val isEditMode = !state.isEditMode
                     state.copy(
-                        isEditMode = !state.isEditMode,
+                        isEditMode = isEditMode,
+                        billCardState = if (isEditMode) {
+                            BillCardState.EditMode
+                        } else BillCardState.Initial,
                         visibleSheetState = VisibleSheetState.Close
                     )
                 }
@@ -49,7 +50,8 @@ class ChooseBillViewModel @Inject constructor(
                     deleteBillItemUseCase(event.id)
                     _screenState.update { state ->
                         state.copy(
-                            isEditMode = !state.isEditMode,
+                            isEditMode = false,
+                            billCardState = BillCardState.Initial,
                             dialogState = DialogState.Close
                         )
                     }
@@ -57,33 +59,22 @@ class ChooseBillViewModel @Inject constructor(
             }
 
             ChooseBillEvent.CloseDialog -> {
-                _screenState.update { state ->
-                    state.copy(
-                        dialogState = DialogState.Close
-                    )
-                }
+                _screenState.update { state -> state.copy(dialogState = DialogState.Close) }
             }
+
             is ChooseBillEvent.OpenDialog -> {
-                _screenState.update { state ->
-                    state.copy(
-                        dialogState = DialogState.Open(event.id)
-                    )
-                }
+                _screenState.update { state -> state.copy(dialogState = DialogState.Open(event.id)) }
             }
 
             ChooseBillEvent.CloseBottomSheet -> {
                 _screenState.update { state ->
-                    state.copy(
-                        visibleSheetState = VisibleSheetState.Close
-                    )
+                    state.copy(visibleSheetState = VisibleSheetState.Close)
                 }
             }
 
             is ChooseBillEvent.OpenBottomSheet -> {
                 _screenState.update { state ->
-                    state.copy(
-                        visibleSheetState = VisibleSheetState.Open(event.billAddress)
-                    )
+                    state.copy(visibleSheetState = VisibleSheetState.Open(event.billAddress))
                 }
             }
 
@@ -91,6 +82,7 @@ class ChooseBillViewModel @Inject constructor(
                 _screenState.update {
                     it.copy(
                         isEditMode = false,
+                        billCardState = BillCardState.Initial,
                         dialogState = DialogState.Close,
                         visibleSheetState = VisibleSheetState.Close
                     )
