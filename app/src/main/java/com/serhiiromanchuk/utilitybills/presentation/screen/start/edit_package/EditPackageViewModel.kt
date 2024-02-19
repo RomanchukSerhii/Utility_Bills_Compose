@@ -11,19 +11,19 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class EditPackageViewModel @Inject constructor(
-    private val id: Long,
-    private val address: String,
-    private val updateBillAddressUseCase: UpdateBillAddressUseCase
+    private val updateBillAddressUseCase: UpdateBillAddressUseCase,
+    private val billId: Long,
+    private val billAddress: String
 ) : ViewModel() {
 
-    private val _screenState = MutableStateFlow(EditPackageScreenState(address = address))
+    private val _screenState = MutableStateFlow(EditPackageScreenState(address = billAddress))
     val screenState: StateFlow<EditPackageScreenState> = _screenState.asStateFlow()
 
 
     fun onEvent(event: EditPackageScreenEvent) {
         when (event) {
             is EditPackageScreenEvent.AddressChanged -> {
-                if (event.address != address) {
+                if (event.address != billAddress) {
                     _screenState.update { it.copy(isSubmitButtonAvailable = true) }
                 } else {
                     _screenState.update { it.copy(isSubmitButtonAvailable = false) }
@@ -34,7 +34,7 @@ class EditPackageViewModel @Inject constructor(
 
             EditPackageScreenEvent.Submit -> {
                 viewModelScope.launch {
-                    updateBillAddressUseCase(screenState.value.address, id)
+                    updateBillAddressUseCase(screenState.value.address, billId)
                 }
             }
         }

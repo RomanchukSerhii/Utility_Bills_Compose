@@ -6,11 +6,7 @@ import dagger.BindsInstance
 import dagger.Subcomponent
 import javax.inject.Named
 
-@Subcomponent(
-    modules = [
-        InsertServiceViewModelModule::class
-    ]
-)
+@Subcomponent(modules = [InsertServiceViewModelModule::class])
 interface InsertServiceScreenComponent {
 
     fun getViewModelFactory(): ViewModelFactory

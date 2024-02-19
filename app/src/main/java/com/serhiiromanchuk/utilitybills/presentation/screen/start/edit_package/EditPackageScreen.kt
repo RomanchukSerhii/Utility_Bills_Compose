@@ -11,12 +11,15 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
+import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
 
 @Composable
 fun EditPackageScreen(
@@ -25,12 +28,11 @@ fun EditPackageScreen(
     billAddress: String,
     onBackPressed: () -> Unit
 ) {
-//    val component = getApplicationComponent()
-//        .getInsertServiceScreenComponentFactory()
-//        .create(utilityServiceId, billCreatorId)
-//    val viewModel: InsertUtilityServiceViewModel =
-//        viewModel(factory = component.getViewModelFactory())
-//    val screenState = viewModel.screenState.collectAsState()
+    val component = getApplicationComponent()
+        .getEditPackageScreenComponentFactory()
+        .create(billAddress, billId)
+    val viewModel: EditPackageViewModel = viewModel(factory = component.getViewModelFactory())
+    val screenState = viewModel.screenState.collectAsState()
 
     Scaffold(
         modifier = Modifier
@@ -56,7 +58,7 @@ fun EditPackageScreen(
             contentAlignment = Alignment.Center
         ) {
             Box(modifier = Modifier.size(300.dp))
-            Text(text = billAddress + billId)
+            Text(text = screenState.value.address)
         }
     }
 }

@@ -16,6 +16,8 @@ interface ApplicationComponent {
 
     fun getInsertServiceScreenComponentFactory(): InsertServiceScreenComponent.Factory
 
+    fun getEditPackageScreenComponentFactory(): EditPackageScreenComponent.Factory
+
     @Component.Factory
     interface ApplicationComponentFactory {
         fun create(
