@@ -3,26 +3,26 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package.componnents.AddressTextField
 
 @Composable
-fun EditPackageScreen(
+fun EditPackageScreenRoot(
     modifier: Modifier = Modifier,
     billId: Long,
     billAddress: String,
@@ -34,9 +34,25 @@ fun EditPackageScreen(
     val viewModel: EditPackageViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.collectAsState()
 
+    EditPackageScreen(
+        modifier = modifier,
+        screenState = screenState,
+        onEvent = viewModel::onEvent,
+        onBackPressed = onBackPressed
+    )
+}
+
+@Composable
+fun EditPackageScreen(
+    modifier: Modifier = Modifier,
+    screenState: State<EditPackageScreenState>,
+    onEvent: (EditPackageScreenEvent) -> Unit,
+    onBackPressed: () -> Unit
+) {
+    val currentState = screenState.value
+
     Scaffold(
-        modifier = Modifier
-            .windowInsetsPadding(WindowInsets.safeDrawing),
+        modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
         topBar = {
             TopBarApp(
                 titleId = R.string.package_name,
@@ -45,20 +61,23 @@ fun EditPackageScreen(
         },
         bottomBar = {
             PrimaryButton(
-                modifier = modifier.fillMaxWidth(),
-                text = "Продовжити",
-                onClick = { onBackPressed()}
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
+                text = stringResource(R.string.continue_button),
+                onClick = {
+                    onEvent(EditPackageScreenEvent.Submit)
+                    onBackPressed()
+                },
+                enabled = currentState.isSubmitButtonEnable
             )
         }
-    ) {
+    ) { paddingValues ->
         Box(
-            modifier = Modifier
-                .padding(it)
+            modifier = modifier
+                .padding(paddingValues)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Box(modifier = Modifier.size(300.dp))
-            Text(text = screenState.value.address)
+            AddressTextField(currentState = currentState, onEvent = onEvent)
         }
     }
 }

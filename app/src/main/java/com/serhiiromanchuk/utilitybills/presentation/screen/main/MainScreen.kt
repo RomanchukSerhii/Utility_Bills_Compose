@@ -12,7 +12,7 @@ import com.serhiiromanchuk.utilitybills.presentation.screen.home.HomeScreen
 import com.serhiiromanchuk.utilitybills.presentation.screen.insert_service.InsertUtilityServiceScreen
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreen
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillScreenRoot
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package.EditPackageScreen
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package.EditPackageScreenRoot
 
 @Composable
 fun MainScreen(
@@ -37,7 +37,7 @@ fun MainScreen(
             )
         },
         editPackageScreenContent = { billAddress, billId ->
-            EditPackageScreen(
+            EditPackageScreenRoot(
                 billAddress = billAddress,
                 billId = billId,
                 onBackPressed = { navigationState.navHostController.popBackStack() }

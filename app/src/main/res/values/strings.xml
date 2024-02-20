@@ -39,4 +39,5 @@
     <string name="next">Далі</string>
     <string name="delete_bill">Видалити рахунок</string>
     <string name="package_name">Назва папки</string>
+    <string name="continue_button">Продовжити</string>
 </resources>

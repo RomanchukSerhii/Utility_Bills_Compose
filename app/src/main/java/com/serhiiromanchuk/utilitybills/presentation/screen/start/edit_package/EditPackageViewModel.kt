@@ -19,14 +19,13 @@ class EditPackageViewModel @Inject constructor(
     private val _screenState = MutableStateFlow(EditPackageScreenState(address = billAddress))
     val screenState: StateFlow<EditPackageScreenState> = _screenState.asStateFlow()
 
-
     fun onEvent(event: EditPackageScreenEvent) {
         when (event) {
             is EditPackageScreenEvent.AddressChanged -> {
                 if (event.address != billAddress) {
-                    _screenState.update { it.copy(isSubmitButtonAvailable = true) }
+                    _screenState.update { it.copy(isSubmitButtonEnable = true) }
                 } else {
-                    _screenState.update { it.copy(isSubmitButtonAvailable = false) }
+                    _screenState.update { it.copy(isSubmitButtonEnable = false) }
                 }
 
                 _screenState.update { it.copy(address = event.address) }
