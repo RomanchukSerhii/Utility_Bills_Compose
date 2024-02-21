@@ -18,6 +18,8 @@ interface ApplicationComponent {
 
     fun getEditPackageScreenComponentFactory(): EditPackageScreenComponent.Factory
 
+    fun getHomeScreenComponentFactory(): HomeScreenComponent.Factory
+
     @Component.Factory
     interface ApplicationComponentFactory {
         fun create(

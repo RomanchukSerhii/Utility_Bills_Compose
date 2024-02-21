@@ -40,6 +40,8 @@ fun HomeScreen(
     onAddUtilityServiceClick: (billCreatorId: Long) -> Unit
 ) {
     val component = getApplicationComponent()
+        .getHomeScreenComponentFactory()
+        .create(billId)
     val viewModel: HomeScreenViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.collectAsState()
 

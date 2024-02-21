@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 class HomeScreenViewModel @Inject constructor(
+    private val billId: Long,
     private val getBillWithUtilityServicesUseCase: GetBillWithUtilityServicesUseCase
 ) : ViewModel() {
 
