@@ -25,10 +25,13 @@ interface BillDao {
     @Update
     suspend fun updateBillItems(billItems: List<BillItemDbModel>)
 
+    @Query("SELECT MAX(index_position) FROM bill_items")
+    suspend fun getMaxIndexPosition(): Int?
+
     @Query("SELECT * FROM bill_items WHERE address=:address")
     fun getBillItemsForAddress(address: String): Flow<List<BillItemDbModel>>
 
-    @Query("SELECT * FROM bill_items")
+    @Query("SELECT * FROM bill_items ORDER BY index_position ASC")
     fun getBillItems(): Flow<List<BillItemDbModel>>
 
     @Transaction

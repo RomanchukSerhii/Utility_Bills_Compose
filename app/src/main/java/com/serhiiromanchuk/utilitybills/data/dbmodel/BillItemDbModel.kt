@@ -10,6 +10,7 @@ data class BillItemDbModel (
     @ColumnInfo(name = "address") val address: String,
     @ColumnInfo(name = "month") val month: String,
     @ColumnInfo(name = "year") val year: String,
+    @ColumnInfo(name = "index_position") val indexPosition: Int,
     @ColumnInfo(name = "card_number") val cardNumber: String,
     @ColumnInfo(name = "bill_description") val billDescription: String
 )

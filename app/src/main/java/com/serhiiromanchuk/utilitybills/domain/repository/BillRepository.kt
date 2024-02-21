@@ -14,6 +14,8 @@ interface BillRepository {
 
     suspend fun updateBillItems(billItems: List<BillItem>)
 
+    suspend fun getMaxItemPosition(): Int?
+
     fun getBillWithUtilityServices(): Flow<List<BillWithUtilityServiceLists>>
 
     fun getBillItemsForAddress(address: String): Flow<List<BillItem>>

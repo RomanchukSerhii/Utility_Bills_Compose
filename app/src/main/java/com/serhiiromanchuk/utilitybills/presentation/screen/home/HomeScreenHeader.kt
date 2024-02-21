@@ -211,6 +211,7 @@ private fun PreviewHomeScreenHeader() {
                 address = "Грушевского 23, кв. 235",
                 month = "Січень",
                 year = "2024",
+                indexPosition = 0,
                 cardNumber = "4152 1897 4931 2468"
             ),
             addressList = listOf("Грушевского 23, кв. 235", "Грушевского 23, кв. 171"),

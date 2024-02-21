@@ -42,7 +42,10 @@ class ChooseBillViewModel @Inject constructor(
                         isEditMode = isEditMode,
                         billCardState = if (isEditMode) {
                             BillCardState.EditMode
-                        } else BillCardState.Initial,
+                        } else {
+                            updateBillItems()
+                            BillCardState.Initial
+                        },
                         visibleSheetState = VisibleSheetState.Close
                     )
                 }
@@ -102,16 +105,14 @@ class ChooseBillViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
+    private fun updateBillItems() {
         val billItems = _screenState.value.billList.toMutableList()
         val updateBillList = mutableListOf<BillItem>()
         billItems.forEachIndexed() { index, billItem ->
-            updateBillList.add(index, billItem.copy(id = index.toLong()))
+            updateBillList.add(index, billItem.copy(indexPosition = index))
         }
         viewModelScope.launch {
             updateBillItemsUseCase(updateBillList)
         }
-
-        super.onCleared()
     }
 }

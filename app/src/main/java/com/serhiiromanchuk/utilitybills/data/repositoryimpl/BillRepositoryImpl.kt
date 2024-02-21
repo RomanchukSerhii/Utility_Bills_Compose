@@ -30,6 +30,10 @@ class BillRepositoryImpl @Inject constructor(
         billDao.updateBillItems(mapper.mapListEntityToListDbModel(billItems))
     }
 
+    override suspend fun getMaxItemPosition(): Int? {
+        return billDao.getMaxIndexPosition()
+    }
+
     override fun getBillWithUtilityServices(): Flow<List<BillWithUtilityServiceLists>> {
         return billDao.getBillWithUtilityServices()
             .map { mapper.mapListBillWithServiceDbModelToListEntity(it) }
