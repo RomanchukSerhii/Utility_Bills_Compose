@@ -43,7 +43,7 @@ fun <T : Any> LazyDraggableVerticalGrid(
         contentPadding = contentPadding
     ) {
         itemsIndexed(items, key = key) { index, item ->
-            DraggableItem(dragDropState, index) { isDragging ->
+            DraggableItem(dragDropState, index) {isDragging ->
                 draggableContent(item, isDragging)
             }
         }

@@ -30,7 +30,12 @@ fun BillAddressList(
         columns = GridCells.Adaptive(minSize = 140.dp),
         onMove = { fromIndex, toIndex -> onEvent(ChooseBillEvent.MoveBill(fromIndex, toIndex)) },
         contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_medium)),
-        notDraggableContent = { AddNewBill(onAddBillClick = onAddBillClick) },
+        notDraggableContent = {
+            AddNewBill(
+                isEditMode = screenState.isEditMode,
+                onAddBillClick = onAddBillClick
+            )
+        },
         draggableContent = { billItem, isDragging ->
             val elevation by animateDpAsState(if (isDragging) 4.dp else 1.dp, label = "elevation")
             BillAddressCard(

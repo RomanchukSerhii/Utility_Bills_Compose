@@ -7,6 +7,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -55,15 +56,14 @@ fun BillAddressCard(
     onDeleteIconClick: () -> Unit
 ) {
     Box(
-        modifier = modifier,
+        modifier = modifier
     ) {
         when (cardState) {
             is BillCardState.EditMode -> {
                 EditableBillCard(
                     billAddress = billAddress,
                     elevation = elevation,
-                    onDeleteIconClick = onDeleteIconClick,
-//                    onLongClick = {}
+                    onDeleteIconClick = onDeleteIconClick
                 )
             }
             BillCardState.Initial -> {
@@ -127,9 +127,7 @@ fun BoxScope.EditableBillCard(
     billAddress: String,
     elevation: Dp,
     onDeleteIconClick: () -> Unit,
-//    onLongClick: () -> Unit,
 ) {
-    val haptics = LocalHapticFeedback.current
     var isExpanded by rememberSaveable { mutableStateOf(false) }
     var isIconVisible by rememberSaveable { mutableStateOf(false) }
 
@@ -155,13 +153,7 @@ fun BoxScope.EditableBillCard(
         modifier = modifier
             .fillMaxSize()
             .padding(4.dp)
-            .combinedClickable(
-//                onLongClick = {
-//                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-//                    Log.d("ChooseBillScreen", "+")
-//                },
-                onClick = { }
-            )
+            .clickable {  }
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale

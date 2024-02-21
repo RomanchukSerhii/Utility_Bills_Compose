@@ -1,6 +1,7 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,9 +17,11 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.CardOnSurfa
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TextOnBillCard
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AddNewBill(
     modifier: Modifier = Modifier,
+    isEditMode: Boolean,
     onAddBillClick: () -> Unit
 ) {
     CardOnSurface(
@@ -28,7 +31,10 @@ fun AddNewBill(
     ) {
         Column(
             modifier = Modifier
-                .clickable { onAddBillClick() }
+                .combinedClickable(
+                    onLongClick = { },
+                    onClick = { if (!isEditMode) onAddBillClick() }
+                )
         ) {
             BillCardIcon(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -49,6 +55,7 @@ fun AddNewBill(
 private fun AddNewBillPreview() {
     UtilityBillsTheme() {
         AddNewBill(
+            isEditMode = false,
             onAddBillClick = {}
         )
     }
