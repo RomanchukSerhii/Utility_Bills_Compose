@@ -119,8 +119,6 @@ private fun RegularBillCard(
     }
 }
 
-
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BoxScope.EditableBillCard(
     modifier: Modifier = Modifier,
@@ -139,7 +137,7 @@ fun BoxScope.EditableBillCard(
     val scale by animateFloatAsState(
         targetValue = if (isExpanded) 1.05f else 1f,
         animationSpec = tween(
-            durationMillis = 200,
+            durationMillis = 150,
             easing = FastOutLinearInEasing
         ),
         finishedListener = {
@@ -153,7 +151,6 @@ fun BoxScope.EditableBillCard(
         modifier = modifier
             .fillMaxSize()
             .padding(4.dp)
-            .clickable {  }
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
@@ -162,7 +159,7 @@ fun BoxScope.EditableBillCard(
         elevation = elevation
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize().clickable {  }
         ) {
             BillCardIcon(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -178,7 +175,7 @@ fun BoxScope.EditableBillCard(
         AnimatedVisibility(
             modifier = Modifier.size(32.dp).align(Alignment.TopEnd),
             visible = isIconVisible,
-            enter = scaleIn(animationSpec = tween(durationMillis = 200, delayMillis = 100))
+            enter = scaleIn(animationSpec = tween(durationMillis = 200, delayMillis = 50))
         ) {
             IconButton(
                 modifier = Modifier

@@ -35,6 +35,7 @@ import com.serhiiromanchuk.utilitybills.utils.MeterValueType
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    billId: Long,
     onEditServiceClick: (id: Long, billCreatorId: Long) -> Unit,
     onAddUtilityServiceClick: (billCreatorId: Long) -> Unit
 ) {

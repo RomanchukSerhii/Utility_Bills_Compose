@@ -28,6 +28,10 @@ class NavigationState(
     fun navigateToEditPackageScreen(packageName: String, billId: Long) {
         navHostController.navigate(Screen.EditPackageScreen.getRoutWithArgs(packageName, billId))
     }
+
+    fun navigateToHomeScreen(billId: Long) {
+        navHostController.navigate(Screen.HomeScreen.getRoutWithArgs(billId))
+    }
 }
 
 @Composable

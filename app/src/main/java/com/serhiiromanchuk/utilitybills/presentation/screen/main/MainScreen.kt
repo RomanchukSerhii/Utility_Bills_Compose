@@ -30,7 +30,7 @@ fun MainScreen(
         chooseBillScreenContent = {
             ChooseBillScreenRoot(
                 onAddBillClick = { navigationState.navigateTo(Screen.AddBillScreen.route) },
-                onBillItemClick = {},
+                onBillItemClick = { navigationState.navigateToHomeScreen(billId = it)},
                 onEditPackageClick = { address, id ->
                     navigationState.navigateToEditPackageScreen(address, id)
                 }
@@ -43,8 +43,9 @@ fun MainScreen(
                 onBackPressed = { navigationState.navHostController.popBackStack() }
             )
         },
-        homeScreenContent = {
+        homeScreenContent = { billId ->
             HomeScreen(
+                billId = billId,
                 onEditServiceClick = { id, billCreatorId ->
                     navigationState.navigateToInsertServiceScreen(id, billCreatorId)
                 },
