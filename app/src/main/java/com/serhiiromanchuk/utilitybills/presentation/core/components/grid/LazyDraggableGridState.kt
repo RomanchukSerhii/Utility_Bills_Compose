@@ -105,7 +105,7 @@ class LazyDraggableGridState internal constructor(
         draggingItemInitialOffset = Offset.Zero
     }
 
-    internal fun onDrag(offset: Offset, ignoreItemIndex: Int) {
+    internal fun onDrag(offset: Offset) {
         draggingItemDraggedDelta += offset
 
         val draggingItem = draggingItemLayoutInfo ?: return
@@ -118,7 +118,7 @@ class LazyDraggableGridState internal constructor(
                     middleOffset.y.toInt() in item.offset.y..item.offsetEnd.y &&
                     draggingItem.index != item.index
         }
-        if (targetItem != null && targetItem.key != "ignore") {
+        if (targetItem != null && targetItem.key != KEY_IGNORE) {
             val scrollToIndex = if (targetItem.index == state.firstVisibleItemIndex) {
                 draggingItem.index
             } else if (draggingItem.index == state.firstVisibleItemIndex) {
@@ -154,6 +154,10 @@ class LazyDraggableGridState internal constructor(
 
     private val LazyGridItemInfo.offsetEnd: IntOffset
         get() = this.offset + this.size
+
+    companion object {
+        const val KEY_IGNORE = "ignore"
+    }
 }
 
 operator fun IntOffset.plus(size: IntSize): IntOffset {

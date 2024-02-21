@@ -2,7 +2,6 @@ package com.serhiiromanchuk.utilitybills.presentation.core.components.grid
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -28,10 +27,10 @@ fun <T : Any> LazyDraggableVerticalGrid(
     key: ((index: Int, item: T) -> Any)? = null,
     columns: GridCells,
     onMove: (Int, Int) -> Unit,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
     notDraggableContent: @Composable () -> Unit,
     draggableContent: @Composable (T, Boolean) -> Unit
 ) {
-
     val gridState = rememberLazyGridState()
     val dragDropState = rememberGridDragDropState(gridState, onMove)
 
@@ -39,29 +38,27 @@ fun <T : Any> LazyDraggableVerticalGrid(
 
     LazyVerticalGrid(
         columns = columns,
-        modifier = modifier.dragContainer(dragDropState, haptics, items.size),
+        modifier = modifier.dragContainer(dragDropState, haptics),
         state = gridState,
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = contentPadding
     ) {
         itemsIndexed(items, key = key) { index, item ->
             DraggableItem(dragDropState, index) { isDragging ->
                 draggableContent(item, isDragging)
             }
         }
-        item(key = "ignore") {
+        item(key = LazyDraggableGridState.KEY_IGNORE) {
             notDraggableContent()
         }
     }
 }
 
-fun Modifier.dragContainer(dragDropState: LazyDraggableGridState, haptics: HapticFeedback, ignoreItemIndex: Int): Modifier {
+fun Modifier.dragContainer(dragDropState: LazyDraggableGridState, haptics: HapticFeedback): Modifier {
     return pointerInput(dragDropState) {
         detectDragGesturesAfterLongPress(
             onDrag = { change, offset ->
                 change.consume()
-                dragDropState.onDrag(offset = offset, ignoreItemIndex)
+                dragDropState.onDrag(offset = offset)
             },
             onDragStart = { offset ->
                 haptics.performHapticFeedback(HapticFeedbackType.LongPress)

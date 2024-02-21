@@ -1,12 +1,15 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
+import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.grid.LazyDraggableVerticalGrid
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillEvent
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillState
@@ -26,6 +29,7 @@ fun BillAddressList(
         key = { _, item -> item.id },
         columns = GridCells.Adaptive(minSize = 140.dp),
         onMove = { fromIndex, toIndex -> onEvent(ChooseBillEvent.MoveBill(fromIndex, toIndex)) },
+        contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_medium)),
         notDraggableContent = { AddNewBill(onAddBillClick = onAddBillClick) },
         draggableContent = { billItem, isDragging ->
             val elevation by animateDpAsState(if (isDragging) 4.dp else 1.dp, label = "elevation")
