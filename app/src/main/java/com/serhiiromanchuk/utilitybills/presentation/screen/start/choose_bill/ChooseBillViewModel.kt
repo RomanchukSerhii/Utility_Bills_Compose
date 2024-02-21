@@ -2,8 +2,10 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.serhiiromanchuk.utilitybills.domain.model.BillItem
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.DeleteBillItemUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillItemsUseCase
+import com.serhiiromanchuk.utilitybills.domain.usecase.bill.UpdateBillItemsUseCase
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillState.BillCardState
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillState.DialogState
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillState.VisibleSheetState
@@ -16,7 +18,8 @@ import javax.inject.Inject
 
 class ChooseBillViewModel @Inject constructor(
     getBillItemsUseCase: GetBillItemsUseCase,
-    private val deleteBillItemUseCase: DeleteBillItemUseCase
+    private val deleteBillItemUseCase: DeleteBillItemUseCase,
+    private val updateBillItemsUseCase: UpdateBillItemsUseCase
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow(ChooseBillState())
@@ -97,5 +100,18 @@ class ChooseBillViewModel @Inject constructor(
                 _screenState.update { it.copy(billList = billItems) }
             }
         }
+    }
+
+    override fun onCleared() {
+        val billItems = _screenState.value.billList.toMutableList()
+        val updateBillList = mutableListOf<BillItem>()
+        billItems.forEachIndexed() { index, billItem ->
+            updateBillList.add(index, billItem.copy(id = index.toLong()))
+        }
+        viewModelScope.launch {
+            updateBillItemsUseCase(updateBillList)
+        }
+
+        super.onCleared()
     }
 }

@@ -25,6 +25,11 @@ class BillRepositoryImpl @Inject constructor(
         billDao.updateAddress(address, billId)
     }
 
+    override suspend fun updateBillItems(billItems: List<BillItem>) {
+
+        billDao.updateBillItems(mapper.mapListEntityToListDbModel(billItems))
+    }
+
     override fun getBillWithUtilityServices(): Flow<List<BillWithUtilityServiceLists>> {
         return billDao.getBillWithUtilityServices()
             .map { mapper.mapListBillWithServiceDbModelToListEntity(it) }

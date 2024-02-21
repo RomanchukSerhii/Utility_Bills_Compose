@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.serhiiromanchuk.utilitybills.data.dbmodel.BillItemDbModel
 import com.serhiiromanchuk.utilitybills.data.dbmodel.BillWithUtilityServiceListsDbModel
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +21,9 @@ interface BillDao {
 
     @Query("UPDATE bill_items SET address=:address WHERE id=:id")
     suspend fun updateAddress(address: String, id: Long)
+
+    @Update
+    suspend fun updateBillItems(billItems: List<BillItemDbModel>)
 
     @Query("SELECT * FROM bill_items WHERE address=:address")
     fun getBillItemsForAddress(address: String): Flow<List<BillItemDbModel>>
