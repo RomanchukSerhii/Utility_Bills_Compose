@@ -90,6 +90,12 @@ class ChooseBillViewModel @Inject constructor(
                     )
                 }
             }
+
+            is ChooseBillEvent.MoveBill -> {
+                val billItems = _screenState.value.billList.toMutableList()
+                billItems.add(event.toIndex, billItems.removeAt(event.fromIndex))
+                _screenState.update { it.copy(billList = billItems) }
+            }
         }
     }
 }

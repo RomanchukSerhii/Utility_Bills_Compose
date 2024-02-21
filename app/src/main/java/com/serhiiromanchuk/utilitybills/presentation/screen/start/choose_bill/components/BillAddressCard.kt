@@ -1,6 +1,5 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -34,6 +33,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
@@ -49,6 +49,7 @@ fun BillAddressCard(
     modifier: Modifier = Modifier,
     billAddress: String,
     cardState: BillCardState,
+    elevation: Dp,
     onLongClick: () -> Unit,
     onClick: () -> Unit,
     onDeleteIconClick: () -> Unit
@@ -60,13 +61,15 @@ fun BillAddressCard(
             is BillCardState.EditMode -> {
                 EditableBillCard(
                     billAddress = billAddress,
+                    elevation = elevation,
                     onDeleteIconClick = onDeleteIconClick,
-                    onLongClick = {}
+//                    onLongClick = {}
                 )
             }
             BillCardState.Initial -> {
                 RegularBillCard(
                     billAddress = billAddress,
+                    elevation = elevation,
                     onLongClick = onLongClick,
                     onClick = onClick
                 )
@@ -80,6 +83,7 @@ fun BillAddressCard(
 private fun RegularBillCard(
     modifier: Modifier = Modifier,
     billAddress: String,
+    elevation: Dp,
     onLongClick: () -> Unit,
     onClick: () -> Unit,
 ) {
@@ -87,7 +91,8 @@ private fun RegularBillCard(
         modifier = modifier
             .fillMaxSize()
             .padding(4.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceVariant
+        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        elevation = elevation
     ) {
         val haptics = LocalHapticFeedback.current
         Column(
@@ -120,8 +125,9 @@ private fun RegularBillCard(
 fun BoxScope.EditableBillCard(
     modifier: Modifier = Modifier,
     billAddress: String,
+    elevation: Dp,
     onDeleteIconClick: () -> Unit,
-    onLongClick: () -> Unit,
+//    onLongClick: () -> Unit,
 ) {
     val haptics = LocalHapticFeedback.current
     var isExpanded by rememberSaveable { mutableStateOf(false) }
@@ -150,17 +156,18 @@ fun BoxScope.EditableBillCard(
             .fillMaxSize()
             .padding(4.dp)
             .combinedClickable(
-                onLongClick = {
-                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                    Log.d("ChooseBillScreen", "+")
-                },
+//                onLongClick = {
+//                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+//                    Log.d("ChooseBillScreen", "+")
+//                },
                 onClick = { }
             )
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             ),
-        containerColor = editCardColor
+        containerColor = editCardColor,
+        elevation = elevation
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -205,6 +212,7 @@ private fun AddNewBillPreview() {
         BillAddressCard(
             billAddress = "вул. Грушевського 23, кв. 235",
             cardState = BillCardState.Initial,
+            elevation = 2.dp,
             onLongClick = { },
             onClick = { },
             onDeleteIconClick = { }

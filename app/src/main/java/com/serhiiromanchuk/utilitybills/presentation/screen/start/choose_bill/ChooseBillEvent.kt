@@ -9,6 +9,8 @@ sealed interface ChooseBillEvent {
 
     data class DeleteBill(val id: Long) : ChooseBillEvent
 
+    data class MoveBill(val fromIndex: Int, val toIndex: Int) : ChooseBillEvent
+
     data class OpenDialog(val id: Long) : ChooseBillEvent
 
     data object CloseDialog : ChooseBillEvent

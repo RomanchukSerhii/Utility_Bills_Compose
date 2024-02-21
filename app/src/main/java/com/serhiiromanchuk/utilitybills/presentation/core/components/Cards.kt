@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
 
@@ -18,6 +19,7 @@ import com.serhiiromanchuk.utilitybills.R
 fun CardOnSurface(
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
+    elevation: Dp = 2.dp,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Card(
@@ -26,7 +28,7 @@ fun CardOnSurface(
             .height(170.dp)
             .padding(dimensionResource(id = R.dimen.padding_extra_small)),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 2.dp
+            defaultElevation = elevation
         ),
         colors = CardDefaults.cardColors(
             containerColor = containerColor
