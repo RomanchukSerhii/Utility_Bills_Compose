@@ -1,13 +1,18 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.home
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -24,16 +29,15 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
-import com.serhiiromanchuk.utilitybills.domain.mocks.fakeBillItem
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.CardOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
-import com.serhiiromanchuk.utilitybills.utils.MeterValueType
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill.components.ServiceItem
 
 @Composable
-fun HomeScreen(
+fun BillScreenRoot(
     modifier: Modifier = Modifier,
     billId: Long,
     onEditServiceClick: (id: Long, billCreatorId: Long) -> Unit,
@@ -42,48 +46,70 @@ fun HomeScreen(
     val component = getApplicationComponent()
         .getHomeScreenComponentFactory()
         .create(billId)
-    val viewModel: HomeScreenViewModel = viewModel(factory = component.getViewModelFactory())
+    val viewModel: BillViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.collectAsState()
 
+    BillScreen(
+        modifier = modifier,
+        screenState = screenState,
+        onEvent = {}
+    )
+
+//    Scaffold(
+//        topBar = {
+//            HomeScreenHeader(
+//                billItem = fakeBillItem,
+//                addressList = listOf("вул. Грушевського 23, кв. 235"),
+//                onCardNumberEditClick = { /*TODO*/ },
+//                changeBillAddress = {},
+//                onAddNewAddressClick = {}
+//            )
+//        },
+//        bottomBar = {
+//            HomeScreenBottomBar(
+//                onButtonClick = { /*TODO*/ },
+//                enabled = screenState.value.isCreateBillEnabled
+//            )
+//        }
+//    ) {
+//        HomeScreenContent(
+//            modifier = modifier.padding(it),
+//            screenState = screenState,
+//            onPreviousValueChange = { id, value ->
+//                viewModel.meterValueChange(id, value, MeterValueType.PREVIOUS)
+//            },
+//            onCurrentValueChange = { id, value ->
+//                viewModel.meterValueChange( id, value, MeterValueType.CURRENT)
+//            },
+//            isServiceEnabled = { id, isChecked ->
+//                viewModel.changeServiceCheckedState(id, isChecked)
+//            },
+//            onEditServiceClick = { id -> onEditServiceClick(id, fakeBillItem.id) },
+//            onAddUtilityServiceClick = { onAddUtilityServiceClick(fakeBillItem.id) }
+//        )
+//    }
+}
+
+@Composable
+private fun BillScreen(
+    modifier: Modifier = Modifier,
+    screenState: State<BillUiState>,
+    onEvent: (BillUiEvent) -> Unit
+) {
+    val currentState = screenState.value
     Scaffold(
-        topBar = {
-            HomeScreenHeader(
-                billItem = fakeBillItem,
-                addressList = listOf("вул. Грушевського 23, кв. 235"),
-                onCardNumberEditClick = { /*TODO*/ },
-                changeBillAddress = {},
-                onAddNewAddressClick = {}
-            )
-        },
-        bottomBar = {
-            HomeScreenBottomBar(
-                onButtonClick = { /*TODO*/ },
-                enabled = screenState.value.isCreateBillEnabled
-            )
-        }
-    ) {
-        HomeScreenContent(
-            modifier = modifier.padding(it),
-            screenState = screenState,
-            onPreviousValueChange = { id, value ->
-                viewModel.meterValueChange(id, value, MeterValueType.PREVIOUS)
-            },
-            onCurrentValueChange = { id, value ->
-                viewModel.meterValueChange( id, value, MeterValueType.CURRENT)
-            },
-            isServiceEnabled = { id, isChecked ->
-                viewModel.changeServiceCheckedState(id, isChecked)
-            },
-            onEditServiceClick = { id -> onEditServiceClick(id, fakeBillItem.id) },
-            onAddUtilityServiceClick = { onAddUtilityServiceClick(fakeBillItem.id) }
-        )
+        modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing)
+    ) { paddingValues ->
+        Box(modifier = modifier
+            .fillMaxSize()
+            .padding(paddingValues))
     }
 }
 
 @Composable
 private fun HomeScreenContent(
     modifier: Modifier = Modifier,
-    screenState: State<HomeScreenState>,
+    screenState: State<BillUiState>,
     onPreviousValueChange: (id: Long, value: String) -> Unit,
     onCurrentValueChange: (id: Long, value: String) -> Unit,
     isServiceEnabled: (id: Long, isChecked: Boolean) -> Unit,

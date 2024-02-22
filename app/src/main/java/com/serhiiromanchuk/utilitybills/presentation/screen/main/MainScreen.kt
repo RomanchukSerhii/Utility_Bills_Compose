@@ -8,7 +8,7 @@ import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.navigation.AppNavGraph
 import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
-import com.serhiiromanchuk.utilitybills.presentation.screen.home.HomeScreen
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillScreenRoot
 import com.serhiiromanchuk.utilitybills.presentation.screen.insert_service.InsertUtilityServiceScreen
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreenRoute
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillScreenRoot
@@ -30,7 +30,7 @@ fun MainScreen(
         chooseBillScreenContent = {
             ChooseBillScreenRoot(
                 onAddBillClick = { navigationState.navigateTo(Screen.AddBillScreen.route) },
-                onBillItemClick = { navigationState.navigateToHomeScreen(billId = it)},
+                onBillItemClick = { navigationState.navigateToBillScreen(billId = it)},
                 onEditPackageClick = { address, id ->
                     navigationState.navigateToEditPackageScreen(address, id)
                 }
@@ -43,8 +43,8 @@ fun MainScreen(
                 onBackPressed = { navigationState.navHostController.popBackStack() }
             )
         },
-        homeScreenContent = { billId ->
-            HomeScreen(
+        billScreenContent = { billId ->
+            BillScreenRoot(
                 billId = billId,
                 onEditServiceClick = { id, billCreatorId ->
                     navigationState.navigateToInsertServiceScreen(id, billCreatorId)
@@ -62,8 +62,7 @@ fun MainScreen(
                 onBackPressed = { navigationState.navHostController.popBackStack() }
             )
         },
-        billsArchiveScreenContent = { /*TODO*/ },
-        billScreenContent = { /*TODO*/ }) {
+        billsArchiveScreenContent = { /*TODO*/ }) {
 
     }
 

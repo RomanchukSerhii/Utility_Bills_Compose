@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -53,39 +53,11 @@ fun TopBarApp(
             if (onBackPressed != null ) {
                 IconButton(onClick = onBackPressed) {
                     Icon(
-                        imageVector = Icons.Rounded.ArrowBack,
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                         contentDescription = stringResource(R.string.back_to_previous_screen)
                     )
                 }
             }
         }
     )
-//    Row(
-//        modifier = modifier
-//            .fillMaxWidth()
-//            .background(
-//                brush = Brush.verticalGradient(
-//                    colors = listOf(
-//                        MaterialTheme.colorScheme.primary,
-//                        MaterialTheme.colorScheme.primaryContainer
-//                    )
-//                )
-//            )
-//            .padding(vertical = dimensionResource(id = R.dimen.padding_small)),
-//        verticalAlignment = Alignment.CenterVertically
-//    ) {
-//        IconButton(onClick = onBackPressed) {
-//            Icon(
-//                imageVector = Icons.Rounded.ArrowBack,
-//                contentDescription = stringResource(R.string.back_to_previous_screen),
-//                tint = MaterialTheme.colorScheme.onPrimary
-//            )
-//        }
-//        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.width_extra_small)))
-//        HeadlineTextOnPrimary(
-//            modifier = Modifier.paddingFromBaseline(bottom = dimensionResource(id = R.dimen.padding_small)),
-//            text = stringResource(id = titleId),
-//            maxLines = 1
-//        )
-//    }
 }

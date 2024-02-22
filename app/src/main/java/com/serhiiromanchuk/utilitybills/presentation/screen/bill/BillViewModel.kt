@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.home
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-class HomeScreenViewModel @Inject constructor(
+class BillViewModel @Inject constructor(
     private val billId: Long,
     private val getBillWithUtilityServicesUseCase: GetBillWithUtilityServicesUseCase
 ) : ViewModel() {
@@ -24,11 +24,11 @@ class HomeScreenViewModel @Inject constructor(
             currentBill?.utilityServices?.forEach {
                 bufferUtilityServicesList.add(it)
             }
-            HomeScreenState(list = bufferUtilityServicesList)
+            BillUiState(list = bufferUtilityServicesList)
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
-            initialValue = HomeScreenState()
+            initialValue = BillUiState()
         )
 
     fun meterValueChange(id: Long, value: String, meterValueType: MeterValueType) {
@@ -58,16 +58,4 @@ class HomeScreenViewModel @Inject constructor(
         }
         bufferUtilityServicesList
     }
-}
-
-data class HomeScreenState(
-    val list: List<UtilityServiceItem> = listOf()
-) {
-    val isCreateBillEnabled: Boolean
-        get() {
-            list.forEach { utilityService ->
-                if (utilityService.isChecked) return true
-            }
-            return false
-        }
 }

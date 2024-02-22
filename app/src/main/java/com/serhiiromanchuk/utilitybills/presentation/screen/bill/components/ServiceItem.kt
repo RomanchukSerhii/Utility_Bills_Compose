@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.home
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill.components
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState

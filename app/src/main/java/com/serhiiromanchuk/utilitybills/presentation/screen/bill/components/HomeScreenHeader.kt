@@ -1,7 +1,6 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.home
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,11 +12,14 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,18 +45,17 @@ import com.serhiiromanchuk.utilitybills.domain.model.BillItem
 import com.serhiiromanchuk.utilitybills.presentation.core.components.AddressExposeDropdownMenuBox
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnPrimary
 import com.serhiiromanchuk.utilitybills.presentation.core.components.LabelTextOnPrimary
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiEvent
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.utils.formatToCardNumberType
 import com.serhiiromanchuk.utilitybills.utils.getMaskingCardNumber
 
 @Composable
-fun HomeScreenHeader(
+fun BillScreenTopBar(
     modifier: Modifier = Modifier,
     billItem: BillItem,
-    addressList: List<String>,
-    onCardNumberEditClick: () -> Unit,
-    changeBillAddress: (String) -> Unit,
-    onAddNewAddressClick: () -> Unit
+    onEvent: (BillUiEvent) -> Unit,
+    onBackPressed: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -69,22 +70,43 @@ fun HomeScreenHeader(
             )
             .padding(dimensionResource(id = R.dimen.padding_medium))
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            BillCardNumber(
-                saveCardNumber = { /*TODO*/ },
-                billItem = billItem
-            )
-            BillMonth(billItem = billItem)
+
+        Row {
+            IconButton(onClick = onBackPressed) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                    contentDescription = stringResource(R.string.back_to_previous_screen)
+                )
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimary
+                )
+            }
         }
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_medium)))
-        BillAddress(
-            currentAddress = billItem.address,
-            addressList = addressList,
-            onValueChange = changeBillAddress
-        )
+        
+        Text(text = billItem.address)
+
+
+//        Row(
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.SpaceBetween
+//        ) {
+//            BillCardNumber(
+//                saveCardNumber = { /*TODO*/ },
+//                billItem = billItem
+//            )
+//            BillMonth(billItem = billItem)
+//        }
+//        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_medium)))
+//        BillAddress(
+//            currentAddress = billItem.address,
+//            addressList = addressList,
+//            onValueChange = changeBillAddress
+//        )
     }
 }
 
@@ -206,19 +228,19 @@ private fun BillAddress(
 @Composable
 private fun PreviewHomeScreenHeader() {
     UtilityBillsTheme(darkTheme = false) {
-        HomeScreenHeader(
-            billItem = BillItem(
-                address = "Грушевского 23, кв. 235",
-                month = "Січень",
-                year = "2024",
-                indexPosition = 0,
-                cardNumber = "4152 1897 4931 2468"
-            ),
-            addressList = listOf("Грушевского 23, кв. 235", "Грушевского 23, кв. 171"),
-            onCardNumberEditClick = { /*TODO*/ },
-            changeBillAddress = {}
-        ) {
-
-        }
+//        BillScreenTopBar(
+//            billItem = BillItem(
+//                address = "Грушевского 23, кв. 235",
+//                month = "Січень",
+//                year = "2024",
+//                indexPosition = 0,
+//                cardNumber = "4152 1897 4931 2468"
+//            ),
+//            addressList = listOf("Грушевского 23, кв. 235", "Грушевского 23, кв. 171"),
+//            onCardNumberEditClick = { /*TODO*/ },
+//            changeBillAddress = {}
+//        ) {
+//
+//        }
     }
 }
