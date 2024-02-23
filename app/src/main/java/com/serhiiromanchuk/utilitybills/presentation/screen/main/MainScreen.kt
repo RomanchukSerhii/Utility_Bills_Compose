@@ -51,7 +51,8 @@ fun MainScreen(
                 },
                 onAddUtilityServiceClick = { billCreatorId ->
                     navigationState.navigateToInsertServiceScreen(billCreatorId = billCreatorId)
-                }
+                },
+                onBackPressed = { navigationState.navHostController.popBackStack() }
             )
         },
         insertServiceScreenContent = { utilityServiceId, billCreatorId ->

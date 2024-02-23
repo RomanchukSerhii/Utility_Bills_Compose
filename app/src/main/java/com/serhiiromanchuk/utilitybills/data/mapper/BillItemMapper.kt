@@ -1,9 +1,10 @@
 package com.serhiiromanchuk.utilitybills.data.mapper
 
 import com.serhiiromanchuk.utilitybills.data.dbmodel.BillItemDbModel
-import com.serhiiromanchuk.utilitybills.data.dbmodel.BillWithUtilityServiceListsDbModel
+import com.serhiiromanchuk.utilitybills.data.dbmodel.BillWithUtilityServicesDbModel
 import com.serhiiromanchuk.utilitybills.domain.model.BillItem
-import com.serhiiromanchuk.utilitybills.domain.model.BillWithUtilityServiceLists
+import com.serhiiromanchuk.utilitybills.domain.model.BillWithUtilityServices
+import java.util.Locale
 import javax.inject.Inject
 
 class BillItemMapper @Inject constructor(
@@ -26,16 +27,21 @@ class BillItemMapper @Inject constructor(
             id = billItemDbModel.id,
             payerName = billItemDbModel.payerName,
             address = billItemDbModel.address,
-            month = billItemDbModel.month,
+            month = billItemDbModel.month.replaceFirstChar {
+                if (it.isLowerCase()) it.titlecase(
+                    Locale.getDefault()
+                ) else it.toString()
+            },
             year = billItemDbModel.year,
             indexPosition = billItemDbModel.indexPosition,
             billDescription = billItemDbModel.billDescription
         )
     }
-    private fun mapBillWithServicesDbModelToEntity(
-        billWithServicesDbModel: BillWithUtilityServiceListsDbModel
-    ): BillWithUtilityServiceLists {
-        return BillWithUtilityServiceLists(
+
+    fun mapBillWithServicesDbModelToEntity(
+        billWithServicesDbModel: BillWithUtilityServicesDbModel
+    ): BillWithUtilityServices {
+        return BillWithUtilityServices(
             bill = mapDbModelToEntity(billWithServicesDbModel.bill),
             utilityServices = utilityServiceMapper.mapListDbModelToListEntity(
                 billWithServicesDbModel.utilityServices
@@ -51,8 +57,8 @@ class BillItemMapper @Inject constructor(
         mapEntityToDbModel(it)
     }
 
-    fun mapListBillWithServiceDbModelToListEntity(
-        dbModelList: List<BillWithUtilityServiceListsDbModel>
-    ) = dbModelList.map { mapBillWithServicesDbModelToEntity(it) }
+//    fun mapListBillWithServiceDbModelToListEntity(
+//        dbModelList: List<BillWithUtilityServicesDbModel>
+//    ) = dbModelList.map { mapBillWithServicesDbModelToEntity(it) }
 
 }

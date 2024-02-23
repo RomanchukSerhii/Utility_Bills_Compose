@@ -2,7 +2,6 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.bill
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.serhiiromanchuk.utilitybills.domain.mocks.fakeBillItem
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillWithUtilityServicesUseCase
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
@@ -18,13 +17,14 @@ class BillViewModel @Inject constructor(
 
     private val bufferUtilityServicesList = mutableListOf<UtilityServiceItem>()
 
-    val screenState = getBillWithUtilityServicesUseCase()
-        .map {billList ->
-            val currentBill = billList.firstOrNull { it.bill.id == fakeBillItem.id }
-            currentBill?.utilityServices?.forEach {
+    val screenState = getBillWithUtilityServicesUseCase(billId)
+        .map { currentBill ->
+            currentBill.utilityServices.forEach {
                 bufferUtilityServicesList.add(it)
             }
-            BillUiState(list = bufferUtilityServicesList)
+            BillUiState(
+                bill = currentBill.bill,
+                list = bufferUtilityServicesList)
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),

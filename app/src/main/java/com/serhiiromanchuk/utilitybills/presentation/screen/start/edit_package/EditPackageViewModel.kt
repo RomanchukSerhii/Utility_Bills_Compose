@@ -28,7 +28,7 @@ class EditPackageViewModel @Inject constructor(
                     _screenState.update { it.copy(isSubmitButtonEnable = false) }
                 }
 
-                _screenState.update { it.copy(address = event.address) }
+                _screenState.update { it.copy(address = event.address, addressSelection = event.selection) }
             }
 
             EditPackageScreenEvent.Submit -> {

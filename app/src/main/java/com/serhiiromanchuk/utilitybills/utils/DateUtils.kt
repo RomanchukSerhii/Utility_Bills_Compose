@@ -6,7 +6,7 @@ import java.util.Locale
 
 private val calendar = Calendar.getInstance()
 fun getCurrentMonth(): String {
-    return SimpleDateFormat("MMMM", Locale.getDefault()).format(calendar.time)
+    return SimpleDateFormat("LLLL", Locale.getDefault()).format(calendar.time)
 }
 
 fun getCurrentYear(): String {

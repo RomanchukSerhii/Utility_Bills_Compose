@@ -6,10 +6,11 @@ data class BillItem(
     val address: String,
     val month: String,
     val year: String,
-    val indexPosition: Int,
+    val indexPosition: Int = INITIAL_INDEX_POSITION,
     val billDescription: String = ""
 ) {
     companion object {
         private const val UNDEFINED_ID = 0L
+        private const val INITIAL_INDEX_POSITION = 0
     }
 }

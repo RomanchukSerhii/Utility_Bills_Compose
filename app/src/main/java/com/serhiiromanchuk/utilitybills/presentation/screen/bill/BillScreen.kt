@@ -34,12 +34,14 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnS
 import com.serhiiromanchuk.utilitybills.presentation.core.components.CardOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill.components.BillTopBar
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill.components.ServiceItem
 
 @Composable
 fun BillScreenRoot(
     modifier: Modifier = Modifier,
     billId: Long,
+    onBackPressed: () -> Unit,
     onEditServiceClick: (id: Long, billCreatorId: Long) -> Unit,
     onAddUtilityServiceClick: (billCreatorId: Long) -> Unit
 ) {
@@ -52,7 +54,8 @@ fun BillScreenRoot(
     BillScreen(
         modifier = modifier,
         screenState = screenState,
-        onEvent = {}
+        onEvent = {},
+        onBackPressed = onBackPressed
     )
 
 //    Scaffold(
@@ -94,15 +97,25 @@ fun BillScreenRoot(
 private fun BillScreen(
     modifier: Modifier = Modifier,
     screenState: State<BillUiState>,
-    onEvent: (BillUiEvent) -> Unit
+    onEvent: (BillUiEvent) -> Unit,
+    onBackPressed: () -> Unit
 ) {
     val currentState = screenState.value
     Scaffold(
-        modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing)
+        modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
+        topBar = {
+            BillTopBar(
+                billItem = currentState.bill,
+                onEvent = onEvent,
+                onBackPressed = onBackPressed
+            )
+        }
     ) { paddingValues ->
-        Box(modifier = modifier
-            .fillMaxSize()
-            .padding(paddingValues))
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        )
     }
 }
 

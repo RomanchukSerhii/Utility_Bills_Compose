@@ -7,7 +7,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.serhiiromanchuk.utilitybills.data.dbmodel.BillItemDbModel
-import com.serhiiromanchuk.utilitybills.data.dbmodel.BillWithUtilityServiceListsDbModel
+import com.serhiiromanchuk.utilitybills.data.dbmodel.BillWithUtilityServicesDbModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -35,6 +35,6 @@ interface BillDao {
     fun getBillItems(): Flow<List<BillItemDbModel>>
 
     @Transaction
-    @Query("SELECT * FROM bill_items")
-    fun getBillWithUtilityServices(): Flow<List<BillWithUtilityServiceListsDbModel>>
+    @Query("SELECT * FROM bill_items WHERE id=:billId")
+    fun getBillWithUtilityServices(billId: Long): Flow<BillWithUtilityServicesDbModel>
 }

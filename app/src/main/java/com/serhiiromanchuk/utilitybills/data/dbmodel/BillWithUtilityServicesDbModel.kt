@@ -3,7 +3,7 @@ package com.serhiiromanchuk.utilitybills.data.dbmodel
 import androidx.room.Embedded
 import androidx.room.Relation
 
-data class BillWithUtilityServiceListsDbModel(
+data class BillWithUtilityServicesDbModel(
     @Embedded val bill: BillItemDbModel,
     @Relation(
         parentColumn = "id",

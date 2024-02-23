@@ -2,6 +2,7 @@ package com.serhiiromanchuk.utilitybills.presentation.core.components
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -24,23 +25,25 @@ import com.serhiiromanchuk.utilitybills.R
 @Composable
 fun TopBarApp(
     modifier: Modifier = Modifier,
-    @StringRes titleId: Int,
+    @StringRes titleId: Int? = null,
+    actions: @Composable RowScope.() -> Unit = {},
+    gradientColors: List<Color> = listOf(
+        MaterialTheme.colorScheme.primary,
+        MaterialTheme.colorScheme.primaryContainer
+    ),
     onBackPressed: (() -> Unit)? = null
 ) {
 
     TopAppBar(
         modifier = modifier.background(
             brush = Brush.verticalGradient(
-                colors = listOf(
-                    MaterialTheme.colorScheme.primary,
-                    MaterialTheme.colorScheme.primaryContainer
-                )
+                colors = gradientColors
             )
         ),
         title = {
             Text(
                 modifier = Modifier.paddingFromBaseline(bottom = dimensionResource(id = R.dimen.padding_small)),
-                text = stringResource(id = titleId),
+                text = if (titleId != null) stringResource(id = titleId) else "",
                 maxLines = 1
             )
         },
@@ -58,6 +61,7 @@ fun TopBarApp(
                     )
                 }
             }
-        }
+        },
+        actions = actions
     )
 }

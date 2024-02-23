@@ -46,4 +46,5 @@
     <string name="leave">ЗАЛИШИТИ</string>
     <string name="dialog_package_title">Ви впевнені, що хочете видалити папку?</string>
     <string name="dialog_package_text">Усі збережені в ній рахунки буде видалено</string>
+    <string name="edit_bill_info">Редагування даних</string>
 </resources>

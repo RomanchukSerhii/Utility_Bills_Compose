@@ -5,6 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
@@ -42,7 +43,10 @@ fun DeletePackageDialog(
             title = {
                 TitleTextOnSurface(
                     text = stringResource(R.string.dialog_package_title),
-                    style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 )
             },
             text = {

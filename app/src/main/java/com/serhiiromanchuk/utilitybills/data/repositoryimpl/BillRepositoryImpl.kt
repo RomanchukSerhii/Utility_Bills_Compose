@@ -3,7 +3,7 @@ package com.serhiiromanchuk.utilitybills.data.repositoryimpl
 import com.serhiiromanchuk.utilitybills.data.dao.BillDao
 import com.serhiiromanchuk.utilitybills.data.mapper.BillItemMapper
 import com.serhiiromanchuk.utilitybills.domain.model.BillItem
-import com.serhiiromanchuk.utilitybills.domain.model.BillWithUtilityServiceLists
+import com.serhiiromanchuk.utilitybills.domain.model.BillWithUtilityServices
 import com.serhiiromanchuk.utilitybills.domain.repository.BillRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -34,9 +34,9 @@ class BillRepositoryImpl @Inject constructor(
         return billDao.getMaxIndexPosition()
     }
 
-    override fun getBillWithUtilityServices(): Flow<List<BillWithUtilityServiceLists>> {
-        return billDao.getBillWithUtilityServices()
-            .map { mapper.mapListBillWithServiceDbModelToListEntity(it) }
+    override fun getBillWithUtilityServices(billId: Long): Flow<BillWithUtilityServices> {
+        return billDao.getBillWithUtilityServices(billId)
+            .map { mapper.mapBillWithServicesDbModelToEntity(it) }
     }
 
     override fun getBillItemsForAddress(address: String): Flow<List<BillItem>> {

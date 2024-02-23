@@ -1,4 +1,5 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.bill
 
-class BillUiEvent {
+sealed interface BillUiEvent {
+    data object EditBillInfo : BillUiEvent
 }

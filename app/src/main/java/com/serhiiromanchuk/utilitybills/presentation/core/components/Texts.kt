@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
@@ -31,8 +32,8 @@ fun LabelTextOnPrimary(
     Text(
         modifier = modifier,
         text = text,
-        style = MaterialTheme.typography.labelMedium,
-        color = MaterialTheme.colorScheme.onPrimary
+        style = MaterialTheme.typography.labelLarge,
+        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f)
     )
 }
 
@@ -42,14 +43,16 @@ fun HeadlineTextOnPrimary(
     text: String,
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Ellipsis,
+    lineHeight: TextUnit = 28.sp,
 ) {
     Text(
         modifier = modifier,
         text = text,
-        style = MaterialTheme.typography.titleLarge,
+        style = MaterialTheme.typography.headlineSmall,
         color = MaterialTheme.colorScheme.onPrimary,
         maxLines = maxLines,
-        overflow = overflow
+        overflow = overflow,
+        lineHeight = lineHeight
     )
 }
 
@@ -135,7 +138,7 @@ fun TextOnBillCard(
                     top = dimensionResource(id = R.dimen.padding_small),
                 ),
             text = text,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
             color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center,
             lineHeight = 18.sp,
