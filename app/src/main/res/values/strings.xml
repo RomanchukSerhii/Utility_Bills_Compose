@@ -35,9 +35,15 @@
     <string name="appartment">Квартира</string>
     <string name="building_value">, корп. %1$s</string>
     <string name="apartment_value">, кв. %1$s</string>
-    <string name="address_value">вул. %1$s, буд. %2$s%3$s%4$s</string>
+    <string name="address_value">%1$s, вул. %2$s, буд. %3$s%4$s%5$s</string>
     <string name="next">Далі</string>
     <string name="delete_bill">Видалити рахунок</string>
     <string name="package_name">Назва папки</string>
     <string name="continue_button">Продовжити</string>
+    <string name="city_name">Місто/Населений пункт*</string>
+    <string name="payer_name">ПІБ платника*</string>
+    <string name="delete">ВИДАЛИТИ</string>
+    <string name="leave">ЗАЛИШИТИ</string>
+    <string name="dialog_package_title">Ви впевнені, що хочете видалити папку?</string>
+    <string name="dialog_package_text">Усі збережені в ній рахунки буде видалено</string>
 </resources>

@@ -11,7 +11,7 @@ import com.serhiiromanchuk.utilitybills.data.dbmodel.BillItemDbModel
 import com.serhiiromanchuk.utilitybills.data.dbmodel.LocalDateConverter
 import com.serhiiromanchuk.utilitybills.data.dbmodel.UtilityServiceItemDbModel
 
-@Database(entities = [UtilityServiceItemDbModel::class, BillItemDbModel::class], version = 7, exportSchema = false)
+@Database(entities = [UtilityServiceItemDbModel::class, BillItemDbModel::class], version = 8, exportSchema = false)
 @TypeConverters(LocalDateConverter::class)
 abstract class AppDataBase : RoomDatabase() {
 

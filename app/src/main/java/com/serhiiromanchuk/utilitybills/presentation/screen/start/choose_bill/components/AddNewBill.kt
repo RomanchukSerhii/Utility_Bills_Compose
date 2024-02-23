@@ -53,7 +53,7 @@ fun AddNewBill(
 @DarkLightPreviews
 @Composable
 private fun AddNewBillPreview() {
-    UtilityBillsTheme() {
+    UtilityBillsTheme {
         AddNewBill(
             isEditMode = false,
             onAddBillClick = {}

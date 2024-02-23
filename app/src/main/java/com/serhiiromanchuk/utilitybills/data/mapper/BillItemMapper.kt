@@ -12,11 +12,11 @@ class BillItemMapper @Inject constructor(
     fun mapEntityToDbModel(billItem: BillItem): BillItemDbModel {
         return BillItemDbModel(
             id = billItem.id,
+            payerName = billItem.payerName,
             address = billItem.address,
             month = billItem.month,
             year = billItem.year,
             indexPosition = billItem.indexPosition,
-            cardNumber = billItem.cardNumber,
             billDescription = billItem.billDescription
         )
     }
@@ -24,11 +24,11 @@ class BillItemMapper @Inject constructor(
     private fun mapDbModelToEntity(billItemDbModel: BillItemDbModel): BillItem {
         return BillItem(
             id = billItemDbModel.id,
+            payerName = billItemDbModel.payerName,
             address = billItemDbModel.address,
             month = billItemDbModel.month,
             year = billItemDbModel.year,
             indexPosition = billItemDbModel.indexPosition,
-            cardNumber = billItemDbModel.cardNumber,
             billDescription = billItemDbModel.billDescription
         )
     }

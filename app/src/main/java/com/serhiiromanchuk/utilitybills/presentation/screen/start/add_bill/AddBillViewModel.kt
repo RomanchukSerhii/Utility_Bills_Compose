@@ -24,41 +24,38 @@ class AddBillViewModel @Inject constructor(
 
     fun onEvent(event: AddBillScreenEvent) {
         when (event) {
-            is AddBillScreenEvent.ApartmentChanged -> {
-                _screenState.update {
-                    it.copy(apartment = event.apartment)
-                }
+            is AddBillScreenEvent.PayerNameChanged -> {
+                _screenState.update { it.copy(payerName = event.payerName) }
             }
-            is AddBillScreenEvent.BuildingChanged -> {
-                _screenState.update {
-                    it.copy(building = event.building)
-                }
-            }
-            is AddBillScreenEvent.HouseChanged -> {
-                _screenState.update {
-                    it.copy(house = event.house)
-                }
+            is AddBillScreenEvent.CityChanged -> {
+                _screenState.update { it.copy(city = event.city) }
             }
             is AddBillScreenEvent.StreetChanged -> {
-                _screenState.update {
-                    it.copy(street = event.street)
-                }
+                _screenState.update { it.copy(street = event.street) }
             }
-
-            is AddBillScreenEvent.Submit -> { submitData(event.address) }
+            is AddBillScreenEvent.ApartmentChanged -> {
+                _screenState.update { it.copy(apartment = event.apartment) }
+            }
+            is AddBillScreenEvent.BuildingChanged -> {
+                _screenState.update { it.copy(building = event.building) }
+            }
+            is AddBillScreenEvent.HouseChanged -> {
+                _screenState.update { it.copy(house = event.house) }
+            }
+            is AddBillScreenEvent.Submit -> { submitData(event.address, event.payerName) }
         }
     }
 
-    private fun submitData(address: String) {
+    private fun submitData(address: String, payerName: String) {
         viewModelScope.launch {
             val lastIndex = getMaxItemPositionUseCase()
             insertBillItemUseCase(
                 BillItem(
                     address = address,
+                    payerName = payerName,
                     month = getCurrentMonth(),
                     year = getCurrentYear(),
                     indexPosition = lastIndex?.let { it + 1 } ?: 0,
-                    cardNumber = ""
                 )
             )
         }

@@ -37,7 +37,27 @@ fun AddBillForm(
         )
 
         Column {
-            StreetTextField(value = screenState.street, onEvent = onEvent)
+            AddressTextField(
+                value = screenState.payerName,
+                onValueChange = { onEvent(AddBillScreenEvent.PayerNameChanged(it))},
+                label = stringResource(R.string.payer_name)
+            )
+
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_medium)))
+            
+            AddressTextField(
+                value = screenState.city,
+                onValueChange = { onEvent(AddBillScreenEvent.CityChanged(it))},
+                label = stringResource(R.string.city_name)
+            )
+
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_medium)))
+
+            AddressTextField(
+                value = screenState.street,
+                onValueChange = { onEvent(AddBillScreenEvent.StreetChanged(it))},
+                label = stringResource(R.string.street)
+            )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_medium)))
 
@@ -59,7 +79,7 @@ fun AddBillForm(
 @DarkLightPreviews
 @Composable
 private fun AddBillFormPreview() {
-    UtilityBillsTheme() {
+    UtilityBillsTheme {
         AddBillForm(
             screenState = AddBillScreenState(),
             onEvent = {}

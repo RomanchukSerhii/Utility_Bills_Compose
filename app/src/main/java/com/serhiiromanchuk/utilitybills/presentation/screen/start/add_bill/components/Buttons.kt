@@ -27,6 +27,7 @@ fun SubmitButton(
 
     val address = stringResource(
         R.string.address_value,
+        screenState.city.trim(),
         screenState.street.trim(),
         screenState.house.trim(),
         building,
@@ -36,7 +37,7 @@ fun SubmitButton(
     PrimaryButton(
         modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
         text = stringResource(R.string.next),
-        onClick = { onClick(AddBillScreenEvent.Submit(address)) },
+        onClick = { onClick(AddBillScreenEvent.Submit(address, screenState.payerName)) },
         enabled = screenState.nextButtonAvailable
     )
 }
@@ -44,7 +45,7 @@ fun SubmitButton(
 @DarkLightPreviews
 @Composable
 private fun SubmitButtonPreview() {
-    UtilityBillsTheme() {
+    UtilityBillsTheme {
         SubmitButton(screenState = AddBillScreenState(
         ), onClick = {})
     }

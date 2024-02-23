@@ -108,7 +108,7 @@ class ChooseBillViewModel @Inject constructor(
     private fun updateBillItems() {
         val billItems = _screenState.value.billList.toMutableList()
         val updateBillList = mutableListOf<BillItem>()
-        billItems.forEachIndexed() { index, billItem ->
+        billItems.forEachIndexed { index, billItem ->
             updateBillList.add(index, billItem.copy(indexPosition = index))
         }
         viewModelScope.launch {

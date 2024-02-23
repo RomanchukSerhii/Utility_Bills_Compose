@@ -104,7 +104,7 @@ private fun ChooseBillScreen(
 @DarkLightPreviews
 @Composable
 private fun ChooseBillScreenPreview() {
-    UtilityBillsTheme() {
+    UtilityBillsTheme {
         val mockState = ChooseBillState(
                 listOf(
                     fakeBillItem,

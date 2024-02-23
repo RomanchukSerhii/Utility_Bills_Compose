@@ -6,10 +6,10 @@ import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 
 val fakeBillItem = BillItem(
     address = "вул. Грушевського 23, кв. 235",
+    payerName = "Романчук Сергій",
     month = "Січень",
     year = "2024",
     indexPosition = 0,
-    cardNumber = "1354 4978 3577 4648"
 )
 
 val fakeUtilityService = UtilityServiceItem(

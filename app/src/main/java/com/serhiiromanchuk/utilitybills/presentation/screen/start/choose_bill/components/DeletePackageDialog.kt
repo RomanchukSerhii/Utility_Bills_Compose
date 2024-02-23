@@ -4,7 +4,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.DialogWithRectangleShape
@@ -24,7 +26,7 @@ fun DeletePackageDialog(
             confirmButton = {
                 TextButton(onClick = closeDialog) {
                     Text(
-                        text = "ЗАЛИШИТИ",
+                        text = stringResource(R.string.leave),
                         color = MaterialTheme.colorScheme.secondary
                     )
                 }
@@ -32,20 +34,20 @@ fun DeletePackageDialog(
             dismissButton = {
                 TextButton(onClick = { onConfirmClick(dialogState.id) }) {
                     Text(
-                        text = "ВИДАЛИТИ",
+                        text = stringResource(R.string.delete),
                         color = MaterialTheme.colorScheme.secondary
                     )
                 }
             },
             title = {
                 TitleTextOnSurface(
-                    text = "Ви впевнені, що хочете видалити папку?",
+                    text = stringResource(R.string.dialog_package_title),
                     style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
                 )
             },
             text = {
                 BodyTextOnSurface(
-                    text = "Усі збережені в ній рахунки буде видалено",
+                    text = stringResource(R.string.dialog_package_text),
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 15.sp),
                     lineHeight = 18.sp
                 )

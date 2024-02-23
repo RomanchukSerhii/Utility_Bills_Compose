@@ -1,10 +1,13 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill
 
-data class AddBillScreenState (
+data class AddBillScreenState(
+    val payerName: String = "",
+    val city: String = "",
     val street: String = "",
     val house: String = "",
     val building: String = "",
     val apartment: String = ""
 ) {
-    val nextButtonAvailable: Boolean = street.isNotEmpty() && house.isNotEmpty()
+    val nextButtonAvailable: Boolean =
+        payerName.isNotEmpty() && city.isNotEmpty() && street.isNotEmpty() && house.isNotEmpty()
 }

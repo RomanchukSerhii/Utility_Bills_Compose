@@ -17,14 +17,15 @@ import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBi
 
 
 @Composable
-fun StreetTextField(
+fun AddressTextField(
     value: String,
-    onEvent: (AddBillScreenEvent) -> Unit
+    onValueChange: (String) -> Unit,
+    label: String = ""
 ) {
     TextFieldWithoutPadding(
         modifier = Modifier.fillMaxWidth(),
         value = value,
-        onValueChange = { onEvent(AddBillScreenEvent.StreetChanged(it)) },
+        onValueChange = { onValueChange(it) },
         textStyle = MaterialTheme.typography.bodyMedium.copy(
             color = MaterialTheme.colorScheme.onSurface
         ),
@@ -33,7 +34,7 @@ fun StreetTextField(
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Next
         ),
-        label = stringResource(R.string.street)
+        label = label
     )
 }
 
