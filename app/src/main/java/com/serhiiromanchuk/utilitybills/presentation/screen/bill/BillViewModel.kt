@@ -5,9 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillWithUtilityServicesUseCase
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class BillViewModel @Inject constructor(
@@ -16,6 +20,9 @@ class BillViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val bufferUtilityServicesList = mutableListOf<UtilityServiceItem>()
+
+    private val _navigationEvent = MutableSharedFlow<NavigationEvent>()
+    val navigationEvent: SharedFlow<NavigationEvent> = _navigationEvent.asSharedFlow()
 
     val screenState = getBillWithUtilityServicesUseCase(billId)
         .map { currentBill ->
@@ -30,6 +37,23 @@ class BillViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(),
             initialValue = BillUiState()
         )
+
+    fun onEvent(event: BillUiEvent) {
+        when (event) {
+            is BillUiEvent.AddUtilityService -> {
+                viewModelScope.launch {
+                    _navigationEvent.emit(NavigationEvent.OnAddService(event.billCreatorId))
+                }
+            }
+            BillUiEvent.EditBillInfo -> TODO()
+            BillUiEvent.Submit -> TODO()
+            BillUiEvent.OnBackClicked -> {
+                viewModelScope.launch {
+                    _navigationEvent.emit(NavigationEvent.OnBack)
+                }
+            }
+        }
+    }
 
     fun meterValueChange(id: Long, value: String, meterValueType: MeterValueType) {
         bufferUtilityServicesList.apply {
@@ -57,5 +81,20 @@ class BillViewModel @Inject constructor(
             }
         }
         bufferUtilityServicesList
+    }
+
+    sealed interface NavigationEvent {
+        data object OnBack : NavigationEvent
+
+        data class OnAddService(
+            val billCreatorId: Long
+        ) : NavigationEvent
+
+        data class OnEditService(
+            val serviceId: Long,
+            val billCreatorId: Long
+        ) : NavigationEvent
+
+        data object OnCreateBill : NavigationEvent
     }
 }

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -21,7 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -61,6 +62,7 @@ fun BillAddressCard(
         when (cardState) {
             is BillCardState.EditMode -> {
                 EditableBillCard(
+                    modifier = Modifier.height(180.dp),
                     billAddress = billAddress,
                     elevation = elevation,
                     onDeleteIconClick = onDeleteIconClick
@@ -68,6 +70,7 @@ fun BillAddressCard(
             }
             BillCardState.Initial -> {
                 RegularBillCard(
+                    modifier = Modifier.height(180.dp),
                     billAddress = billAddress,
                     elevation = elevation,
                     onLongClick = onLongClick,
@@ -129,9 +132,8 @@ fun BoxScope.EditableBillCard(
     var isExpanded by rememberSaveable { mutableStateOf(false) }
     var isIconVisible by rememberSaveable { mutableStateOf(false) }
 
-    DisposableEffect(key1 = true) {
+    LaunchedEffect(key1 = true) {
         isExpanded = true
-        onDispose { }
     }
 
     val scale by animateFloatAsState(
@@ -159,7 +161,9 @@ fun BoxScope.EditableBillCard(
         elevation = elevation
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().clickable {  }
+            modifier = Modifier
+                .fillMaxSize()
+                .clickable { }
         ) {
             BillCardIcon(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -173,7 +177,9 @@ fun BoxScope.EditableBillCard(
         }
     }
         AnimatedVisibility(
-            modifier = Modifier.size(32.dp).align(Alignment.TopEnd),
+            modifier = Modifier
+                .size(32.dp)
+                .align(Alignment.TopEnd),
             visible = isIconVisible,
             enter = scaleIn(animationSpec = tween(durationMillis = 200, delayMillis = 50))
         ) {

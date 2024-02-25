@@ -12,7 +12,7 @@ data class BillUiState(
     ),
     val list: List<UtilityServiceItem> = listOf()
 ) {
-    val isCreateBillEnabled: Boolean
+    val isNextButtonEnabled: Boolean
         get() {
             list.forEach { utilityService ->
                 if (utilityService.isChecked) return true

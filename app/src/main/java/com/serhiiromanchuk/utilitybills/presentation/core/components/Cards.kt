@@ -2,7 +2,6 @@ package com.serhiiromanchuk.utilitybills.presentation.core.components
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -25,7 +24,6 @@ fun CardOnSurface(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(170.dp)
             .padding(dimensionResource(id = R.dimen.padding_extra_small)),
         elevation = CardDefaults.cardElevation(
             defaultElevation = elevation

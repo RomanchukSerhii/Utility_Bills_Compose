@@ -49,7 +49,7 @@ fun MainScreen(
                 onEditServiceClick = { id, billCreatorId ->
                     navigationState.navigateToInsertServiceScreen(id, billCreatorId)
                 },
-                onAddUtilityServiceClick = { billCreatorId ->
+                onAddServiceClick = { billCreatorId ->
                     navigationState.navigateToInsertServiceScreen(billCreatorId = billCreatorId)
                 },
                 onBackPressed = { navigationState.navHostController.popBackStack() }
