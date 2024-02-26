@@ -9,7 +9,7 @@ import com.serhiiromanchuk.utilitybills.presentation.navigation.AppNavGraph
 import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillScreenRoot
-import com.serhiiromanchuk.utilitybills.presentation.screen.insert_service.InsertUtilityServiceScreen
+import com.serhiiromanchuk.utilitybills.presentation.screen.insert_service.InsertServiceScreenRoot
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreenRoute
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillScreenRoot
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package.EditPackageScreenRoot
@@ -56,7 +56,7 @@ fun MainScreen(
             )
         },
         insertServiceScreenContent = { utilityServiceId, billCreatorId ->
-            InsertUtilityServiceScreen(
+            InsertServiceScreenRoot(
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
                 utilityServiceId = utilityServiceId,
                 billCreatorId = billCreatorId,

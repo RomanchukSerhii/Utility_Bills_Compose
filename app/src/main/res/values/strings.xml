@@ -47,4 +47,10 @@
     <string name="dialog_package_title">Ви впевнені, що хочете видалити папку?</string>
     <string name="dialog_package_text">Усі збережені в ній рахунки буде видалено</string>
     <string name="edit_bill_info">Редагування даних</string>
+    <string name="service_name">Назва послуги*</string>
+    <string name="tariff_label">Тариф*</string>
+    <string name="meter_available">Значення лічильника</string>
+    <string name="previous_value">Попередні*</string>
+    <string name="current_value">Поточні</string>
+    <string name="enter_utility_service_info">Вкажіть дані комунальної послуги:</string>
 </resources>

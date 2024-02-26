@@ -38,7 +38,7 @@ fun SubmitButton(
         modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
         text = stringResource(R.string.next),
         onClick = { onClick(AddBillScreenEvent.Submit(address, screenState.payerName)) },
-        enabled = screenState.nextButtonAvailable
+        enabled = screenState.isNextButtonAvailable
     )
 }
 

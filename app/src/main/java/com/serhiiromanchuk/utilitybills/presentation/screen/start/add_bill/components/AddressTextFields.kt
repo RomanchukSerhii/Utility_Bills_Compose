@@ -3,7 +3,6 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.comp
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,9 +25,6 @@ fun AddressTextField(
         modifier = Modifier.fillMaxWidth(),
         value = value,
         onValueChange = { onValueChange(it) },
-        textStyle = MaterialTheme.typography.bodyMedium.copy(
-            color = MaterialTheme.colorScheme.onSurface
-        ),
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Sentences,
             keyboardType = KeyboardType.Text,
@@ -51,9 +47,6 @@ fun RowScope.HouseTextField(
                 onEvent(AddBillScreenEvent.HouseChanged(it))
             }
         },
-        textStyle = MaterialTheme.typography.bodyMedium.copy(
-            color = MaterialTheme.colorScheme.onSurface
-        ),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number,
             imeAction = ImeAction.Next
@@ -71,9 +64,6 @@ fun RowScope.BuildingTextField(
         modifier = Modifier.weight(1f),
         value = value,
         onValueChange = { onEvent(AddBillScreenEvent.BuildingChanged(it)) },
-        textStyle = MaterialTheme.typography.bodyMedium.copy(
-            color = MaterialTheme.colorScheme.onSurface
-        ),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Next
@@ -95,9 +85,6 @@ fun RowScope.ApartmentTextField(
                 onEvent(AddBillScreenEvent.ApartmentChanged(it))
             }
         },
-        textStyle = MaterialTheme.typography.bodyMedium.copy(
-            color = MaterialTheme.colorScheme.onSurface
-        ),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number,
             imeAction = ImeAction.Done

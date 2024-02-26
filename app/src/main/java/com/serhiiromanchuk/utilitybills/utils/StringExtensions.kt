@@ -49,7 +49,9 @@ fun String.isPriceFormat(): Boolean {
     val decimalFormat = this.replaceComaToDot()
     val splitPrice = decimalFormat.split(".")
 
-    return splitPrice.size == 2 && splitPrice.all { it.isDigitsOnly() } && decimalFormat.lastIndexOf('.') >= decimalFormat.length - 3
+    return splitPrice.size == 2 &&
+            splitPrice.all { it.isDigitsOnly() } &&
+            decimalFormat.lastIndexOf('.') >= decimalFormat.length - 3
 }
 
 fun String.removeCurrencySign(): String = this.replace(" ₴", "")

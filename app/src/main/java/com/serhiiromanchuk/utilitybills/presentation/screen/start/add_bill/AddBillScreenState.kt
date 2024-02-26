@@ -8,6 +8,6 @@ data class AddBillScreenState(
     val building: String = "",
     val apartment: String = ""
 ) {
-    val nextButtonAvailable: Boolean =
+    val isNextButtonAvailable: Boolean =
         payerName.isNotEmpty() && city.isNotEmpty() && street.isNotEmpty() && house.isNotEmpty()
 }

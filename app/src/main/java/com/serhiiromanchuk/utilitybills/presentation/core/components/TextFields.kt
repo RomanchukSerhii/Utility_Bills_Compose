@@ -17,7 +17,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -29,6 +28,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
@@ -167,8 +167,14 @@ fun TextFieldWithoutPadding(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    textStyle: TextStyle = LocalTextStyle.current,
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium.copy(
+        color = MaterialTheme.colorScheme.onSurface
+    ),
     singleLine: Boolean = false,
+    readOnly: Boolean = false,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     label: String = ""
 ) {
@@ -195,6 +201,7 @@ fun TextFieldWithoutPadding(
             onValueChange = onValueChange,
             textStyle = textStyle,
             singleLine = singleLine,
+            readOnly = readOnly,
             keyboardOptions = keyboardOptions,
             keyboardActions = KeyboardActions(
                 onDone = {
@@ -202,6 +209,8 @@ fun TextFieldWithoutPadding(
                 }
             ),
             cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
+            visualTransformation = visualTransformation,
+            interactionSource = interactionSource,
             decorationBox = @Composable { innerTextField ->
                 Column(
                     modifier = Modifier
@@ -209,6 +218,7 @@ fun TextFieldWithoutPadding(
                         .background(color = MaterialTheme.colorScheme.background),
                     verticalArrangement = Arrangement.Bottom
                 ) {
+
                     if (value.isEmpty() && !isFocused) {
                         Text(
                             text = label,
@@ -222,9 +232,16 @@ fun TextFieldWithoutPadding(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
-                        innerTextField()
+                        Row(verticalAlignment = Alignment.Bottom) {
+                            Box(modifier = Modifier.weight(1f)) {
+                                innerTextField()
+                            }
+                            if (trailingIcon != null) {
+                                trailingIcon()
+                            }
+                        }
                     }
-
+                    
                     TextFieldActiveIndicator(isEnabled = isFocused)
                 }
             }

@@ -40,7 +40,7 @@ fun getPriceTransformedText(input: AnnotatedString, context: Context): Transform
         }
 
         override fun transformedToOriginal(offset: Int): Int {
-            return offset - 2
+            return if (offset <= 2) offset - 1 else offset - 2
         }
 
     }
