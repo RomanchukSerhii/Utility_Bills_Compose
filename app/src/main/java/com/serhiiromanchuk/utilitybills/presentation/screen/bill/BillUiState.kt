@@ -10,7 +10,7 @@ data class BillUiState(
         month = "",
         year = "",
     ),
-    val list: List<UtilityServiceItem> = listOf()
+    val list: List<ServiceItemState> = listOf()
 ) {
     val isNextButtonEnabled: Boolean
         get() {
@@ -19,4 +19,11 @@ data class BillUiState(
             }
             return false
         }
+
+    data class ServiceItemState(
+        val utilityServiceItem: UtilityServiceItem,
+        val previousValue: String = utilityServiceItem.previousValue,
+        val currentValue: String = utilityServiceItem.currentValue,
+        val isChecked: Boolean = true,
+    )
 }

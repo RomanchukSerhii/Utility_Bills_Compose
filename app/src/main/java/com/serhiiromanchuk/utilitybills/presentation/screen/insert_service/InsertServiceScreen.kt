@@ -11,6 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
@@ -71,7 +72,7 @@ private fun InsertServiceScreen(
         bottomBar = {
             PrimaryButton(
                 modifier = modifier.fillMaxWidth(),
-                text = "Зберегти",
+                text = stringResource(id = R.string.save),
                 onClick = { onEvent(InsertServiceUiEvent.Submit) },
                 enabled = currentState.isSaveButtonAvailable
             )

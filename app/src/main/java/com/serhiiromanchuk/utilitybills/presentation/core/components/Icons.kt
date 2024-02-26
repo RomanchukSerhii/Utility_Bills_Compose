@@ -31,11 +31,11 @@ fun EditServiceIcon(
     onEditServiceClick: () -> Unit
 ) {
     IconButton(
-        modifier = modifier.size(36.dp),
+        modifier = modifier,
         onClick = onEditServiceClick
     ) {
         Icon(
-            modifier = Modifier.size(36.dp),
+            modifier = Modifier.size(22.dp),
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_edit),
             contentDescription = stringResource(R.string.edit_meter_value),
             tint = MaterialTheme.colorScheme.secondary

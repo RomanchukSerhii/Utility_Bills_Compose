@@ -1,16 +1,18 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.bill
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillWithUtilityServicesUseCase
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiState.ServiceItemState
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,24 +21,29 @@ class BillViewModel @Inject constructor(
     private val getBillWithUtilityServicesUseCase: GetBillWithUtilityServicesUseCase
 ) : ViewModel() {
 
-    private val bufferUtilityServicesList = mutableListOf<UtilityServiceItem>()
+    private val bufferUtilityServicesList = mutableStateListOf<ServiceItemState>()
 
     private val _navigationEvent = MutableSharedFlow<NavigationEvent>()
     val navigationEvent: SharedFlow<NavigationEvent> = _navigationEvent.asSharedFlow()
 
-    val screenState = getBillWithUtilityServicesUseCase(billId)
-        .map { currentBill ->
-            currentBill.utilityServices.forEach {
-                bufferUtilityServicesList.add(it)
+    private val _screenState = MutableStateFlow(BillUiState())
+    val screenState: StateFlow<BillUiState> = _screenState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            getBillWithUtilityServicesUseCase(billId).collect { currentBill ->
+                currentBill.utilityServices.forEach {
+                    bufferUtilityServicesList.add(ServiceItemState(it))
+                }
+                _screenState.update {
+                    it.copy(
+                        bill = currentBill.bill,
+                        list = bufferUtilityServicesList
+                    )
+                }
             }
-            BillUiState(
-                bill = currentBill.bill,
-                list = bufferUtilityServicesList)
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
-            initialValue = BillUiState()
-        )
+        }
+    }
 
     fun onEvent(event: BillUiEvent) {
         when (event) {
@@ -45,6 +52,7 @@ class BillViewModel @Inject constructor(
                     _navigationEvent.emit(NavigationEvent.OnAddService(event.billCreatorId))
                 }
             }
+
             BillUiEvent.EditBillInfo -> TODO()
             BillUiEvent.Submit -> TODO()
             BillUiEvent.OnBackClicked -> {
@@ -52,35 +60,49 @@ class BillViewModel @Inject constructor(
                     _navigationEvent.emit(NavigationEvent.OnBack)
                 }
             }
+
+            is BillUiEvent.CheckStateChanged -> {
+                changeServiceCheckedState(event.serviceId, event.checked)
+            }
+            is BillUiEvent.CurrentValueChanged -> {
+                meterValueChange(event.serviceId, event.value, MeterValueType.CURRENT)
+            }
+            is BillUiEvent.PreviousValueChanged -> {
+                meterValueChange(event.serviceId, event.value, MeterValueType.PREVIOUS)
+            }
+
+            is BillUiEvent.OnEditServiceClicked -> TODO()
         }
     }
 
-    fun meterValueChange(id: Long, value: String, meterValueType: MeterValueType) {
+    private fun meterValueChange(id: Long, value: String, meterValueType: MeterValueType) {
         bufferUtilityServicesList.apply {
-            replaceAll { oldUtilityService ->
-                if (oldUtilityService.id == id) {
+            replaceAll { oldServiceState ->
+                if (oldServiceState.utilityServiceItem.id == id) {
                     when (meterValueType) {
-                        MeterValueType.PREVIOUS -> oldUtilityService.copy(previousValue = value)
-                        MeterValueType.CURRENT -> oldUtilityService.copy(currentValue = value)
+                        MeterValueType.PREVIOUS -> oldServiceState.copy(previousValue = value)
+                        MeterValueType.CURRENT -> oldServiceState.copy(currentValue = value)
                     }
                 } else {
-                    oldUtilityService
+                    oldServiceState
                 }
             }
         }
     }
 
-    fun changeServiceCheckedState(id: Long, isChecked: Boolean) {
+    private fun changeServiceCheckedState(id: Long, isChecked: Boolean) {
         bufferUtilityServicesList.apply {
-            replaceAll { oldUtilityService ->
-                if (oldUtilityService.id == id) {
-                    oldUtilityService.copy(isChecked = isChecked)
+            replaceAll { oldServiceState ->
+                if (oldServiceState.utilityServiceItem.id == id) {
+                    oldServiceState.copy(isChecked = isChecked)
                 } else {
-                    oldUtilityService
+                    oldServiceState
                 }
             }
         }
-        bufferUtilityServicesList
+        _screenState.update {
+            it.copy(list = bufferUtilityServicesList)
+        }
     }
 
     sealed interface NavigationEvent {

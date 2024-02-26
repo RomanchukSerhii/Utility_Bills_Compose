@@ -39,6 +39,8 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckB
 import com.serhiiromanchuk.utilitybills.presentation.core.components.RoundCheckBoxDefaults
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.UtilityMeterTextField
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiEvent
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiState.ServiceItemState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.utils.trimSpaces
 
@@ -46,14 +48,9 @@ import com.serhiiromanchuk.utilitybills.utils.trimSpaces
 @Composable
 fun ServiceItem(
     modifier: Modifier = Modifier,
-    utilityService: UtilityServiceItem,
-    checked: Boolean = true,
-    onPreviousValueChange: (id: Long, value: String) -> Unit,
-    onCurrentValueChange: (id: Long, value: String) -> Unit,
-    onEditServiceClick: (id: Long) -> Unit,
-    isEnabled: (Boolean) -> Unit
+    serviceState: ServiceItemState,
+    onEvent: (BillUiEvent) -> Unit
 ) {
-    var isChecked by remember { mutableStateOf(checked) }
     CardOnSurface(
         modifier = modifier
             .animateContentSize(
@@ -63,24 +60,58 @@ fun ServiceItem(
         Box(
             modifier = Modifier.height(IntrinsicSize.Min)
         ) {
-            CheckedIndicator(checked = isChecked)
-            ServiceItemContent(
-                utilityService = utilityService,
-                checked = isChecked,
-                onPreviousValueChange = { onPreviousValueChange(utilityService.id, it) },
-                onCurrentValueChange = { onCurrentValueChange(utilityService.id, it) },
-                onEditServiceClick = onEditServiceClick,
-                isEnabled = {
-                    isChecked = it
-                    isEnabled(it)
-                }
-            )
+            CheckedSideIndicator(checked = serviceState.isChecked)
+            Row(
+                modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+                verticalAlignment = Alignment.Top
+            ) {
+                val serviceItem = serviceState.utilityServiceItem
+                val isChecked = serviceState.isChecked
+                RoundCheckBox(
+                    isChecked = isChecked,
+                    onClick = {
+                        onEvent(
+                            BillUiEvent.CheckStateChanged(
+                                serviceItem.id,
+                                !isChecked
+                            )
+                        )
+                    },
+                    color = RoundCheckBoxDefaults.colors(
+                        selectedColor = MaterialTheme.colorScheme.tertiary,
+                        disabledSelectedColor = MaterialTheme.colorScheme.surface,
+                        borderColor = if (isChecked) {
+                            MaterialTheme.colorScheme.tertiary
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        }
+                    )
+                )
+                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.width_small)))
+                ServiceDetails(
+                    modifier = Modifier.weight(1f),
+                    utilityService = serviceState.utilityServiceItem,
+                    isChecked = isChecked,
+                    onPreviousValueChange = { previousValue ->
+                        onEvent(BillUiEvent.PreviousValueChanged(serviceItem.id, previousValue))
+                    },
+                    onCurrentValueChange = { currentValue ->
+                        onEvent(BillUiEvent.CurrentValueChanged(serviceItem.id, currentValue))
+                    }
+                )
+                Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.width_small)))
+                EditServiceIcon(
+                    onEditServiceClick = {
+                        onEvent(BillUiEvent.OnEditServiceClicked(serviceItem.id))
+                    }
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun CheckedIndicator(
+private fun CheckedSideIndicator(
     modifier: Modifier = Modifier,
     checked: Boolean
 ) {
@@ -101,46 +132,6 @@ private fun CheckedIndicator(
             .width(width)
             .background(backgroundColor)
     )
-}
-
-@Composable
-private fun ServiceItemContent(
-    modifier: Modifier = Modifier,
-    utilityService: UtilityServiceItem,
-    checked: Boolean = true,
-    onPreviousValueChange: (String) -> Unit,
-    onCurrentValueChange: (String) -> Unit,
-    onEditServiceClick: (id: Long) -> Unit,
-    isEnabled: (Boolean) -> Unit
-) {
-    Row(
-        modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
-        verticalAlignment = Alignment.Top
-    ) {
-        RoundCheckBox(
-            isChecked = checked,
-            onClick = { isEnabled(!checked) },
-            color = RoundCheckBoxDefaults.colors(
-                selectedColor = MaterialTheme.colorScheme.tertiary,
-                disabledSelectedColor = MaterialTheme.colorScheme.surface,
-                borderColor = if (checked) {
-                    MaterialTheme.colorScheme.tertiary
-                } else {
-                    MaterialTheme.colorScheme.onSurfaceVariant
-                }
-            )
-        )
-        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.width_small)))
-        ServiceDetails(
-            modifier = Modifier.weight(1f),
-            utilityService = utilityService,
-            isChecked = checked,
-            onPreviousValueChange = onPreviousValueChange,
-            onCurrentValueChange = onCurrentValueChange
-        )
-        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.width_small)))
-        EditServiceIcon(onEditServiceClick = { onEditServiceClick(utilityService.id) })
-    }
 }
 
 @Composable
@@ -192,7 +183,7 @@ private fun MeterValue(
     Column(
         modifier = modifier
     ) {
-        Row{
+        Row {
 
             // Previous utility meter
             UtilityMeterTextField(
@@ -240,11 +231,8 @@ private fun MeterValue(
 fun PreviewServiceItem() {
     UtilityBillsTheme {
         ServiceItem(
-            utilityService = fakeUtilityService,
-            onPreviousValueChange = {_, _ ->},
-            onCurrentValueChange = {_, _ ->},
-            onEditServiceClick = { /*TODO*/ },
-            isEnabled = {}
+            serviceState = ServiceItemState(fakeUtilityService),
+            onEvent = { }
         )
     }
 }

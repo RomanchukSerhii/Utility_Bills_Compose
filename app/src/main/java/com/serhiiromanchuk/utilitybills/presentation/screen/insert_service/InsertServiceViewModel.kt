@@ -104,7 +104,7 @@ class InsertServiceViewModel @Inject constructor(
         }
     }
 
-    sealed class NavigationEvent {
-        data object OnBack : NavigationEvent()
+    sealed interface NavigationEvent {
+        data object OnBack : NavigationEvent
     }
 }

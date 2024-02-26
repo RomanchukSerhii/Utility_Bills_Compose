@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Icon
@@ -27,12 +28,13 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
-import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.CardOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiState.ServiceItemState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill.components.BillTopBar
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill.components.ServiceItem
 
 @Composable
 fun BillScreenRoot(
@@ -133,7 +135,7 @@ private fun BillScreen(
         ServiceItems(
             modifier = modifier.padding(paddingValues),
             billCreatorId = currentState.bill.id,
-            serviceItems = currentState.list,
+            serviceStateList = currentState.list,
             onEvent = onEvent
         )
     }
@@ -164,7 +166,7 @@ private fun BillScreen(
 private fun ServiceItems(
     modifier: Modifier = Modifier,
     billCreatorId: Long,
-    serviceItems: List<UtilityServiceItem>,
+    serviceStateList: List<ServiceItemState>,
     onEvent: (BillUiEvent) -> Unit,
 //    onPreviousValueChange: (id: Long, value: String) -> Unit,
 //    onCurrentValueChange: (id: Long, value: String) -> Unit,
@@ -184,15 +186,9 @@ private fun ServiceItems(
                 text = stringResource(R.string.choose_utility_service_title)
             )
         }
-//        items(serviceItems, key = { it.id }) { utilityService ->
-//            ServiceItem(
-//                utilityService = utilityService,
-//                onPreviousValueChange = onPreviousValueChange,
-//                onCurrentValueChange = onCurrentValueChange,
-//                onEditServiceClick = onEditServiceClick,
-//                isEnabled = { isServiceEnabled(utilityService.id, it) }
-//            )
-//        }
+        items(serviceStateList, key = { it.utilityServiceItem.id }) { serviceState ->
+            ServiceItem(serviceState = serviceState, onEvent = onEvent)
+        }
         item {
             AddUtilityServiceCard(modifier = Modifier.clickable {
                 onEvent(BillUiEvent.AddUtilityService(billCreatorId))
