@@ -1,10 +1,10 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.bill
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillWithUtilityServicesUseCase
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiState.ServiceItemState
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.ServiceItemState
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class BillViewModel @Inject constructor(
+class BillGenerationViewModel @Inject constructor(
     private val billId: Long,
     private val getBillWithUtilityServicesUseCase: GetBillWithUtilityServicesUseCase
 ) : ViewModel() {
@@ -26,8 +26,8 @@ class BillViewModel @Inject constructor(
     private val _navigationEvent = MutableSharedFlow<NavigationEvent>()
     val navigationEvent: SharedFlow<NavigationEvent> = _navigationEvent.asSharedFlow()
 
-    private val _screenState = MutableStateFlow(BillUiState())
-    val screenState: StateFlow<BillUiState> = _screenState.asStateFlow()
+    private val _screenState = MutableStateFlow(BillGenerationUiState())
+    val screenState: StateFlow<BillGenerationUiState> = _screenState.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -45,33 +45,33 @@ class BillViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: BillUiEvent) {
+    fun onEvent(event: BillGenerationUiEvent) {
         when (event) {
-            is BillUiEvent.AddUtilityService -> {
+            is BillGenerationUiEvent.AddUtilityService -> {
                 viewModelScope.launch {
                     _navigationEvent.emit(NavigationEvent.OnAddService(event.billCreatorId))
                 }
             }
 
-            BillUiEvent.EditBillInfo -> TODO()
-            BillUiEvent.Submit -> TODO()
-            BillUiEvent.OnBackClicked -> {
+            BillGenerationUiEvent.EditBillInfo -> TODO()
+            BillGenerationUiEvent.Submit -> TODO()
+            BillGenerationUiEvent.OnBackClicked -> {
                 viewModelScope.launch {
                     _navigationEvent.emit(NavigationEvent.OnBack)
                 }
             }
 
-            is BillUiEvent.CheckStateChanged -> {
+            is BillGenerationUiEvent.CheckStateChanged -> {
                 changeServiceCheckedState(event.serviceId, event.checked)
             }
-            is BillUiEvent.CurrentValueChanged -> {
+            is BillGenerationUiEvent.CurrentValueChanged -> {
                 meterValueChange(event.serviceId, event.value, MeterValueType.CURRENT)
             }
-            is BillUiEvent.PreviousValueChanged -> {
+            is BillGenerationUiEvent.PreviousValueChanged -> {
                 meterValueChange(event.serviceId, event.value, MeterValueType.PREVIOUS)
             }
 
-            is BillUiEvent.OnEditServiceClicked -> TODO()
+            is BillGenerationUiEvent.OnEditServiceClicked -> TODO()
         }
     }
 

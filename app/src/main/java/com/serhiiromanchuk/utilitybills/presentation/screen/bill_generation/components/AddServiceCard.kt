@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

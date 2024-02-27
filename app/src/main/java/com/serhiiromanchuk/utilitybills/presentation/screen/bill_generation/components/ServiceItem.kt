@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
@@ -25,15 +25,15 @@ import com.serhiiromanchuk.utilitybills.domain.mocks.fakeUtilityService
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.CardOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.EditServiceIcon
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiEvent
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiState.ServiceItemState
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiEvent
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.ServiceItemState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @Composable
 fun ServiceItem(
     modifier: Modifier = Modifier,
     serviceState: ServiceItemState,
-    onEvent: (BillUiEvent) -> Unit
+    onEvent: (BillGenerationUiEvent) -> Unit
 ) {
     CardOnSurface(
         modifier = modifier
@@ -70,7 +70,7 @@ fun ServiceItem(
                 EditServiceIcon(
                     modifier = Modifier.size(32.dp),
                     onEditServiceClick = {
-                        onEvent(BillUiEvent.OnEditServiceClicked(serviceItem.id))
+                        onEvent(BillGenerationUiEvent.OnEditServiceClicked(serviceItem.id))
                     }
                 )
             }

@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.bill
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,19 +13,19 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiState.ServiceItemState
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill.components.AddUtilityServiceCard
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill.components.BillTopBar
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill.components.ServiceItem
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.ServiceItemState
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components.AddUtilityServiceCard
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components.BillTopBar
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components.ServiceItem
 
 @Composable
 fun BillScreenRoot(
@@ -38,22 +38,22 @@ fun BillScreenRoot(
     val component = getApplicationComponent()
         .getHomeScreenComponentFactory()
         .create(billId)
-    val viewModel: BillViewModel = viewModel(factory = component.getViewModelFactory())
-    val screenState = viewModel.screenState.collectAsState()
+    val viewModel: BillGenerationViewModel = viewModel(factory = component.getViewModelFactory())
+    val screenState = viewModel.screenState.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = true) {
         viewModel.navigationEvent.collect { navigationEvent ->
             when (navigationEvent) {
-                is BillViewModel.NavigationEvent.OnAddService -> {
+                is BillGenerationViewModel.NavigationEvent.OnAddService -> {
                     onAddServiceClick(navigationEvent.billCreatorId)
                 }
 
-                BillViewModel.NavigationEvent.OnBack -> {
+                BillGenerationViewModel.NavigationEvent.OnBack -> {
                     onBackPressed()
                 }
 
-                BillViewModel.NavigationEvent.OnCreateBill -> TODO()
-                is BillViewModel.NavigationEvent.OnEditService -> TODO()
+                BillGenerationViewModel.NavigationEvent.OnCreateBill -> TODO()
+                is BillGenerationViewModel.NavigationEvent.OnEditService -> TODO()
             }
         }
     }
@@ -68,8 +68,8 @@ fun BillScreenRoot(
 @Composable
 private fun BillScreen(
     modifier: Modifier = Modifier,
-    screenState: State<BillUiState>,
-    onEvent: (BillUiEvent) -> Unit
+    screenState: State<BillGenerationUiState>,
+    onEvent: (BillGenerationUiEvent) -> Unit
 ) {
     val currentState = screenState.value
     Scaffold(
@@ -84,7 +84,7 @@ private fun BillScreen(
             PrimaryButton(
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
                 text = stringResource(R.string.create_bill),
-                onClick = { BillUiEvent.Submit },
+                onClick = { BillGenerationUiEvent.Submit },
                 enabled = currentState.isNextButtonEnabled
             )
         }
@@ -103,7 +103,7 @@ private fun ServiceItemList(
     modifier: Modifier = Modifier,
     billCreatorId: Long,
     serviceStateList: List<ServiceItemState>,
-    onEvent: (BillUiEvent) -> Unit
+    onEvent: (BillGenerationUiEvent) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -127,7 +127,7 @@ private fun ServiceItemList(
         item {
             AddUtilityServiceCard(
                 modifier = Modifier.clickable {
-                    onEvent(BillUiEvent.AddUtilityService(billCreatorId))
+                    onEvent(BillGenerationUiEvent.AddUtilityService(billCreatorId))
                 }
             )
         }

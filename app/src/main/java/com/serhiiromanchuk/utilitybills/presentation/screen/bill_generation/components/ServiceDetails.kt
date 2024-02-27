@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -24,8 +24,8 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnS
 import com.serhiiromanchuk.utilitybills.presentation.core.components.ErrorSupportingText
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.UtilityMeterTextField
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiEvent
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiState.ServiceItemState
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiEvent
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.ServiceItemState
 import com.serhiiromanchuk.utilitybills.utils.addCurrencySign
 
 @Composable
@@ -33,7 +33,7 @@ fun ServiceDetails(
     modifier: Modifier = Modifier,
     serviceState: ServiceItemState,
     isChecked: Boolean,
-    onEvent: (BillUiEvent) -> Unit
+    onEvent: (BillGenerationUiEvent) -> Unit
 ) {
     val utilityService = serviceState.utilityServiceItem
     Column(modifier = modifier) {
@@ -64,7 +64,7 @@ fun ServiceDetails(
 private fun MeterValue(
     modifier: Modifier = Modifier,
     serviceState: ServiceItemState,
-    onEvent: (BillUiEvent) -> Unit
+    onEvent: (BillGenerationUiEvent) -> Unit
 ) {
     val serviceItem = serviceState.utilityServiceItem
     var isCurrentValueFocused by remember { mutableStateOf(false) }
@@ -78,7 +78,7 @@ private fun MeterValue(
                 modifier = Modifier.weight(1f),
                 value = serviceItem.previousValue,
                 onValueChange = { previous ->
-                    onEvent(BillUiEvent.PreviousValueChanged(serviceItem.id, previous))
+                    onEvent(BillGenerationUiEvent.PreviousValueChanged(serviceItem.id, previous))
                 },
                 label = "Попередні"
             )
@@ -92,7 +92,7 @@ private fun MeterValue(
                     .onFocusChanged { isCurrentValueFocused = it.isFocused },
                 value = serviceItem.currentValue,
                 onValueChange = { current ->
-                    onEvent(BillUiEvent.CurrentValueChanged(serviceItem.id, current))
+                    onEvent(BillGenerationUiEvent.CurrentValueChanged(serviceItem.id, current))
                 },
                 isError = serviceState.currentTextFieldError,
                 label = "Поточні",

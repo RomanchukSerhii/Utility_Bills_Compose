@@ -19,9 +19,9 @@ sealed class Screen (
         }
     }
 
-    data object BillScreen : Screen(ROUTE_HOME_SCREEN) {
+    data object BillGenerationScreen : Screen(ROUTE_BILL_GENERATION_SCREEN) {
 
-        private const val ROUTE_FOR_ARGS = "bill_screen"
+        private const val ROUTE_FOR_ARGS = "bill_generation_screen"
 
         fun getRoutWithArgs(billId: Long): String {
             return "$ROUTE_FOR_ARGS/$billId"
@@ -51,9 +51,13 @@ sealed class Screen (
         private const val ROUTE_ADD_BILL_SCREEN = "add_bill_screen"
         private const val ROUTE_CHOOSE_BILL_SCREEN = "choose_bill_screen"
         private const val ROUTE_EDIT_PACKAGE_SCREEN = "edit_package_screen/{$KEY_PACKAGE_NAME}/{$KEY_PACKAGE_ID}"
-        private const val ROUTE_HOME_SCREEN = "bill_screen/{$KEY_BILL_ID}"
+
+        private const val ROUTE_BILL_HOME_SCREEN = "bill_home_screen"
+        private const val ROUTE_BILL_SCREEN = "bill_screen"
+        private const val ROUTE_BILL_DETAILS = "bill_details_screen"
+
+        private const val ROUTE_BILL_GENERATION_SCREEN = "bill_generation_screen/{$KEY_BILL_ID}"
         private const val ROUTE_INSERT_SERVICE_SCREEN = "insert_service_screen/{$KEY_SERVICE_ID}/{$KEY_BILL_ID}"
         private const val ROUTE_BILLS_ARCHIVE_SCREEN = "bills_archive_screen"
-        private const val ROUTE_BILL_DETAILS = "bill_details_screen"
     }
 }

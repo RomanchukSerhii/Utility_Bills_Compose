@@ -8,7 +8,7 @@ import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.navigation.AppNavGraph
 import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillScreenRoot
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillScreenRoot
 import com.serhiiromanchuk.utilitybills.presentation.screen.insert_service.InsertServiceScreenRoot
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreenRoute
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillScreenRoot
@@ -30,7 +30,7 @@ fun MainScreen(
         chooseBillScreenContent = {
             ChooseBillScreenRoot(
                 onAddBillClick = { navigationState.navigateTo(Screen.AddBillScreen.route) },
-                onBillItemClick = { navigationState.navigateToBillScreen(billId = it)},
+                onBillItemClick = { navigationState.navigateToBillGenerationScreen(billId = it)},
                 onEditPackageClick = { address, id ->
                     navigationState.navigateToEditPackageScreen(address, id)
                 }
@@ -43,7 +43,7 @@ fun MainScreen(
                 onBackPressed = { navigationState.navHostController.popBackStack() }
             )
         },
-        billScreenContent = { billId ->
+        billGenerationScreenContent = { billId ->
             BillScreenRoot(
                 billId = billId,
                 onEditServiceClick = { id, billCreatorId ->

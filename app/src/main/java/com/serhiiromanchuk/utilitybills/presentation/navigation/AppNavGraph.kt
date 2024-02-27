@@ -14,7 +14,7 @@ fun AppNavGraph(
     chooseBillScreenContent: @Composable () -> Unit,
     editPackageScreenContent: @Composable (String, Long) -> Unit,
     addBillScreenContent: @Composable () -> Unit,
-    billScreenContent: @Composable (Long) -> Unit,
+    billGenerationScreenContent: @Composable (Long) -> Unit,
     insertServiceScreenContent: @Composable (id: Long, billCreatorId: Long) -> Unit,
     billsArchiveScreenContent: @Composable () -> Unit,
     billDetailsScreenContent: @Composable () -> Unit,
@@ -30,7 +30,7 @@ fun AppNavGraph(
             editPackageScreenContent = editPackageScreenContent
         )
         composable(
-            route = Screen.BillScreen.route,
+            route = Screen.BillGenerationScreen.route,
             arguments = listOf(
                 navArgument(name = Screen.KEY_BILL_ID) {
                     type = NavType.LongType
@@ -38,7 +38,7 @@ fun AppNavGraph(
             )
         ) {
             val id = it.arguments?.getLong(Screen.KEY_BILL_ID) ?: UNDEFINED_ID
-            billScreenContent(id)
+            billGenerationScreenContent(id)
         }
         composable(
             route = Screen.InsertServiceScreen.route,

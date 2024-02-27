@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -32,14 +32,14 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnP
 import com.serhiiromanchuk.utilitybills.presentation.core.components.HeadlineTextOnPrimary
 import com.serhiiromanchuk.utilitybills.presentation.core.components.LabelTextOnPrimary
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiEvent
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiEvent
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @Composable
 fun BillTopBar(
     modifier: Modifier = Modifier,
     billItem: BillItem,
-    onEvent: (BillUiEvent) -> Unit
+    onEvent: (BillGenerationUiEvent) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -54,7 +54,7 @@ fun BillTopBar(
             )
     ) {
         TopBarApp(
-            onBackPressed = { onEvent(BillUiEvent.OnBackClicked) },
+            onBackPressed = { onEvent(BillGenerationUiEvent.OnBackClicked) },
             actions = {
                 IconButton(onClick = {  }) {
                     Icon(
@@ -123,9 +123,9 @@ fun BillInfoText(
 
 @Composable
 fun EditIcon(
-    onEvent: (BillUiEvent) -> Unit
+    onEvent: (BillGenerationUiEvent) -> Unit
 ) {
-    IconButton(onClick = { onEvent(BillUiEvent.EditBillInfo) }) {
+    IconButton(onClick = { onEvent(BillGenerationUiEvent.EditBillInfo) }) {
         Icon(
             modifier = Modifier.size(20.dp),
             painter = painterResource(id = R.drawable.ic_edit),

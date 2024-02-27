@@ -39,7 +39,7 @@ class UtilityBillsScreenNavigationTest {
     @Test
     fun utilityBillsNavHost_clickSaveOnStartScreen_navigatesToMainScreen() {
         navigateToMainScreen()
-        navController.assertCurrentRouteName(Screen.BillScreen.route)
+        navController.assertCurrentRouteName(Screen.BillGenerationScreen.route)
     }
 
     private fun navigateToMainScreen() {

@@ -29,8 +29,8 @@ class NavigationState(
         navHostController.navigate(Screen.EditPackageScreen.getRoutWithArgs(packageName, billId))
     }
 
-    fun navigateToBillScreen(billId: Long) {
-        navHostController.navigate(Screen.BillScreen.getRoutWithArgs(billId))
+    fun navigateToBillGenerationScreen(billId: Long) {
+        navHostController.navigate(Screen.BillGenerationScreen.getRoutWithArgs(billId))
     }
 }
 

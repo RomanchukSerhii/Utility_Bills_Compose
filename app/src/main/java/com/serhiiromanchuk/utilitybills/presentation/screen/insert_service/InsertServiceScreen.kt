@@ -9,9 +9,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
@@ -31,7 +31,7 @@ fun InsertServiceScreenRoot(
         .create(utilityServiceId, billCreatorId)
     val viewModel: InsertServiceViewModel =
         viewModel(factory = component.getViewModelFactory())
-    val screenState = viewModel.screenState.collectAsState()
+    val screenState = viewModel.screenState.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = true) {
         viewModel.navigationEvents.collect { event ->
