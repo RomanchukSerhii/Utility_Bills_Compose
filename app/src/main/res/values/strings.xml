@@ -53,4 +53,5 @@
     <string name="previous_value">Попередні*</string>
     <string name="current_value">Поточні</string>
     <string name="enter_utility_service_info">Вкажіть дані комунальної послуги:</string>
+    <string name="create_bill">Сформувати рахунок</string>
 </resources>
