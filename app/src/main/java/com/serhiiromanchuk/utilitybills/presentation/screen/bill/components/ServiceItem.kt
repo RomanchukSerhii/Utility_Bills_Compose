@@ -60,14 +60,9 @@ fun ServiceItem(
 
                 ServiceDetails(
                     modifier = Modifier.weight(1f),
-                    utilityService = serviceState.utilityServiceItem,
+                    serviceState = serviceState,
                     isChecked = isChecked,
-                    onPreviousValueChange = { previousValue ->
-                        onEvent(BillUiEvent.PreviousValueChanged(serviceItem.id, previousValue))
-                    },
-                    onCurrentValueChange = { currentValue ->
-                        onEvent(BillUiEvent.CurrentValueChanged(serviceItem.id, currentValue))
-                    }
+                    onEvent = onEvent
                 )
 
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.width_small)))

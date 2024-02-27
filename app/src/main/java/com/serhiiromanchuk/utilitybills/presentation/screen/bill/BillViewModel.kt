@@ -78,16 +78,24 @@ class BillViewModel @Inject constructor(
     private fun meterValueChange(id: Long, value: String, meterValueType: MeterValueType) {
         bufferUtilityServicesList.apply {
             replaceAll { oldServiceState ->
-                if (oldServiceState.utilityServiceItem.id == id) {
-                    when (meterValueType) {
-                        MeterValueType.PREVIOUS -> oldServiceState.copy(previousValue = value)
-                        MeterValueType.CURRENT -> oldServiceState.copy(currentValue = value)
+                val oldServiceItem = oldServiceState.utilityServiceItem
+
+                if (oldServiceItem.id == id) {
+                    val newServiceItem = when (meterValueType) {
+                        MeterValueType.PREVIOUS -> {
+                            oldServiceItem.copy(previousValue = value)
+                        }
+                        MeterValueType.CURRENT -> {
+                            oldServiceItem.copy(currentValue = value)
+                        }
                     }
+                    oldServiceState.copy(utilityServiceItem = newServiceItem)
                 } else {
                     oldServiceState
                 }
             }
         }
+        updateList()
     }
 
     private fun changeServiceCheckedState(id: Long, isChecked: Boolean) {
@@ -100,6 +108,10 @@ class BillViewModel @Inject constructor(
                 }
             }
         }
+        updateList()
+    }
+
+    private fun updateList() {
         _screenState.update {
             it.copy(list = bufferUtilityServicesList)
         }

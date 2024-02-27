@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -21,27 +20,27 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import com.serhiiromanchuk.utilitybills.R
-import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.ErrorSupportingText
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.UtilityMeterTextField
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiEvent
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiState.ServiceItemState
 import com.serhiiromanchuk.utilitybills.utils.addCurrencySign
-import com.serhiiromanchuk.utilitybills.utils.trimSpaces
 
 @Composable
 fun ServiceDetails(
     modifier: Modifier = Modifier,
-    utilityService: UtilityServiceItem,
+    serviceState: ServiceItemState,
     isChecked: Boolean,
-    onPreviousValueChange: (String) -> Unit,
-    onCurrentValueChange: (String) -> Unit
+    onEvent: (BillUiEvent) -> Unit
 ) {
+    val utilityService = serviceState.utilityServiceItem
     Column(modifier = modifier) {
         TitleTextOnSurface(text = utilityService.name)
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_extra_small)))
         BodyTextOnSurface(
-            text = stringResource( R.string.tariff, utilityService.tariff).addCurrencySign()
+            text = stringResource(R.string.tariff, utilityService.tariff).addCurrencySign()
         )
         AnimatedVisibility(
             visible = utilityService.isMeterAvailable && isChecked,
@@ -51,10 +50,8 @@ fun ServiceDetails(
             Column {
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_large)))
                 MeterValue(
-                    previousValue = utilityService.previousValue,
-                    currentValue = utilityService.currentValue,
-                    onPreviousValueChange = onPreviousValueChange,
-                    onCurrentValueChange = onCurrentValueChange
+                    serviceState = serviceState,
+                    onEvent = onEvent
                 )
             }
         }
@@ -66,22 +63,11 @@ fun ServiceDetails(
 @Composable
 private fun MeterValue(
     modifier: Modifier = Modifier,
-    previousValue: String,
-    currentValue: String,
-    onPreviousValueChange: (String) -> Unit,
-    onCurrentValueChange: (String) -> Unit
+    serviceState: ServiceItemState,
+    onEvent: (BillUiEvent) -> Unit
 ) {
-    var previousMeterValue by rememberSaveable { mutableStateOf(previousValue) }
-    var currentMeterValue by rememberSaveable { mutableStateOf(currentValue) }
-
-    var isError by rememberSaveable { mutableStateOf(false) }
+    val serviceItem = serviceState.utilityServiceItem
     var isCurrentValueFocused by remember { mutableStateOf(false) }
-
-    fun compareMaterValues() {
-        val previousDigit = previousMeterValue.trimSpaces().toIntOrNull() ?: 0
-        val currentDigit = currentMeterValue.trimSpaces().toIntOrNull() ?: 0
-        isError = previousDigit > currentDigit
-    }
 
     Column(
         modifier = modifier
@@ -90,11 +76,9 @@ private fun MeterValue(
             // Previous utility meter
             UtilityMeterTextField(
                 modifier = Modifier.weight(1f),
-                value = previousMeterValue,
-                onValueChange = {
-                    previousMeterValue = it
-                    onPreviousValueChange(it)
-                    compareMaterValues()
+                value = serviceItem.previousValue,
+                onValueChange = { previous ->
+                    onEvent(BillUiEvent.PreviousValueChanged(serviceItem.id, previous))
                 },
                 label = "Попередні"
             )
@@ -106,13 +90,11 @@ private fun MeterValue(
                 modifier = Modifier
                     .weight(1f)
                     .onFocusChanged { isCurrentValueFocused = it.isFocused },
-                value = currentMeterValue,
-                onValueChange = {
-                    currentMeterValue = it
-                    onCurrentValueChange(it)
-                    compareMaterValues()
+                value = serviceItem.currentValue,
+                onValueChange = { current ->
+                    onEvent(BillUiEvent.CurrentValueChanged(serviceItem.id, current))
                 },
-                isError = isError,
+                isError = serviceState.currentTextFieldError,
                 label = "Поточні",
                 imeAction = ImeAction.Done
             )
@@ -120,7 +102,7 @@ private fun MeterValue(
 
         ErrorSupportingText(
             supportingText = R.string.utility_supporting_error_message,
-            isEnabled = isError && isCurrentValueFocused
+            isEnabled = serviceState.currentTextFieldError && isCurrentValueFocused
         )
     }
 }

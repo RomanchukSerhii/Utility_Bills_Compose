@@ -2,6 +2,7 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.bill
 
 import com.serhiiromanchuk.utilitybills.domain.model.BillItem
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
+import com.serhiiromanchuk.utilitybills.utils.trimSpaces
 
 data class BillUiState(
     val bill: BillItem = BillItem(
@@ -22,8 +23,13 @@ data class BillUiState(
 
     data class ServiceItemState(
         val utilityServiceItem: UtilityServiceItem,
-        val previousValue: String = utilityServiceItem.previousValue,
-        val currentValue: String = utilityServiceItem.currentValue,
         val isChecked: Boolean = true,
-    )
+    ) {
+        val currentTextFieldError: Boolean
+            get() {
+                val previousDigit = utilityServiceItem.previousValue.trimSpaces().toIntOrNull() ?: 0
+                val currentDigit = utilityServiceItem.currentValue.trimSpaces().toIntOrNull() ?: 0
+                return previousDigit > currentDigit
+            }
+    }
 }
