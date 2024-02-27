@@ -39,13 +39,18 @@ sealed class Screen (
 
     data object BillsArchiveScreen : Screen(ROUTE_BILLS_ARCHIVE_SCREEN)
 
-    data object BillDetails : Screen(ROUTE_BILL_DETAILS)
+    data object BillHomeScreen : Screen(ROUTE_BILL_HOME_SCREEN)
+
+    data object BillScreen : Screen(ROUTE_BILL_SCREEN)
+
+    data object BillDetailsScreen : Screen(ROUTE_BILL_DETAILS)
 
     companion object {
         const val KEY_SERVICE_ID = "utility_service_id"
         const val KEY_BILL_ID = "bill_creator_id"
         const val KEY_PACKAGE_NAME = "package_name"
         const val KEY_PACKAGE_ID = "package_id"
+        const val KEY_MONTH = "month"
 
         private const val ROUTE_START_SCREEN = "start_screen"
         private const val ROUTE_ADD_BILL_SCREEN = "add_bill_screen"

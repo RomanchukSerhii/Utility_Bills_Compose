@@ -17,6 +17,7 @@ fun AppNavGraph(
     billGenerationScreenContent: @Composable (Long) -> Unit,
     insertServiceScreenContent: @Composable (id: Long, billCreatorId: Long) -> Unit,
     billsArchiveScreenContent: @Composable () -> Unit,
+    billScreenContent: @Composable () -> Unit,
     billDetailsScreenContent: @Composable () -> Unit,
 
     ) {
@@ -28,6 +29,11 @@ fun AppNavGraph(
             chooseBillScreenContent = chooseBillScreenContent,
             addBillScreenContent = addBillScreenContent,
             editPackageScreenContent = editPackageScreenContent
+        )
+        billHomeScreenNavGraph(
+            navController = navHostController,
+            billScreen = billScreenContent,
+            billDetailsScreen = billDetailsScreenContent
         )
         composable(
             route = Screen.BillGenerationScreen.route,
@@ -57,9 +63,6 @@ fun AppNavGraph(
         }
         composable(Screen.BillsArchiveScreen.route) {
             billsArchiveScreenContent()
-        }
-        composable(Screen.BillDetails.route) {
-            billDetailsScreenContent()
         }
     }
 }

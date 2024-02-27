@@ -36,7 +36,7 @@ fun BillScreenRoot(
     onAddServiceClick: (billCreatorId: Long) -> Unit
 ) {
     val component = getApplicationComponent()
-        .getHomeScreenComponentFactory()
+        .getBillGenerationScreenComponentFactory()
         .create(billId)
     val viewModel: BillGenerationViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.collectAsStateWithLifecycle()

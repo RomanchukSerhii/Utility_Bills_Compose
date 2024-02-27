@@ -18,7 +18,9 @@ interface ApplicationComponent {
 
     fun getEditPackageScreenComponentFactory(): EditPackageScreenComponent.Factory
 
-    fun getHomeScreenComponentFactory(): HomeScreenComponent.Factory
+    fun getBillGenerationScreenComponentFactory(): BillGenerationScreenComponent.Factory
+
+    fun getBillHomeScreenComponentFactory(): BillHomeScreenComponent.Factory
 
     @Component.Factory
     interface ApplicationComponentFactory {
