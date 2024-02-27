@@ -1,8 +1,11 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.bill.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +15,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -42,6 +46,7 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.UtilityMete
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiEvent
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill.BillUiState.ServiceItemState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
+import com.serhiiromanchuk.utilitybills.utils.addCurrencySign
 import com.serhiiromanchuk.utilitybills.utils.trimSpaces
 
 
@@ -53,9 +58,7 @@ fun ServiceItem(
 ) {
     CardOnSurface(
         modifier = modifier
-            .animateContentSize(
-                animationSpec = tween(durationMillis = 800)
-            )
+            .animateContentSize(animationSpec = tween(durationMillis = 300))
     ) {
         Box(
             modifier = Modifier.height(IntrinsicSize.Min)
@@ -101,6 +104,7 @@ fun ServiceItem(
                 )
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.width_small)))
                 EditServiceIcon(
+                    modifier = Modifier.size(32.dp),
                     onEditServiceClick = {
                         onEvent(BillUiEvent.OnEditServiceClicked(serviceItem.id))
                     }
@@ -122,7 +126,7 @@ private fun CheckedSideIndicator(
     }
 
     val width by animateDpAsState(
-        animationSpec = tween(800),
+        animationSpec = tween(300),
         targetValue = if (checked) 4.dp else 0.dp, label = ""
     )
 
@@ -145,15 +149,21 @@ private fun ServiceDetails(
     Column(modifier = modifier) {
         TitleTextOnSurface(text = utilityService.name)
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_extra_small)))
-        BodyTextOnSurface(text = stringResource(R.string.tariff, utilityService.tariff))
-        if (utilityService.isMeterAvailable && isChecked) {
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_large)))
-            MeterValue(
-                previousValue = utilityService.previousValue,
-                currentValue = utilityService.currentValue,
-                onPreviousValueChange = onPreviousValueChange,
-                onCurrentValueChange = onCurrentValueChange
-            )
+        BodyTextOnSurface(text = stringResource(R.string.tariff, utilityService.tariff).addCurrencySign())
+        AnimatedVisibility(
+            visible = utilityService.isMeterAvailable && isChecked,
+            enter = fadeIn(animationSpec = tween(durationMillis = 300)),
+            exit = fadeOut(animationSpec = tween(durationMillis = 100))
+        ) {
+            Column {
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_large)))
+                MeterValue(
+                    previousValue = utilityService.previousValue,
+                    currentValue = utilityService.currentValue,
+                    onPreviousValueChange = onPreviousValueChange,
+                    onCurrentValueChange = onCurrentValueChange
+                )
+            }
         }
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
     }

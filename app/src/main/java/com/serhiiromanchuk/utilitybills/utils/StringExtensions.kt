@@ -56,3 +56,5 @@ fun String.isPriceFormat(): Boolean {
 
 fun String.removeCurrencySign(): String = this.replace(" ₴", "")
 
+fun String.addCurrencySign(): String = "$this ₴"
+

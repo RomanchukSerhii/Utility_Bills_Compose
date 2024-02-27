@@ -1,6 +1,10 @@
 package com.serhiiromanchuk.utilitybills.presentation.core.components
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -154,7 +158,11 @@ fun ErrorSupportingText(
     @StringRes supportingText: Int,
     isEnabled: Boolean
 ) {
-    if (isEnabled) {
+    AnimatedVisibility(
+        visible = isEnabled,
+        enter = fadeIn(animationSpec = tween(durationMillis = 300)),
+        exit = fadeOut(animationSpec = tween(durationMillis = 150))
+    ) {
         Row(
             modifier = modifier.fillMaxWidth()
         ) {
@@ -179,6 +187,9 @@ fun ErrorSupportingText(
                 )
             }
         }
+    }
+    if (isEnabled) {
+
     }
 }
 
