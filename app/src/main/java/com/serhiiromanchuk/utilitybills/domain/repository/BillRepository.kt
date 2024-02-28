@@ -10,6 +10,8 @@ interface BillRepository {
 
     suspend fun deleteBillItem(billItemId: Long)
 
+    suspend fun deleteBillsFromPackage(packageId: Long)
+
     suspend fun updateBillAddress(address: String, billId: Long)
 
     suspend fun updateBillItems(billItems: List<Bill>)

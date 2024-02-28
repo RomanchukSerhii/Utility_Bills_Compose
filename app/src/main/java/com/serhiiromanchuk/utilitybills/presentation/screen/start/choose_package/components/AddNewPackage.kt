@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
@@ -14,17 +14,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
-import com.serhiiromanchuk.utilitybills.presentation.core.components.BillCardIcon
 import com.serhiiromanchuk.utilitybills.presentation.core.components.CardOnSurface
-import com.serhiiromanchuk.utilitybills.presentation.core.components.TextOnBillCard
+import com.serhiiromanchuk.utilitybills.presentation.core.components.PackageCardIcon
+import com.serhiiromanchuk.utilitybills.presentation.core.components.TextOnPackageCard
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AddNewBill(
+fun AddNewPackage(
     modifier: Modifier = Modifier,
     isEditMode: Boolean,
-    onAddBillClick: () -> Unit
+    onAddPackageClick: () -> Unit
 ) {
     CardOnSurface(
         modifier = modifier
@@ -36,18 +36,18 @@ fun AddNewBill(
             modifier = Modifier
                 .combinedClickable(
                     onLongClick = { },
-                    onClick = { if (!isEditMode) onAddBillClick() }
+                    onClick = { if (!isEditMode) onAddPackageClick() }
                 )
         ) {
-            BillCardIcon(
+            PackageCardIcon(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 iconId = R.drawable.ic_add_folder,
-                contentDescriptionId = R.string.add_bill_address,
+                contentDescriptionId = R.string.add_new_package,
                 isAddIcon = true
             )
-            TextOnBillCard(
+            TextOnPackageCard(
                 modifier = Modifier.weight(1f),
-                text = stringResource(R.string.add_bill_address)
+                text = stringResource(R.string.add_new_package)
             )
         }
     }
@@ -55,11 +55,11 @@ fun AddNewBill(
 
 @DarkLightPreviews
 @Composable
-private fun AddNewBillPreview() {
+private fun AddNewPackagePreview() {
     UtilityBillsTheme {
-        AddNewBill(
+        AddNewPackage(
             isEditMode = false,
-            onAddBillClick = {}
+            onAddPackageClick = {}
         )
     }
 }

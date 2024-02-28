@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -12,7 +12,7 @@ import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightP
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.DialogWithRectangleShape
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillState.DialogState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageState.DialogState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @Composable

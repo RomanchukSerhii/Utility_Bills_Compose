@@ -35,4 +35,8 @@ class BillPackageMapper @Inject constructor() {
         mapDbModelToEntity(it)
     }
 
+    fun mapListEntityToListDbModel(entities: List<BillPackage>) = entities.map {
+        mapEntityToDbModel(it)
+    }
+
 }

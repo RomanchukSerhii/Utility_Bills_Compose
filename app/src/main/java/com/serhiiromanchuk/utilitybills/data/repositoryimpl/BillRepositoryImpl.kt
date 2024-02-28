@@ -21,6 +21,10 @@ class BillRepositoryImpl @Inject constructor(
         billDao.deleteBillItem(billItemId)
     }
 
+    override suspend fun deleteBillsFromPackage(packageId: Long) {
+        billDao.deleteBillsFromPackage(packageId)
+    }
+
     override suspend fun updateBillAddress(address: String, billId: Long) {
         billDao.updateAddress(address, billId)
     }

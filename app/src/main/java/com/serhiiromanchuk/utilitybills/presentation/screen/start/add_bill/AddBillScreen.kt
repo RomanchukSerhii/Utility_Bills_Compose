@@ -44,7 +44,7 @@ private fun AddBillScreen(
         modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
         topBar = {
             TopBarApp(
-                titleId = R.string.add_bill_address,
+                titleId = R.string.add_new_package,
                 onBackPressed = onBackPressed
             )
         },

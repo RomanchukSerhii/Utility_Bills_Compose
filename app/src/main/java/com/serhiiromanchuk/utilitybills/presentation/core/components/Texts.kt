@@ -124,7 +124,7 @@ fun BodyTextOnPrimary(
 }
 
 @Composable
-fun TextOnBillCard(
+fun TextOnPackageCard(
     modifier: Modifier = Modifier,
     text: String
 ) {

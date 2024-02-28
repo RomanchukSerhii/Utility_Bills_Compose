@@ -23,7 +23,7 @@
     <string name="empty_house_field_error">*Заповніть поле. Вкажіть номер будинку</string>
     <string name="not_enough_card_number_digits_error">*Потрібно ввести 16 цифр</string>
     <string name="add_new_bill">Додати новий рахунок</string>
-    <string name="add_bill_address">Додати адресу</string>
+    <string name="add_new_package">Додати адресу</string>
     <string name="utility_bills">Комунальні рахунки</string>
     <string name="package_settings">Налаштування папки</string>
     <string name="change_package_name">Перейменувати назву папки</string>
@@ -37,7 +37,7 @@
     <string name="apartment_value">, кв. %1$s</string>
     <string name="address_value">%1$s, вул. %2$s, буд. %3$s%4$s%5$s</string>
     <string name="next">Далі</string>
-    <string name="delete_bill">Видалити рахунок</string>
+    <string name="delete_bill_package">Видалити папку з рахунками</string>
     <string name="package_name">Назва папки</string>
     <string name="continue_button">Продовжити</string>
     <string name="city_name">Місто/Населений пункт*</string>

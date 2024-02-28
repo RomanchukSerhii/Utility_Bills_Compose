@@ -11,6 +11,8 @@ interface BillPackageRepository {
 
     suspend fun getMaxIndexPosition(): Int?
 
+    suspend fun updateBillPackages(billPackages: List<BillPackage>)
+
     fun getBillPackages(): Flow<List<BillPackage>>
 
     fun getBillPackageWitBills(packageId: Long): Flow<PackageWithBills>

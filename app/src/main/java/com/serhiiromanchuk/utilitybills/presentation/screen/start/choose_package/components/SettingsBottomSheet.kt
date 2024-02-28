@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillState.VisibleSheetState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageState.VisibleSheetState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,8 +58,8 @@ fun SettingsBottomSheet(
             shape = MaterialTheme.shapes.medium
         ) {
             BottomSheetContent(
-                billId = visibleState.billId,
-                billAddress = visibleState.billAddress,
+                packageId = visibleState.packageId,
+                packageAddress = visibleState.packageAddress,
                 onChangeNameClick = onChangeNameClick,
                 onEditModeClick = onEditModeClick
             )
@@ -69,8 +69,8 @@ fun SettingsBottomSheet(
 
 @Composable
 private fun BottomSheetContent(
-    billId: Long,
-    billAddress: String,
+    packageId: Long,
+    packageAddress: String,
     onChangeNameClick: (String, Long) -> Unit,
     onEditModeClick: () -> Unit
 ) {
@@ -86,8 +86,8 @@ private fun BottomSheetContent(
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_medium)))
 
         EditPackageButton(
-            billId = billId,
-            billAddress = billAddress,
+            packageId = packageId,
+            packageAddress = packageAddress,
             onClick = onChangeNameClick
         )
 
@@ -115,8 +115,8 @@ private fun BottomSheetHeader() {
 
 @Composable
 private fun EditPackageButton(
-    billId: Long,
-    billAddress: String,
+    packageId: Long,
+    packageAddress: String,
     onClick: (String, Long) -> Unit
 ) {
     Row(
@@ -126,7 +126,7 @@ private fun EditPackageButton(
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
-            ) { onClick(billAddress, billId) },
+            ) { onClick(packageAddress, packageId) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -182,8 +182,8 @@ private fun MoveOrDeleteButton(
 private fun BottomSheetContentPreview() {
     UtilityBillsTheme {
         BottomSheetContent(
-            billId = 1,
-            billAddress = "",
+            packageId = 1,
+            packageAddress = "",
             onChangeNameClick = { _, _ -> },
             onEditModeClick = {}
         )

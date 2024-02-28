@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -16,28 +16,28 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
-import com.serhiiromanchuk.utilitybills.domain.mocks.fakeBillItem
+import com.serhiiromanchuk.utilitybills.domain.model.BillPackage
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components.BillAddressList
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components.DeletePackageDialog
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components.SettingsBottomSheet
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.components.DeletePackageDialog
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.components.PackageList
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.components.SettingsBottomSheet
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.ui.theme.editModeBackground
 
 @Composable
-fun ChooseBillScreenRoot(
+fun ChoosePackageScreenRoot(
     modifier: Modifier = Modifier,
     onAddBillClick: () -> Unit,
     onBillItemClick: (Long) -> Unit,
     onEditPackageClick: (String, Long) -> Unit
 ) {
     val component = getApplicationComponent()
-    val viewModel: ChooseBillViewModel = viewModel(factory = component.getViewModelFactory())
+    val viewModel: ChoosePackageViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.collectAsStateWithLifecycle()
 
-    ChooseBillScreen(
+    ChoosePackageScreen(
         modifier = modifier,
         screenState = screenState,
         onAddBillClick = onAddBillClick,
@@ -48,13 +48,13 @@ fun ChooseBillScreenRoot(
 }
 
 @Composable
-private fun ChooseBillScreen(
+private fun ChoosePackageScreen(
     modifier: Modifier = Modifier,
-    screenState: State<ChooseBillState>,
+    screenState: State<ChoosePackageState>,
     onAddBillClick: () -> Unit,
     onBillItemClick: (Long) -> Unit,
     onEditPackageClick: (String, Long) -> Unit,
-    onEvent: (ChooseBillEvent) -> Unit
+    onEvent: (ChoosePackageEvent) -> Unit
 ) {
     val currentState = screenState.value
 
@@ -65,7 +65,7 @@ private fun ChooseBillScreen(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
             ) {
-                if (screenState.value.isEditMode) { onEvent(ChooseBillEvent.ChangeEditMode) }
+                if (screenState.value.isEditMode) { onEvent(ChoosePackageEvent.ChangeEditMode) }
             },
         topBar = { TopBarApp(titleId = R.string.utility_bills) },
         containerColor = if (screenState.value.isEditMode) {
@@ -75,50 +75,51 @@ private fun ChooseBillScreen(
         }
     ) { paddingValues ->
 
-        BillAddressList(
+        PackageList(
             modifier = Modifier.padding(paddingValues),
             screenState = currentState,
             onEvent = onEvent,
-            onAddBillClick = onAddBillClick,
-            onBillItemClick = onBillItemClick
+            onAddPackageClick = onAddBillClick,
+            onPackageClick = onBillItemClick
         )
 
         DeletePackageDialog(
             dialogState = currentState.dialogState,
-            closeDialog = { onEvent(ChooseBillEvent.CloseDialog) },
-            onConfirmClick = { onEvent(ChooseBillEvent.DeleteBill(it)) }
+            closeDialog = { onEvent(ChoosePackageEvent.CloseDialog) },
+            onConfirmClick = { onEvent(ChoosePackageEvent.DeletePackage(it)) }
         )
 
         SettingsBottomSheet(
             visibleState = currentState.visibleSheetState,
-            onDismissRequest = { onEvent(ChooseBillEvent.CloseBottomSheet) },
+            onDismissRequest = { onEvent(ChoosePackageEvent.CloseBottomSheet) },
             onChangeNameClick = { address, id ->
-                onEvent(ChooseBillEvent.SetInitialState)
+                onEvent(ChoosePackageEvent.SetInitialState)
                 onEditPackageClick(address, id)
             },
-            onEditModeClick = { onEvent(ChooseBillEvent.ChangeEditMode) }
+            onEditModeClick = { onEvent(ChoosePackageEvent.ChangeEditMode) }
         )
     }
 }
 
 @DarkLightPreviews
 @Composable
-private fun ChooseBillScreenPreview() {
+private fun ChoosePackageScreenPreview() {
     UtilityBillsTheme {
-        val mockState = ChooseBillState(
+        val mockState = ChoosePackageState(
                 listOf(
-                    fakeBillItem,
-                    fakeBillItem.copy(
+                    BillPackage(
                         id = 1,
-                        address = "вул. Коцюбинського 34, кв. 15"
+                        name = "вул. Коцюбинського 34, кв. 15",
+                        indexPosition = 1
                     ),
-                    fakeBillItem.copy(
+                    BillPackage(
                         id = 2,
-                        address = "вул. Пилипа Орлика 14, кв.3"
+                        name = "вул. Пилипа Орлика 14, кв.3",
+                        indexPosition = 2
                     )
                 )
         )
-        ChooseBillScreen(
+        ChoosePackageScreen(
             screenState = mutableStateOf(mockState),
             onAddBillClick = {},
             onBillItemClick = {},

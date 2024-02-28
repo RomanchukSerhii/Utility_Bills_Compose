@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutLinearInEasing
@@ -39,18 +39,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
-import com.serhiiromanchuk.utilitybills.presentation.core.components.BillCardIcon
 import com.serhiiromanchuk.utilitybills.presentation.core.components.CardOnSurface
-import com.serhiiromanchuk.utilitybills.presentation.core.components.TextOnBillCard
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillState.BillCardState
+import com.serhiiromanchuk.utilitybills.presentation.core.components.PackageCardIcon
+import com.serhiiromanchuk.utilitybills.presentation.core.components.TextOnPackageCard
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageState.PackageCardState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.ui.theme.editCardColor
 
 @Composable
-fun BillAddressCard(
+fun PackageCard(
     modifier: Modifier = Modifier,
-    billAddress: String,
-    cardState: BillCardState,
+    packageName: String,
+    cardState: PackageCardState,
     elevation: Dp,
     onLongClick: () -> Unit,
     onClick: () -> Unit,
@@ -60,18 +60,18 @@ fun BillAddressCard(
         modifier = modifier
     ) {
         when (cardState) {
-            is BillCardState.EditMode -> {
-                EditableBillCard(
+            is PackageCardState.EditMode -> {
+                EditablePackageCard(
                     modifier = Modifier.height(180.dp),
-                    billAddress = billAddress,
+                    packageName = packageName,
                     elevation = elevation,
                     onDeleteIconClick = onDeleteIconClick
                 )
             }
-            BillCardState.Initial -> {
-                RegularBillCard(
+            PackageCardState.Initial -> {
+                RegularPackageCard(
                     modifier = Modifier.height(180.dp),
-                    billAddress = billAddress,
+                    packageName = packageName,
                     elevation = elevation,
                     onLongClick = onLongClick,
                     onClick = onClick
@@ -83,9 +83,9 @@ fun BillAddressCard(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun RegularBillCard(
+private fun RegularPackageCard(
     modifier: Modifier = Modifier,
-    billAddress: String,
+    packageName: String,
     elevation: Dp,
     onLongClick: () -> Unit,
     onClick: () -> Unit,
@@ -109,23 +109,23 @@ private fun RegularBillCard(
                     onClick = onClick
                 )
         ) {
-            BillCardIcon(
+            PackageCardIcon(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 iconId = R.drawable.ic_home,
                 contentDescriptionId = null
             )
-            TextOnBillCard(
+            TextOnPackageCard(
                 modifier = Modifier.weight(1f),
-                text = billAddress
+                text = packageName
             )
         }
     }
 }
 
 @Composable
-fun BoxScope.EditableBillCard(
+fun BoxScope.EditablePackageCard(
     modifier: Modifier = Modifier,
-    billAddress: String,
+    packageName: String,
     elevation: Dp,
     onDeleteIconClick: () -> Unit,
 ) {
@@ -165,14 +165,14 @@ fun BoxScope.EditableBillCard(
                 .fillMaxSize()
                 .clickable { }
         ) {
-            BillCardIcon(
+            PackageCardIcon(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 iconId = R.drawable.ic_home,
                 contentDescriptionId = null
             )
-            TextOnBillCard(
+            TextOnPackageCard(
                 modifier = Modifier.weight(1f),
-                text = billAddress
+                text = packageName
             )
         }
     }
@@ -192,7 +192,7 @@ fun BoxScope.EditableBillCard(
             ) {
                 Icon(
                     imageVector = Icons.Default.Clear,
-                    contentDescription = stringResource(R.string.delete_bill),
+                    contentDescription = stringResource(R.string.delete_bill_package),
                     tint = Color.White
                 )
             }
@@ -202,11 +202,11 @@ fun BoxScope.EditableBillCard(
 
 @DarkLightPreviews
 @Composable
-private fun AddNewBillPreview() {
+private fun AddPackagePreview() {
     UtilityBillsTheme {
-        BillAddressCard(
-            billAddress = "вул. Грушевського 23, кв. 235",
-            cardState = BillCardState.Initial,
+        PackageCard(
+            packageName = "вул. Грушевського 23, кв. 235",
+            cardState = PackageCardState.Initial,
             elevation = 2.dp,
             onLongClick = { },
             onClick = { },

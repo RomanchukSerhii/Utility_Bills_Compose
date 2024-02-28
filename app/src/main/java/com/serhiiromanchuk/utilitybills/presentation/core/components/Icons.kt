@@ -44,7 +44,7 @@ fun EditServiceIcon(
 }
 
 @Composable
-fun BillCardIcon(
+fun PackageCardIcon(
     modifier: Modifier = Modifier,
     @DrawableRes iconId: Int,
     @StringRes contentDescriptionId: Int? = null,
