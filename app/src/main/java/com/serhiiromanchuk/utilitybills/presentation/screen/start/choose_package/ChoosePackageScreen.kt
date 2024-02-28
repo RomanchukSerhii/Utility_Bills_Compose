@@ -50,11 +50,11 @@ fun ChoosePackageScreenRoot(
 @Composable
 private fun ChoosePackageScreen(
     modifier: Modifier = Modifier,
-    screenState: State<ChoosePackageState>,
+    screenState: State<ChoosePackageUiState>,
     onAddBillClick: () -> Unit,
     onBillItemClick: (Long) -> Unit,
     onEditPackageClick: (String, Long) -> Unit,
-    onEvent: (ChoosePackageEvent) -> Unit
+    onEvent: (ChoosePackageUiEvent) -> Unit
 ) {
     val currentState = screenState.value
 
@@ -65,7 +65,7 @@ private fun ChoosePackageScreen(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
             ) {
-                if (screenState.value.isEditMode) { onEvent(ChoosePackageEvent.ChangeEditMode) }
+                if (screenState.value.isEditMode) { onEvent(ChoosePackageUiEvent.ChangeEditMode) }
             },
         topBar = { TopBarApp(titleId = R.string.utility_bills) },
         containerColor = if (screenState.value.isEditMode) {
@@ -85,18 +85,18 @@ private fun ChoosePackageScreen(
 
         DeletePackageDialog(
             dialogState = currentState.dialogState,
-            closeDialog = { onEvent(ChoosePackageEvent.CloseDialog) },
-            onConfirmClick = { onEvent(ChoosePackageEvent.DeletePackage(it)) }
+            closeDialog = { onEvent(ChoosePackageUiEvent.CloseDialog) },
+            onConfirmClick = { onEvent(ChoosePackageUiEvent.DeletePackage(it)) }
         )
 
         SettingsBottomSheet(
             visibleState = currentState.visibleSheetState,
-            onDismissRequest = { onEvent(ChoosePackageEvent.CloseBottomSheet) },
+            onDismissRequest = { onEvent(ChoosePackageUiEvent.CloseBottomSheet) },
             onChangeNameClick = { address, id ->
-                onEvent(ChoosePackageEvent.SetInitialState)
+                onEvent(ChoosePackageUiEvent.SetInitialState)
                 onEditPackageClick(address, id)
             },
-            onEditModeClick = { onEvent(ChoosePackageEvent.ChangeEditMode) }
+            onEditModeClick = { onEvent(ChoosePackageUiEvent.ChangeEditMode) }
         )
     }
 }
@@ -105,7 +105,7 @@ private fun ChoosePackageScreen(
 @Composable
 private fun ChoosePackageScreenPreview() {
     UtilityBillsTheme {
-        val mockState = ChoosePackageState(
+        val mockState = ChoosePackageUiState(
                 listOf(
                     BillPackage(
                         id = 1,

@@ -3,7 +3,7 @@ package com.serhiiromanchuk.utilitybills.di.module
 import androidx.lifecycle.ViewModel
 import com.serhiiromanchuk.utilitybills.di.annotation.ViewModelKey
 import com.serhiiromanchuk.utilitybills.presentation.screen.main.MainScreenViewModel
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillViewModel
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.AddPackageViewModel
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageViewModel
 import dagger.Binds
 import dagger.Module
@@ -24,6 +24,6 @@ interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(AddBillViewModel::class)
-    fun bindAddBillViewModel(viewModel: AddBillViewModel): ViewModel
+    @ViewModelKey(AddPackageViewModel::class)
+    fun bindAddBillViewModel(viewModel: AddPackageViewModel): ViewModel
 }

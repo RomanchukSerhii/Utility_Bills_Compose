@@ -11,14 +11,14 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.grid.LazyDraggableVerticalGrid
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageEvent
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageUiEvent
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageUiState
 
 @Composable
 fun PackageList(
     modifier: Modifier = Modifier,
-    screenState: ChoosePackageState,
-    onEvent: (ChoosePackageEvent) -> Unit,
+    screenState: ChoosePackageUiState,
+    onEvent: (ChoosePackageUiEvent) -> Unit,
     onAddPackageClick: () -> Unit,
     onPackageClick: (Long) -> Unit,
 ) {
@@ -28,7 +28,7 @@ fun PackageList(
         items = screenState.packageList,
         key = { _, item -> item.id },
         columns = GridCells.Adaptive(minSize = 140.dp),
-        onMove = { fromIndex, toIndex -> onEvent(ChoosePackageEvent.MovePackage(fromIndex, toIndex)) },
+        onMove = { fromIndex, toIndex -> onEvent(ChoosePackageUiEvent.MovePackage(fromIndex, toIndex)) },
         contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_medium)),
         notDraggableContent = {
             AddNewPackage(
@@ -43,10 +43,10 @@ fun PackageList(
                 cardState = screenState.packageCardState,
                 elevation = elevation,
                 onLongClick = {
-                    onEvent(ChoosePackageEvent.OpenBottomSheet(billPackage.name, billPackage.id))
+                    onEvent(ChoosePackageUiEvent.OpenBottomSheet(billPackage.name, billPackage.id))
                 },
                 onClick = { onPackageClick(billPackage.id) },
-                onDeleteIconClick = { onEvent(ChoosePackageEvent.OpenDialog(billPackage.id)) }
+                onDeleteIconClick = { onEvent(ChoosePackageUiEvent.OpenDialog(billPackage.id)) }
             )
         }
     )

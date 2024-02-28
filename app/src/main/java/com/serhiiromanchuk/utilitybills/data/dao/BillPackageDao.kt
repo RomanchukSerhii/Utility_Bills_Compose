@@ -18,11 +18,14 @@ interface BillPackageDao {
     @Query("DELETE FROM bill_packages WHERE id=:packageId")
     suspend fun deleteBillPackage(packageId: Long)
 
+    @Update
+    suspend fun updateBillPackages(billPackages: List<BillPackageDbModel>)
+
     @Query("SELECT MAX(index_position) FROM bill_packages")
     suspend fun getMaxIndexPosition(): Int?
 
-    @Update
-    suspend fun updateBillPackages(billPackages: List<BillPackageDbModel>)
+    @Query("SELECT id FROM bill_packages ORDER BY id DESC LIMIT 1")
+    suspend fun getLastBillPackageId(): Long?
 
     @Query("SELECT * FROM bill_packages ORDER BY index_position ASC")
     fun getBillPackages(): Flow<List<BillPackageDbModel>>

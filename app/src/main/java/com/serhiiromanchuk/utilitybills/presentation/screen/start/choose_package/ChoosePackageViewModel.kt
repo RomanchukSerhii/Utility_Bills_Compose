@@ -7,9 +7,9 @@ import com.serhiiromanchuk.utilitybills.domain.usecase.bill.DeleteBillsFromPacka
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.DeleteBillPackageUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetBillPackagesUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.UpdateBillPackagesUseCase
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageState.DialogState
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageState.PackageCardState
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageState.VisibleSheetState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageUiState.DialogState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageUiState.PackageCardState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageUiState.VisibleSheetState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,8 +24,8 @@ class ChoosePackageViewModel @Inject constructor(
     private val updateBillPackagesUseCase: UpdateBillPackagesUseCase
 ) : ViewModel() {
 
-    private val _screenState = MutableStateFlow(ChoosePackageState())
-    val screenState: StateFlow<ChoosePackageState> = _screenState.asStateFlow()
+    private val _screenState = MutableStateFlow(ChoosePackageUiState())
+    val screenState: StateFlow<ChoosePackageUiState> = _screenState.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -35,27 +35,27 @@ class ChoosePackageViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: ChoosePackageEvent) {
+    fun onEvent(event: ChoosePackageUiEvent) {
         when (event) {
-            is ChoosePackageEvent.ChangeEditMode -> { changeEditMode() }
+            is ChoosePackageUiEvent.ChangeEditMode -> { changeEditMode() }
 
-            is ChoosePackageEvent.DeletePackage -> { deletePackage(event.packageId) }
+            is ChoosePackageUiEvent.DeletePackage -> { deletePackage(event.packageId) }
 
-            ChoosePackageEvent.CloseDialog -> {
+            ChoosePackageUiEvent.CloseDialog -> {
                 _screenState.update { state -> state.copy(dialogState = DialogState.Close) }
             }
 
-            is ChoosePackageEvent.OpenDialog -> {
+            is ChoosePackageUiEvent.OpenDialog -> {
                 _screenState.update { state -> state.copy(dialogState = DialogState.Open(event.id)) }
             }
 
-            ChoosePackageEvent.CloseBottomSheet -> {
+            ChoosePackageUiEvent.CloseBottomSheet -> {
                 _screenState.update { state ->
                     state.copy(visibleSheetState = VisibleSheetState.Close)
                 }
             }
 
-            is ChoosePackageEvent.OpenBottomSheet -> {
+            is ChoosePackageUiEvent.OpenBottomSheet -> {
                 _screenState.update { state ->
                     state.copy(
                         visibleSheetState = VisibleSheetState.Open(event.packageAddress, event.packageId)
@@ -63,9 +63,9 @@ class ChoosePackageViewModel @Inject constructor(
                 }
             }
 
-            ChoosePackageEvent.SetInitialState -> { setInitialState() }
+            ChoosePackageUiEvent.SetInitialState -> { setInitialState() }
 
-            is ChoosePackageEvent.MovePackage -> {
+            is ChoosePackageUiEvent.MovePackage -> {
                 val billItems = _screenState.value.packageList.toMutableList()
                 billItems.add(event.toIndex, billItems.removeAt(event.fromIndex))
                 _screenState.update { it.copy(packageList = billItems) }

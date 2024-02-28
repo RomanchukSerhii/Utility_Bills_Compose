@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -8,14 +8,14 @@ import androidx.compose.ui.res.stringResource
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreenEvent
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreenState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.AddPackageUiEvent
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.AddPackageUiState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @Composable
 fun SubmitButton(
-    screenState: AddBillScreenState,
-    onClick: (AddBillScreenEvent) -> Unit
+    screenState: AddPackageUiState,
+    onEvent: (AddPackageUiEvent) -> Unit
 ) {
     val building = if (screenState.building.isNotEmpty()) {
         stringResource(R.string.building_value, screenState.building.trim())
@@ -37,7 +37,7 @@ fun SubmitButton(
     PrimaryButton(
         modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
         text = stringResource(R.string.next),
-        onClick = { onClick(AddBillScreenEvent.Submit(address, screenState.payerName)) },
+        onClick = { onEvent(AddPackageUiEvent.Submit(address, screenState.payerName)) },
         enabled = screenState.isNextButtonAvailable
     )
 }
@@ -46,7 +46,7 @@ fun SubmitButton(
 @Composable
 private fun SubmitButtonPreview() {
     UtilityBillsTheme {
-        SubmitButton(screenState = AddBillScreenState(
-        ), onClick = {})
+        SubmitButton(screenState = AddPackageUiState(
+        ), onEvent = {})
     }
 }

@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageState.VisibleSheetState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageUiState.VisibleSheetState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

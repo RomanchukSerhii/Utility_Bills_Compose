@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,15 +15,15 @@ import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreenEvent
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreenState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.AddPackageUiEvent
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.AddPackageUiState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @Composable
 fun AddBillForm(
     modifier: Modifier = Modifier,
-    screenState: AddBillScreenState,
-    onEvent: (AddBillScreenEvent) -> Unit
+    screenState: AddPackageUiState,
+    onEvent: (AddPackageUiEvent) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -39,7 +39,7 @@ fun AddBillForm(
         Column {
             AddressTextField(
                 value = screenState.payerName,
-                onValueChange = { onEvent(AddBillScreenEvent.PayerNameChanged(it))},
+                onValueChange = { onEvent(AddPackageUiEvent.PayerNameChanged(it))},
                 label = stringResource(R.string.payer_name)
             )
 
@@ -47,7 +47,7 @@ fun AddBillForm(
             
             AddressTextField(
                 value = screenState.city,
-                onValueChange = { onEvent(AddBillScreenEvent.CityChanged(it))},
+                onValueChange = { onEvent(AddPackageUiEvent.CityChanged(it))},
                 label = stringResource(R.string.city_name)
             )
 
@@ -55,7 +55,7 @@ fun AddBillForm(
 
             AddressTextField(
                 value = screenState.street,
-                onValueChange = { onEvent(AddBillScreenEvent.StreetChanged(it))},
+                onValueChange = { onEvent(AddPackageUiEvent.StreetChanged(it))},
                 label = stringResource(R.string.street)
             )
 
@@ -81,7 +81,7 @@ fun AddBillForm(
 private fun AddBillFormPreview() {
     UtilityBillsTheme {
         AddBillForm(
-            screenState = AddBillScreenState(),
+            screenState = AddPackageUiState(),
             onEvent = {}
         )
     }

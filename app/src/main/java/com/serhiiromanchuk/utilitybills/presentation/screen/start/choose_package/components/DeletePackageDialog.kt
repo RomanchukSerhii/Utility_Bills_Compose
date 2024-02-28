@@ -12,7 +12,7 @@ import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightP
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.DialogWithRectangleShape
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageState.DialogState
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageUiState.DialogState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @Composable

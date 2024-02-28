@@ -2,7 +2,7 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_packag
 
 import com.serhiiromanchuk.utilitybills.domain.model.BillPackage
 
-data class ChoosePackageState (
+data class ChoosePackageUiState (
     val packageList: List<BillPackage> = listOf(),
     val isEditMode: Boolean = false,
     val packageCardState: PackageCardState = PackageCardState.Initial,

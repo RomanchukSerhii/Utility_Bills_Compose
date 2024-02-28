@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.components
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +12,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.core.text.isDigitsOnly
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TextFieldWithoutPadding
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.AddBillScreenEvent
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.AddPackageUiEvent
 
 
 @Composable
@@ -37,14 +37,14 @@ fun AddressTextField(
 @Composable
 fun RowScope.HouseTextField(
     value: String,
-    onEvent: (AddBillScreenEvent) -> Unit
+    onEvent: (AddPackageUiEvent) -> Unit
 ) {
     TextFieldWithoutPadding(
         modifier = Modifier.weight(1f),
         value = value,
         onValueChange = {
             if (it.isDigitsOnly()) {
-                onEvent(AddBillScreenEvent.HouseChanged(it))
+                onEvent(AddPackageUiEvent.HouseChanged(it))
             }
         },
         keyboardOptions = KeyboardOptions(
@@ -58,12 +58,12 @@ fun RowScope.HouseTextField(
 @Composable
 fun RowScope.BuildingTextField(
     value: String,
-    onEvent: (AddBillScreenEvent) -> Unit
+    onEvent: (AddPackageUiEvent) -> Unit
 ) {
     TextFieldWithoutPadding(
         modifier = Modifier.weight(1f),
         value = value,
-        onValueChange = { onEvent(AddBillScreenEvent.BuildingChanged(it)) },
+        onValueChange = { onEvent(AddPackageUiEvent.BuildingChanged(it)) },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Next
@@ -75,14 +75,14 @@ fun RowScope.BuildingTextField(
 @Composable
 fun RowScope.ApartmentTextField(
     value: String,
-    onEvent: (AddBillScreenEvent) -> Unit
+    onEvent: (AddPackageUiEvent) -> Unit
 ) {
     TextFieldWithoutPadding(
         modifier = Modifier.weight(1f),
         value = value,
         onValueChange = {
             if (it.isDigitsOnly()) {
-                onEvent(AddBillScreenEvent.ApartmentChanged(it))
+                onEvent(AddPackageUiEvent.ApartmentChanged(it))
             }
         },
         keyboardOptions = KeyboardOptions(

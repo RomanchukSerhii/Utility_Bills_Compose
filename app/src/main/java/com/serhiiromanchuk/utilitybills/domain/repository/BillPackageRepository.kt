@@ -9,9 +9,11 @@ interface BillPackageRepository {
 
     suspend fun deleteBillPackage(packageId: Long)
 
+    suspend fun updateBillPackages(billPackages: List<BillPackage>)
+
     suspend fun getMaxIndexPosition(): Int?
 
-    suspend fun updateBillPackages(billPackages: List<BillPackage>)
+    suspend fun getLastBillPackageId(): Long?
 
     fun getBillPackages(): Flow<List<BillPackage>>
 

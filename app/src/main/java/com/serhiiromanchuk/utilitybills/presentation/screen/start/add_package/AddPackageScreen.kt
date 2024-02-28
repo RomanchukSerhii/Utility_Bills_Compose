@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -13,8 +14,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.components.AddBillForm
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill.components.SubmitButton
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.components.AddBillForm
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.components.SubmitButton
 
 @Composable
 fun AddBillScreenRoute(
@@ -22,8 +23,16 @@ fun AddBillScreenRoute(
     onBackPressed: () -> Unit
 ) {
     val component = getApplicationComponent()
-    val viewModel: AddBillViewModel = viewModel(factory = component.getViewModelFactory())
+    val viewModel: AddPackageViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = true) {
+        viewModel.navigationEvent.collect { event ->
+            when (event) {
+                AddPackageViewModel.NavigationEvent.OnBack -> onBackPressed()
+            }
+        }
+    }
 
     AddBillScreen(
         modifier = modifier,
@@ -36,8 +45,8 @@ fun AddBillScreenRoute(
 @Composable
 private fun AddBillScreen(
     modifier: Modifier = Modifier,
-    screenState: State<AddBillScreenState>,
-    onEvent: (AddBillScreenEvent) -> Unit,
+    screenState: State<AddPackageUiState>,
+    onEvent: (AddPackageUiEvent) -> Unit,
     onBackPressed: () -> Unit
 ) {
     Scaffold(
@@ -51,10 +60,7 @@ private fun AddBillScreen(
         bottomBar = {
             SubmitButton(
                 screenState = screenState.value,
-                onClick = { event ->
-                    onEvent(event)
-                    onBackPressed()
-                }
+                onEvent = onEvent
             )
         }
     ) { paddingValues ->

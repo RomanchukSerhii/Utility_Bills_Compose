@@ -25,6 +25,10 @@ class BillPackageRepositoryImpl @Inject constructor(
         return billPackageDao.getMaxIndexPosition()
     }
 
+    override suspend fun getLastBillPackageId(): Long? {
+        return billPackageDao.getLastBillPackageId()
+    }
+
     override suspend fun updateBillPackages(billPackages: List<BillPackage>) {
         billPackageDao.updateBillPackages(mapper.mapListEntityToListDbModel(billPackages))
     }

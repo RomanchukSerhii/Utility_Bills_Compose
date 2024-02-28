@@ -1,6 +1,6 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill
+package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package
 
-data class AddBillScreenState(
+data class AddPackageUiState(
     val payerName: String = "",
     val city: String = "",
     val street: String = "",
