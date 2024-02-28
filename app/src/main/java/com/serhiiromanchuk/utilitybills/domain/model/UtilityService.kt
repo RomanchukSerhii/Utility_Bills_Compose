@@ -8,8 +8,7 @@ data class UtilityServiceItem(
     val isMeterAvailable: Boolean,
     val previousValue: String = UNDEFINED_CURRENT_VALUE,
     val currentValue: String = UNDEFINED_CURRENT_VALUE,
-    val unitOfMeasurement: MeasurementUnit = MeasurementUnit.CUBIC_METER,
-    val isChecked: Boolean = true
+    val unitOfMeasurement: MeasurementUnit = MeasurementUnit.CUBIC_METER
 ) {
     companion object {
         private const val UNDEFINED_ID = 0L

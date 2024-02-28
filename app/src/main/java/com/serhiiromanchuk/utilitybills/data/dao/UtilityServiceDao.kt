@@ -4,18 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.serhiiromanchuk.utilitybills.data.dbmodel.UtilityServiceItemDbModel
+import com.serhiiromanchuk.utilitybills.data.dbmodel.UtilityServiceDbModel
 
 @Dao
 interface UtilityServiceDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertUtilityService(utilityService: UtilityServiceItemDbModel)
+    suspend fun insertUtilityService(utilityService: UtilityServiceDbModel)
 
     @Query("DELETE FROM utility_services WHERE id=:utilityServiceId")
     suspend fun deleteUtilityService(utilityServiceId: Long)
 
     @Query("SELECT * FROM utility_services WHERE id=:utilityServiceId")
-    suspend fun getUtilityService(utilityServiceId: Long): UtilityServiceItemDbModel
+    suspend fun getUtilityService(utilityServiceId: Long): UtilityServiceDbModel
 
 }

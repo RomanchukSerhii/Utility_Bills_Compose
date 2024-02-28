@@ -6,18 +6,26 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.serhiiromanchuk.utilitybills.data.dao.BillDao
+import com.serhiiromanchuk.utilitybills.data.dao.BillPackageDao
 import com.serhiiromanchuk.utilitybills.data.dao.UtilityServiceDao
-import com.serhiiromanchuk.utilitybills.data.dbmodel.BillItemDbModel
+import com.serhiiromanchuk.utilitybills.data.dbmodel.BillDbModel
+import com.serhiiromanchuk.utilitybills.data.dbmodel.BillPackageDbModel
 import com.serhiiromanchuk.utilitybills.data.dbmodel.LocalDateConverter
-import com.serhiiromanchuk.utilitybills.data.dbmodel.UtilityServiceItemDbModel
+import com.serhiiromanchuk.utilitybills.data.dbmodel.UtilityServiceDbModel
 
-@Database(entities = [UtilityServiceItemDbModel::class, BillItemDbModel::class], version = 8, exportSchema = false)
+@Database(
+    entities = [UtilityServiceDbModel::class, BillDbModel::class, BillPackageDbModel::class],
+    version = 9,
+    exportSchema = false
+)
 @TypeConverters(LocalDateConverter::class)
 abstract class AppDataBase : RoomDatabase() {
 
     abstract fun utilityServiceDao(): UtilityServiceDao
 
     abstract fun billDao(): BillDao
+
+    abstract fun billPackageDao(): BillPackageDao
 
     companion object {
         private var INSTANCE: AppDataBase? = null

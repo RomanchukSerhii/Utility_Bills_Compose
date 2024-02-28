@@ -4,10 +4,10 @@ import androidx.room.Embedded
 import androidx.room.Relation
 
 data class BillWithUtilityServicesDbModel(
-    @Embedded val bill: BillItemDbModel,
+    @Embedded val bill: BillDbModel,
     @Relation(
         parentColumn = "id",
         entityColumn = "bill_creator_id"
     )
-    val utilityServices: List<UtilityServiceItemDbModel>
+    val utilityServices: List<UtilityServiceDbModel>
 )

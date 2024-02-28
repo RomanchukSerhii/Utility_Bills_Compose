@@ -2,8 +2,7 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_bill
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.serhiiromanchuk.utilitybills.domain.model.BillItem
-import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetMaxItemPositionUseCase
+import com.serhiiromanchuk.utilitybills.domain.model.Bill
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.InsertBillItemUseCase
 import com.serhiiromanchuk.utilitybills.utils.getCurrentMonth
 import com.serhiiromanchuk.utilitybills.utils.getCurrentYear
@@ -50,7 +49,7 @@ class AddBillViewModel @Inject constructor(
         viewModelScope.launch {
             val lastIndex = getMaxItemPositionUseCase()
             insertBillItemUseCase(
-                BillItem(
+                Bill(
                     address = address,
                     payerName = payerName,
                     month = getCurrentMonth(),

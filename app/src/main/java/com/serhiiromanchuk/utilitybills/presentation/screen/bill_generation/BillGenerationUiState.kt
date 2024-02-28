@@ -1,11 +1,11 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation
 
-import com.serhiiromanchuk.utilitybills.domain.model.BillItem
+import com.serhiiromanchuk.utilitybills.domain.model.Bill
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import com.serhiiromanchuk.utilitybills.utils.trimSpaces
 
 data class BillGenerationUiState(
-    val bill: BillItem = BillItem(
+    val bill: Bill = Bill(
         payerName = "",
         address = "",
         month = "",

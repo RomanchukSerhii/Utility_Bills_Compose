@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.serhiiromanchuk.utilitybills.data.dbmodel.BillItemDbModel
+import com.serhiiromanchuk.utilitybills.data.dbmodel.BillDbModel
 import com.serhiiromanchuk.utilitybills.data.dbmodel.BillWithUtilityServicesDbModel
 import kotlinx.coroutines.flow.Flow
 
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 interface BillDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBillItem(billItemDbModel: BillItemDbModel)
+    suspend fun insertBillItem(billItemDbModel: BillDbModel)
 
     @Query("DELETE FROM bill_items WHERE id=:billItemId")
     suspend fun deleteBillItem(billItemId: Long)
@@ -23,16 +23,7 @@ interface BillDao {
     suspend fun updateAddress(address: String, id: Long)
 
     @Update
-    suspend fun updateBillItems(billItems: List<BillItemDbModel>)
-
-    @Query("SELECT MAX(index_position) FROM bill_items")
-    suspend fun getMaxIndexPosition(): Int?
-
-    @Query("SELECT * FROM bill_items WHERE address=:address")
-    fun getBillItemsForAddress(address: String): Flow<List<BillItemDbModel>>
-
-    @Query("SELECT * FROM bill_items ORDER BY index_position ASC")
-    fun getBillItems(): Flow<List<BillItemDbModel>>
+    suspend fun updateBillItems(billItems: List<BillDbModel>)
 
     @Transaction
     @Query("SELECT * FROM bill_items WHERE id=:billId")

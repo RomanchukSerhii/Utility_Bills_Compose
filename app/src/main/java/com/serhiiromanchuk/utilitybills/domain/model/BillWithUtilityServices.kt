@@ -1,6 +1,6 @@
 package com.serhiiromanchuk.utilitybills.domain.model
 
 data class BillWithUtilityServices(
-    val bill: BillItem,
+    val bill: Bill,
     val utilityServices: List<UtilityServiceItem>
 )

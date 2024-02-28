@@ -1,10 +1,10 @@
 package com.serhiiromanchuk.utilitybills.domain.mocks
 
 
-import com.serhiiromanchuk.utilitybills.domain.model.BillItem
+import com.serhiiromanchuk.utilitybills.domain.model.Bill
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 
-val fakeBillItem = BillItem(
+val fakeBillItem = Bill(
     address = "вул. Грушевського 23, кв. 235",
     payerName = "Романчук Сергій",
     month = "Січень",

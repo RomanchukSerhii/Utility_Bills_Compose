@@ -1,12 +1,12 @@
 package com.serhiiromanchuk.utilitybills.data.mapper
 
-import com.serhiiromanchuk.utilitybills.data.dbmodel.UtilityServiceItemDbModel
+import com.serhiiromanchuk.utilitybills.data.dbmodel.UtilityServiceDbModel
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
 import javax.inject.Inject
 
 class UtilityServiceItemMapper @Inject constructor() {
-    fun mapEntityToDbModel(entity: UtilityServiceItem): UtilityServiceItemDbModel {
-        return UtilityServiceItemDbModel(
+    fun mapEntityToDbModel(entity: UtilityServiceItem): UtilityServiceDbModel {
+        return UtilityServiceDbModel(
             id = entity.id,
             billCreatorId = entity.billCreatorId,
             name = entity.name,
@@ -14,12 +14,11 @@ class UtilityServiceItemMapper @Inject constructor() {
             isMeterAvailable = entity.isMeterAvailable,
             previousValue = entity.previousValue,
             currentValue = entity.currentValue,
-            unitOfMeasurement = entity.unitOfMeasurement,
-            isChecked = entity.isChecked
+            unitOfMeasurement = entity.unitOfMeasurement
         )
     }
 
-    fun mapDbModelToEntity(dbModel: UtilityServiceItemDbModel): UtilityServiceItem {
+    fun mapDbModelToEntity(dbModel: UtilityServiceDbModel): UtilityServiceItem {
         return UtilityServiceItem(
             id = dbModel.id,
             billCreatorId = dbModel.billCreatorId,
@@ -28,12 +27,11 @@ class UtilityServiceItemMapper @Inject constructor() {
             isMeterAvailable = dbModel.isMeterAvailable,
             previousValue = dbModel.previousValue,
             currentValue = dbModel.currentValue,
-            unitOfMeasurement = dbModel.unitOfMeasurement,
-            isChecked = dbModel.isChecked
+            unitOfMeasurement = dbModel.unitOfMeasurement
         )
     }
 
-    fun mapListDbModelToListEntity(dbModelList: List<UtilityServiceItemDbModel>) = dbModelList.map {
+    fun mapListDbModelToListEntity(dbModelList: List<UtilityServiceDbModel>) = dbModelList.map {
         mapDbModelToEntity(it)
     }
 }

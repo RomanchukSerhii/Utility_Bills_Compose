@@ -2,9 +2,8 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.serhiiromanchuk.utilitybills.domain.model.BillItem
+import com.serhiiromanchuk.utilitybills.domain.model.Bill
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.DeleteBillItemUseCase
-import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillItemsUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.UpdateBillItemsUseCase
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillState.BillCardState
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill.ChooseBillState.DialogState
@@ -107,7 +106,7 @@ class ChooseBillViewModel @Inject constructor(
 
     private fun updateBillItems() {
         val billItems = _screenState.value.billList.toMutableList()
-        val updateBillList = mutableListOf<BillItem>()
+        val updateBillList = mutableListOf<Bill>()
         billItems.forEachIndexed { index, billItem ->
             updateBillList.add(index, billItem.copy(indexPosition = index))
         }

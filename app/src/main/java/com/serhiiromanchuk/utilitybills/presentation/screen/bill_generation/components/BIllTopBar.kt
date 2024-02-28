@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.domain.mocks.fakeBillItem
-import com.serhiiromanchuk.utilitybills.domain.model.BillItem
+import com.serhiiromanchuk.utilitybills.domain.model.Bill
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnPrimary
 import com.serhiiromanchuk.utilitybills.presentation.core.components.HeadlineTextOnPrimary
 import com.serhiiromanchuk.utilitybills.presentation.core.components.LabelTextOnPrimary
@@ -38,7 +38,7 @@ import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 @Composable
 fun BillTopBar(
     modifier: Modifier = Modifier,
-    billItem: BillItem,
+    billItem: Bill,
     onEvent: (BillGenerationUiEvent) -> Unit
 ) {
     Column(

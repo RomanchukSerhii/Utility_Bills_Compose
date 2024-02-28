@@ -1,9 +1,9 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_bill
 
-import com.serhiiromanchuk.utilitybills.domain.model.BillItem
+import com.serhiiromanchuk.utilitybills.domain.model.Bill
 
 data class ChooseBillState (
-    val billList: List<BillItem> = listOf(),
+    val billList: List<Bill> = listOf(),
     val isEditMode: Boolean = false,
     val billCardState: BillCardState = BillCardState.Initial,
     val dialogState: DialogState = DialogState.Close,

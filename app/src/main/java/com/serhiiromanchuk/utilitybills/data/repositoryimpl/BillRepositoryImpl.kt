@@ -2,7 +2,7 @@ package com.serhiiromanchuk.utilitybills.data.repositoryimpl
 
 import com.serhiiromanchuk.utilitybills.data.dao.BillDao
 import com.serhiiromanchuk.utilitybills.data.mapper.BillItemMapper
-import com.serhiiromanchuk.utilitybills.domain.model.BillItem
+import com.serhiiromanchuk.utilitybills.domain.model.Bill
 import com.serhiiromanchuk.utilitybills.domain.model.BillWithUtilityServices
 import com.serhiiromanchuk.utilitybills.domain.repository.BillRepository
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +13,7 @@ class BillRepositoryImpl @Inject constructor(
     private val billDao: BillDao,
     private val mapper: BillItemMapper
 ) : BillRepository {
-    override suspend fun insertBillItem(billItem: BillItem) {
+    override suspend fun insertBillItem(billItem: Bill) {
         billDao.insertBillItem(mapper.mapEntityToDbModel(billItem))
     }
 
@@ -25,26 +25,13 @@ class BillRepositoryImpl @Inject constructor(
         billDao.updateAddress(address, billId)
     }
 
-    override suspend fun updateBillItems(billItems: List<BillItem>) {
+    override suspend fun updateBillItems(billItems: List<Bill>) {
 
         billDao.updateBillItems(mapper.mapListEntityToListDbModel(billItems))
-    }
-
-    override suspend fun getMaxItemPosition(): Int? {
-        return billDao.getMaxIndexPosition()
     }
 
     override fun getBillWithUtilityServices(billId: Long): Flow<BillWithUtilityServices> {
         return billDao.getBillWithUtilityServices(billId)
             .map { mapper.mapBillWithServicesDbModelToEntity(it) }
     }
-
-    override fun getBillItemsForAddress(address: String): Flow<List<BillItem>> {
-        return billDao.getBillItemsForAddress(address).map { mapper.mapListDbModelToListEntity(it) }
-    }
-
-    override fun getBillItems(): Flow<List<BillItem>> {
-        return billDao.getBillItems().map { mapper.mapListDbModelToListEntity(it) }
-    }
-
 }
