@@ -20,12 +20,10 @@ import com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package.E
 import com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package.EditPackageScreenState
 
 @Composable
-fun AddressTextField(
+fun PackageNameTextField(
     currentState: EditPackageScreenState,
     onEvent: (EditPackageScreenEvent) -> Unit
 ) {
-    // Set cursor to the end of string
-//    val direction = LocalLayoutDirection.current
     val focusRequester = remember { FocusRequester() }
 
     DisposableEffect(key1 = true) {
@@ -39,8 +37,8 @@ fun AddressTextField(
             .wrapContentHeight()
             .focusRequester(focusRequester),
         value = TextFieldValue(
-            text = currentState.address,
-            selection = currentState.addressSelection
+            text = currentState.packageName,
+            selection = currentState.textSelection
         ),
         onValueChange = { onEvent(EditPackageScreenEvent.AddressChanged(it.text, it.selection))},
         textStyle = MaterialTheme.typography.bodyLarge.copy(

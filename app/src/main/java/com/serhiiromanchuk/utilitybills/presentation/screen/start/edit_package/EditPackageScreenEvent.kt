@@ -6,5 +6,5 @@ sealed interface EditPackageScreenEvent {
 
     data object Submit : EditPackageScreenEvent
 
-    data class AddressChanged(val address: String, val selection: TextRange) : EditPackageScreenEvent
+    data class AddressChanged(val packageName: String, val selection: TextRange) : EditPackageScreenEvent
 }

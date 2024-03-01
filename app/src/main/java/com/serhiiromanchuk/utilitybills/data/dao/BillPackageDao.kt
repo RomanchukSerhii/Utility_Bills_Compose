@@ -27,6 +27,9 @@ interface BillPackageDao {
     @Query("SELECT id FROM bill_packages ORDER BY id DESC LIMIT 1")
     suspend fun getLastBillPackageId(): Long?
 
+    @Query("UPDATE bill_packages SET name=:packageName WHERE id=:packageId")
+    suspend fun updatePackageName(packageName: String, packageId: Long)
+
     @Query("SELECT * FROM bill_packages ORDER BY index_position ASC")
     fun getBillPackages(): Flow<List<BillPackageDbModel>>
 

@@ -15,6 +15,8 @@ interface BillPackageRepository {
 
     suspend fun getLastBillPackageId(): Long?
 
+    suspend fun updatePackageName(packageName: String, packageId: Long)
+
     fun getBillPackages(): Flow<List<BillPackage>>
 
     fun getBillPackageWitBills(packageId: Long): Flow<PackageWithBills>

@@ -29,6 +29,10 @@ class BillPackageRepositoryImpl @Inject constructor(
         return billPackageDao.getLastBillPackageId()
     }
 
+    override suspend fun updatePackageName(packageName: String, packageId: Long) {
+        billPackageDao.updatePackageName(packageName, packageId)
+    }
+
     override suspend fun updateBillPackages(billPackages: List<BillPackage>) {
         billPackageDao.updateBillPackages(mapper.mapListEntityToListDbModel(billPackages))
     }

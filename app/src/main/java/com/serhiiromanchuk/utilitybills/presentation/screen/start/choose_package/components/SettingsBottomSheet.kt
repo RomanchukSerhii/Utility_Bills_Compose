@@ -59,7 +59,7 @@ fun SettingsBottomSheet(
         ) {
             BottomSheetContent(
                 packageId = visibleState.packageId,
-                packageAddress = visibleState.packageAddress,
+                packageName = visibleState.packageName,
                 onChangeNameClick = onChangeNameClick,
                 onEditModeClick = onEditModeClick
             )
@@ -70,7 +70,7 @@ fun SettingsBottomSheet(
 @Composable
 private fun BottomSheetContent(
     packageId: Long,
-    packageAddress: String,
+    packageName: String,
     onChangeNameClick: (String, Long) -> Unit,
     onEditModeClick: () -> Unit
 ) {
@@ -87,7 +87,7 @@ private fun BottomSheetContent(
 
         EditPackageButton(
             packageId = packageId,
-            packageAddress = packageAddress,
+            packageName = packageName,
             onClick = onChangeNameClick
         )
 
@@ -116,7 +116,7 @@ private fun BottomSheetHeader() {
 @Composable
 private fun EditPackageButton(
     packageId: Long,
-    packageAddress: String,
+    packageName: String,
     onClick: (String, Long) -> Unit
 ) {
     Row(
@@ -126,7 +126,7 @@ private fun EditPackageButton(
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
-            ) { onClick(packageAddress, packageId) },
+            ) { onClick(packageName, packageId) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -183,7 +183,7 @@ private fun BottomSheetContentPreview() {
     UtilityBillsTheme {
         BottomSheetContent(
             packageId = 1,
-            packageAddress = "",
+            packageName = "",
             onChangeNameClick = { _, _ -> },
             onEditModeClick = {}
         )

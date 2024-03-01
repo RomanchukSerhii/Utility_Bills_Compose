@@ -22,7 +22,7 @@ data class ChoosePackageUiState (
     }
 
     sealed interface VisibleSheetState {
-        data class Open(val packageAddress: String, val packageId: Long) : VisibleSheetState
+        data class Open(val packageName: String, val packageId: Long) : VisibleSheetState
         data object Close : VisibleSheetState
     }
 }

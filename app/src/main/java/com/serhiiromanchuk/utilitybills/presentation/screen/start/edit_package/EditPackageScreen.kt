@@ -19,7 +19,7 @@ import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package.componnents.AddressTextField
+import com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package.componnents.PackageNameTextField
 
 @Composable
 fun EditPackageScreenRoot(
@@ -77,7 +77,7 @@ fun EditPackageScreen(
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            AddressTextField(currentState = currentState, onEvent = onEvent)
+            PackageNameTextField(currentState = currentState, onEvent = onEvent)
         }
     }
 }
