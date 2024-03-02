@@ -1,14 +1,9 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,13 +14,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
-import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.ServiceItemState
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components.AddUtilityServiceCard
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components.BillTopBar
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components.ServiceItem
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components.ServiceItemList
 
 @Composable
 fun BillScreenRoot(
@@ -98,40 +90,3 @@ private fun BillScreen(
     }
 }
 
-@Composable
-private fun ServiceItemList(
-    modifier: Modifier = Modifier,
-    billCreatorId: Long,
-    serviceStateList: List<ServiceItemState>,
-    onEvent: (BillGenerationUiEvent) -> Unit
-) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_small)),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
-    ) {
-        item {
-            BodyTextOnSurface(
-                modifier = Modifier.padding(
-                    start = dimensionResource(id = R.dimen.padding_small),
-                    top = dimensionResource(id = R.dimen.padding_medium)
-                ),
-                text = stringResource(R.string.choose_utility_service_title)
-            )
-        }
-
-        items(serviceStateList, key = {
-            it.utilityServiceItem.id
-        }) { serviceState ->
-            ServiceItem(serviceState = serviceState, onEvent = onEvent)
-        }
-
-        item {
-            AddUtilityServiceCard(
-                modifier = Modifier.clickable {
-                    onEvent(BillGenerationUiEvent.AddUtilityService(billCreatorId))
-                }
-            )
-        }
-    }
-}

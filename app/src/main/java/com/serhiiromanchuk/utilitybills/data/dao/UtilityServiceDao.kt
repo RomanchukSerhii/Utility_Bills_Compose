@@ -15,6 +15,9 @@ interface UtilityServiceDao {
     @Query("DELETE FROM utility_services WHERE id=:utilityServiceId")
     suspend fun deleteUtilityService(utilityServiceId: Long)
 
+    @Query("DELETE FROM utility_services WHERE bill_creator_id=:billId AND id=:serviceId")
+    suspend fun deleteServiceFromBill(billId: Long, serviceId: Long)
+
     @Query("SELECT * FROM utility_services WHERE id=:utilityServiceId")
     suspend fun getUtilityService(utilityServiceId: Long): UtilityServiceDbModel
 

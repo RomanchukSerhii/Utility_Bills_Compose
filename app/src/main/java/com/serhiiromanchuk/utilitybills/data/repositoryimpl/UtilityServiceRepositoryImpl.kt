@@ -18,6 +18,10 @@ class UtilityServiceRepositoryImpl @Inject constructor(
         utilityServiceDao.deleteUtilityService(utilityServiceId)
     }
 
+    override suspend fun deleteServiceFromBill(billId: Long, serviceId: Long) {
+        utilityServiceDao.deleteServiceFromBill(billId, serviceId)
+    }
+
     override suspend fun getUtilityService(utilityServiceId: Long): UtilityService {
         return mapper.mapDbModelToEntity(utilityServiceDao.getUtilityService(utilityServiceId))
     }

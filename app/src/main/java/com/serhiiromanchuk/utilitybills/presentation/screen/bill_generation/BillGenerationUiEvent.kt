@@ -5,6 +5,8 @@ sealed interface BillGenerationUiEvent {
 
     data class AddUtilityService(val billCreatorId: Long) : BillGenerationUiEvent
 
+    data class DeleteUtilityService(val billCreatorId: Long, val serviceId: Long) : BillGenerationUiEvent
+
     data object OnBackClicked : BillGenerationUiEvent
 
     data class PreviousValueChanged(val serviceId: Long, val value: String) : BillGenerationUiEvent

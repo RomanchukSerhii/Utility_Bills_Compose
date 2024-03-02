@@ -8,5 +8,7 @@ interface UtilityServiceRepository {
 
     suspend fun deleteUtilityService(utilityServiceId: Long)
 
+    suspend fun deleteServiceFromBill(billId: Long, serviceId: Long)
+
     suspend fun getUtilityService(utilityServiceId: Long): UtilityService
 }
