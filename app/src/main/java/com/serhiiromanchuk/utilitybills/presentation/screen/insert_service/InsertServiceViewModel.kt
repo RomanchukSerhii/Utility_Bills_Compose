@@ -2,7 +2,7 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.insert_service
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
+import com.serhiiromanchuk.utilitybills.domain.model.UtilityService
 import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.GetUtilityServiceUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.InsertUtilityServiceUseCase
 import com.serhiiromanchuk.utilitybills.utils.removeCurrencySign
@@ -76,7 +76,7 @@ class InsertServiceViewModel @Inject constructor(
 
     private suspend fun insertUtilityService() {
         val utilityService = with(screenState.value) {
-            UtilityServiceItem(
+            UtilityService(
                 id = if (utilityServiceId >= 0) utilityServiceId else 0,
                 billCreatorId = billCreatorId,
                 name = serviceName,

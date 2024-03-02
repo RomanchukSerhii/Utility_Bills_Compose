@@ -1,11 +1,11 @@
 package com.serhiiromanchuk.utilitybills.data.mapper
 
 import com.serhiiromanchuk.utilitybills.data.dbmodel.UtilityServiceDbModel
-import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
+import com.serhiiromanchuk.utilitybills.domain.model.UtilityService
 import javax.inject.Inject
 
 class UtilityServiceItemMapper @Inject constructor() {
-    fun mapEntityToDbModel(entity: UtilityServiceItem): UtilityServiceDbModel {
+    fun mapEntityToDbModel(entity: UtilityService): UtilityServiceDbModel {
         return UtilityServiceDbModel(
             id = entity.id,
             billCreatorId = entity.billCreatorId,
@@ -18,8 +18,8 @@ class UtilityServiceItemMapper @Inject constructor() {
         )
     }
 
-    fun mapDbModelToEntity(dbModel: UtilityServiceDbModel): UtilityServiceItem {
-        return UtilityServiceItem(
+    fun mapDbModelToEntity(dbModel: UtilityServiceDbModel): UtilityService {
+        return UtilityService(
             id = dbModel.id,
             billCreatorId = dbModel.billCreatorId,
             name = dbModel.name,

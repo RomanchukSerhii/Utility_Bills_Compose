@@ -120,7 +120,9 @@ private fun ServiceItemList(
             )
         }
 
-        items(serviceStateList, key = { it.utilityServiceItem.id }) { serviceState ->
+        items(serviceStateList, key = {
+            it.utilityServiceItem.id
+        }) { serviceState ->
             ServiceItem(serviceState = serviceState, onEvent = onEvent)
         }
 

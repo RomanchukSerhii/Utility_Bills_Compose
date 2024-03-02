@@ -2,17 +2,16 @@ package com.serhiiromanchuk.utilitybills.domain.mocks
 
 
 import com.serhiiromanchuk.utilitybills.domain.model.Bill
-import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
+import com.serhiiromanchuk.utilitybills.domain.model.UtilityService
 
 val fakeBillItem = Bill(
+    packageCreatorId = 0L,
     address = "вул. Грушевського 23, кв. 235",
     payerName = "Романчук Сергій",
-    month = "Січень",
-    year = "2024",
-    indexPosition = 0,
+    date = "Лютий 2024"
 )
 
-val fakeUtilityService = UtilityServiceItem(
+val fakeUtilityService = UtilityService(
     billCreatorId = 0,
     name = "Газ",
     tariff = 8.00,
@@ -22,14 +21,14 @@ val fakeUtilityService = UtilityServiceItem(
 )
 
 val fakeUtilityServicesList = listOf(
-    UtilityServiceItem(
+    UtilityService(
         id = 0,
         billCreatorId = 0,
         name = "Газ (доставка)",
         tariff = 57.00,
         isMeterAvailable = false
     ),
-    UtilityServiceItem(
+    UtilityService(
         id = 1,
         billCreatorId = 0,
         name = "Газ",
@@ -37,7 +36,7 @@ val fakeUtilityServicesList = listOf(
         isMeterAvailable = true,
         previousValue = "8 965"
     ),
-    UtilityServiceItem(
+    UtilityService(
         id = 2,
         billCreatorId = 0,
         name = "Вода",
@@ -45,7 +44,7 @@ val fakeUtilityServicesList = listOf(
         isMeterAvailable = true,
         previousValue = "952",
     ),
-    UtilityServiceItem(
+    UtilityService(
         id = 3,
         billCreatorId = 0,
         name = "Світло",
@@ -53,7 +52,7 @@ val fakeUtilityServicesList = listOf(
         isMeterAvailable = true,
         previousValue = "883",
     ),
-    UtilityServiceItem(
+    UtilityService(
         id = 4,
         billCreatorId = 0,
         name = "ОСББ",

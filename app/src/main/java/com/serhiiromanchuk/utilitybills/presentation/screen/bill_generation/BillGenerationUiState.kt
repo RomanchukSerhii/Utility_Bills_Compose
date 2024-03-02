@@ -1,15 +1,16 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation
 
 import com.serhiiromanchuk.utilitybills.domain.model.Bill
-import com.serhiiromanchuk.utilitybills.domain.model.UtilityServiceItem
+import com.serhiiromanchuk.utilitybills.domain.model.UtilityService
+import com.serhiiromanchuk.utilitybills.utils.UNDEFINED_ID
 import com.serhiiromanchuk.utilitybills.utils.trimSpaces
 
 data class BillGenerationUiState(
     val bill: Bill = Bill(
+        packageCreatorId = UNDEFINED_ID,
         payerName = "",
         address = "",
-        month = "",
-        year = "",
+        date = ""
     ),
     val list: List<ServiceItemState> = listOf()
 ) {
@@ -22,7 +23,7 @@ data class BillGenerationUiState(
         }
 
     data class ServiceItemState(
-        val utilityServiceItem: UtilityServiceItem,
+        val utilityServiceItem: UtilityService,
         val isChecked: Boolean = true,
     ) {
         val currentTextFieldError: Boolean

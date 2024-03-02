@@ -30,10 +30,12 @@ class BillGenerationViewModel @Inject constructor(
     val screenState: StateFlow<BillGenerationUiState> = _screenState.asStateFlow()
 
     init {
+
         viewModelScope.launch {
             getBillWithUtilityServicesUseCase(billId).collect { currentBill ->
-                currentBill.utilityServices.forEach {
-                    bufferUtilityServicesList.add(ServiceItemState(it))
+                if (bufferUtilityServicesList.isNotEmpty()) bufferUtilityServicesList.clear()
+                currentBill.utilityServices.forEach { utilityService ->
+                    bufferUtilityServicesList.add(ServiceItemState(utilityService))
                 }
                 _screenState.update {
                     it.copy(

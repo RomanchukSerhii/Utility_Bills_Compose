@@ -1,6 +1,6 @@
 package com.serhiiromanchuk.utilitybills.domain.model
 
-data class UtilityServiceItem(
+data class UtilityService(
     val id: Long = UNDEFINED_ID,
     val billCreatorId: Long,
     val name: String,

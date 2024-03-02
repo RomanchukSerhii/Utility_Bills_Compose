@@ -11,8 +11,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SharedBillViewModel(
+class SharedBillViewModel @Inject constructor(
     private val billId: Long,
     private val month: String,
     private val getBillWithUtilityServicesUseCase: GetBillWithUtilityServicesUseCase

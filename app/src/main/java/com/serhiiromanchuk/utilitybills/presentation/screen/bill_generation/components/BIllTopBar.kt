@@ -83,7 +83,7 @@ fun BillTopBar(
                 EditIcon(onEvent = onEvent)
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
-            BillInfoText(label = "Місяць", infoText = "${billItem.month} ${billItem.year}")
+            BillInfoText(label = "Місяць", infoText = billItem.date)
         }
     }
 }

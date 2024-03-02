@@ -63,10 +63,10 @@ fun MainScreen(
                 onBackPressed = { navigationState.navHostController.popBackStack() }
             )
         },
-        billsArchiveScreenContent = { /*TODO*/ }) {
-
-    }
-
+        billDetailsScreenContent = {},
+        billsArchiveScreenContent = {},
+        billScreenContent = {}
+    )
 }
 
 @Composable

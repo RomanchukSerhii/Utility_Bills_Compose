@@ -6,7 +6,9 @@ import com.serhiiromanchuk.utilitybills.domain.model.BillPackage
 import com.serhiiromanchuk.utilitybills.domain.model.PackageWithBills
 import javax.inject.Inject
 
-class BillPackageMapper @Inject constructor() {
+class BillPackageMapper @Inject constructor(
+    private val billItemMapper: BillItemMapper
+) {
 
     fun mapEntityToDbModel(entity: BillPackage): BillPackageDbModel {
         return BillPackageDbModel(
@@ -26,8 +28,8 @@ class BillPackageMapper @Inject constructor() {
 
     fun mapPackageWithBillDbModelToEntity(dbModel: PackageWithBillsDbModel): PackageWithBills {
         return PackageWithBills(
-            billPackage = dbModel.billPackage,
-            bills = dbModel.bills
+            billPackage = mapDbModelToEntity(dbModel.billPackage),
+            bills = billItemMapper.mapListDbModelToListEntity(dbModel.bills)
         )
     }
 
