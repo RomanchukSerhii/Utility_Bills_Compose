@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -12,11 +12,12 @@ import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightP
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.DialogWithRectangleShape
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageUiState.DialogState
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.DialogState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
+import com.serhiiromanchuk.utilitybills.utils.mocks.fakeUtilityService
 
 @Composable
-fun DeletePackageDialog(
+fun DeleteServiceItemDialog(
     dialogState: DialogState,
     closeDialog: () -> Unit,
     onConfirmClick: (Long) -> Unit,
@@ -34,7 +35,7 @@ fun DeletePackageDialog(
                 }
             },
             dismissButton = {
-                TextButton(onClick = { onConfirmClick(dialogState.id) }) {
+                TextButton(onClick = { onConfirmClick(dialogState.service.id) }) {
                     Text(
                         text = stringResource(R.string.delete),
                         color = MaterialTheme.colorScheme.secondary,
@@ -44,7 +45,7 @@ fun DeletePackageDialog(
             },
             title = {
                 TitleTextOnSurface(
-                    text = stringResource(R.string.dialog_package_title),
+                    text = "Ви впевнені, що хочете видалити послугу \"${dialogState.service.name}\"?",
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontSize = 17.sp,
                         fontWeight = FontWeight.SemiBold
@@ -53,7 +54,7 @@ fun DeletePackageDialog(
             },
             text = {
                 BodyTextOnSurface(
-                    text = stringResource(R.string.dialog_package_text),
+                    text = "Уся інформація стосовно цієї послуги буде видалена",
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 15.sp),
                     lineHeight = 18.sp
                 )
@@ -64,10 +65,10 @@ fun DeletePackageDialog(
 
 @DarkLightPreviews
 @Composable
-private fun DeletePackageDialogPreview() {
+private fun DeleteServiceItemDialogPreview() {
     UtilityBillsTheme {
-        DeletePackageDialog(
-            dialogState = DialogState.Open(0),
+        DeleteServiceItemDialog(
+            dialogState = DialogState.Open(fakeUtilityService),
             closeDialog = {},
             onConfirmClick = {}
         )

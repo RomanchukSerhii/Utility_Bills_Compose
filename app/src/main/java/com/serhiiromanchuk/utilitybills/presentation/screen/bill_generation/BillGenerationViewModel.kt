@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillWithUtilityServicesUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.DeleteUtilityServiceFromBillUseCase
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.DialogState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.ServiceItemState
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,7 +21,6 @@ import javax.inject.Inject
 class BillGenerationViewModel @Inject constructor(
     private val billId: Long,
     private val getBillWithUtilityServicesUseCase: GetBillWithUtilityServicesUseCase,
-    private val deleteUtilityServicesUseCase: GetBillWithUtilityServicesUseCase,
     private val deleteUtilityServiceFromBillUseCase: DeleteUtilityServiceFromBillUseCase
 ) : ViewModel() {
 
@@ -60,7 +60,8 @@ class BillGenerationViewModel @Inject constructor(
 
             is BillGenerationUiEvent.DeleteUtilityService -> {
                 viewModelScope.launch {
-                    deleteUtilityServiceFromBillUseCase(event.billCreatorId, event.serviceId)
+                    deleteUtilityServiceFromBillUseCase(billId, event.serviceId)
+                    _screenState.update { it.copy(dialogState = DialogState.Close) }
                 }
             }
 
@@ -83,7 +84,12 @@ class BillGenerationViewModel @Inject constructor(
             }
 
             is BillGenerationUiEvent.OnEditServiceClicked -> TODO()
-
+            is BillGenerationUiEvent.OpenDialog -> {
+                _screenState.update { it.copy(dialogState = DialogState.Open(event.service)) }
+            }
+            BillGenerationUiEvent.CloseDialog -> {
+                _screenState.update { it.copy(dialogState = DialogState.Close) }
+            }
         }
     }
 

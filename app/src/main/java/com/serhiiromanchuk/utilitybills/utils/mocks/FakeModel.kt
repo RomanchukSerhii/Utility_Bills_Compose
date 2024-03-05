@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.domain.mocks
+package com.serhiiromanchuk.utilitybills.utils.mocks
 
 
 import com.serhiiromanchuk.utilitybills.domain.model.Bill

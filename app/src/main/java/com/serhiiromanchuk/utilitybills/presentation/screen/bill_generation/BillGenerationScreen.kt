@@ -17,6 +17,7 @@ import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components.BillTopBar
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components.DeleteServiceItemDialog
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.components.ServiceItemList
 
 @Composable
@@ -86,6 +87,12 @@ private fun BillScreen(
             billCreatorId = currentState.bill.id,
             serviceStateList = currentState.list,
             onEvent = onEvent
+        )
+
+        DeleteServiceItemDialog(
+            dialogState = currentState.dialogState,
+            closeDialog = { onEvent(BillGenerationUiEvent.CloseDialog) },
+            onConfirmClick = { onEvent(BillGenerationUiEvent.DeleteUtilityService(it))}
         )
     }
 }

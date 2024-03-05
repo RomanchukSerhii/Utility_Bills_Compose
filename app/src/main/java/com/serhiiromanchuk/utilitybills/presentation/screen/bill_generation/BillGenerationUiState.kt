@@ -12,7 +12,8 @@ data class BillGenerationUiState(
         address = "",
         date = ""
     ),
-    val list: List<ServiceItemState> = listOf()
+    val list: List<ServiceItemState> = listOf(),
+    val dialogState: DialogState = DialogState.Close
 ) {
     val isNextButtonEnabled: Boolean
         get() {
@@ -32,5 +33,10 @@ data class BillGenerationUiState(
                 val currentDigit = utilityServiceItem.currentValue.trimSpaces().toIntOrNull() ?: 0
                 return previousDigit > currentDigit
             }
+    }
+
+    sealed interface DialogState {
+        data class Open(val service: UtilityService) : DialogState
+        data object Close : DialogState
     }
 }

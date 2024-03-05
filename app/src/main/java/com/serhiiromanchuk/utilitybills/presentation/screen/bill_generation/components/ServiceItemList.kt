@@ -42,12 +42,7 @@ fun ServiceItemList(
             it.utilityServiceItem.id
         }) { serviceState ->
             SwipeToDeleteContainer(item = serviceState, onDelete = {
-                onEvent(
-                    BillGenerationUiEvent.DeleteUtilityService(
-                        it.utilityServiceItem.billCreatorId,
-                        it.utilityServiceItem.id
-                    )
-                )
+                onEvent(BillGenerationUiEvent.OpenDialog(it.utilityServiceItem))
             }) {
                 ServiceItem(serviceState = serviceState, onEvent = onEvent)
             }

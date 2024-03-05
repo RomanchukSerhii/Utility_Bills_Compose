@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
-import com.serhiiromanchuk.utilitybills.domain.mocks.fakeBillItem
+import com.serhiiromanchuk.utilitybills.utils.mocks.fakeBillItem
 import com.serhiiromanchuk.utilitybills.domain.model.Bill
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnPrimary
 import com.serhiiromanchuk.utilitybills.presentation.core.components.HeadlineTextOnPrimary
