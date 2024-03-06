@@ -56,10 +56,10 @@ fun PrimaryButton(
 
 @Composable
 fun SecondaryButton(
+    modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit,
-    enabled: Boolean = true,
-    modifier: Modifier = Modifier
+    enabled: Boolean = true
 ) {
     Box(
         modifier = modifier
@@ -77,7 +77,6 @@ fun SecondaryButton(
                     MaterialTheme.colorScheme.secondary
                 } else {
                     MaterialTheme.colorScheme.surfaceVariant
-
                 }
             )
         ) {

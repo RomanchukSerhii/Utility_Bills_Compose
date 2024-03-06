@@ -77,13 +77,14 @@ fun LabelTextOnSurface(
 fun TitleTextOnSurface(
     modifier: Modifier = Modifier,
     style: TextStyle = MaterialTheme.typography.titleMedium,
+    color: Color = MaterialTheme.colorScheme.onSurface,
     text: String
 ) {
     Text(
         modifier = modifier,
         text = text,
         style = style,
-        color = MaterialTheme.colorScheme.onSurface
+        color = color
     )
 }
 

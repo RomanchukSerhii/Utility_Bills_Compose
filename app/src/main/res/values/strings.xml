@@ -54,4 +54,9 @@
     <string name="current_value">Поточні</string>
     <string name="enter_utility_service_info">Вкажіть дані комунальної послуги:</string>
     <string name="create_bill">Сформувати рахунок</string>
+    <string name="bill">Рахунок</string>
+    <string name="bill_details">Деталі рахунку</string>
+    <string name="copy_bill_in_buffer">Копіювати рахунок в буфер</string>
+    <string name="service_total_value">%.2f грн.</string>
+    <string name="total_bill_value">Разом: %1$s грн</string>
 </resources>
