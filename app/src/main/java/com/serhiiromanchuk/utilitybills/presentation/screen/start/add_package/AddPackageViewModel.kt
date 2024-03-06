@@ -9,7 +9,6 @@ import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetLastBillP
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetMaxIndexPositionUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.InsertBillPackageUseCase
 import com.serhiiromanchuk.utilitybills.utils.UNDEFINED_ID
-import com.serhiiromanchuk.utilitybills.utils.getCurrentDate
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -94,7 +93,7 @@ class AddPackageViewModel @Inject constructor(
                     packageCreatorId = lastPackageId ?: UNDEFINED_ID,
                     address = address,
                     payerName = payerName,
-                    date = getCurrentDate()
+                    date = ""
                 )
             )
         }

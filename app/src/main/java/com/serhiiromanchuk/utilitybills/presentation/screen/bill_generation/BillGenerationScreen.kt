@@ -23,14 +23,14 @@ import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.comp
 @Composable
 fun BillScreenRoot(
     modifier: Modifier = Modifier,
-    billId: Long,
+    billPackageId: Long,
     onBackPressed: () -> Unit,
     onEditServiceClick: (id: Long, billCreatorId: Long) -> Unit,
     onAddServiceClick: (billCreatorId: Long) -> Unit
 ) {
     val component = getApplicationComponent()
         .getBillGenerationScreenComponentFactory()
-        .create(billId)
+        .create(billPackageId)
     val viewModel: BillGenerationViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.collectAsStateWithLifecycle()
 

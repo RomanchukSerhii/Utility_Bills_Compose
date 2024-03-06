@@ -29,6 +29,15 @@ interface BillDao {
     suspend fun updateBillItems(billItems: List<BillDbModel>)
 
     @Transaction
+    @Query("SELECT * FROM bill_items WHERE package_creator_id=:packageCreatorId AND date=:date")
+    suspend fun getBillWithServicesByDate(packageCreatorId: Long, date: String): BillWithUtilityServicesDbModel?
+
+    @Transaction
+    @Query("SELECT * FROM bill_items WHERE package_creator_id=:packageCreatorId ORDER BY id DESC LIMIT 1")
+    suspend fun getLastBillWithServices(packageCreatorId: Long): BillWithUtilityServicesDbModel?
+
+
+    @Transaction
     @Query("SELECT * FROM bill_items WHERE id=:billId")
     fun getBillWithUtilityServices(billId: Long): Flow<BillWithUtilityServicesDbModel>
 }

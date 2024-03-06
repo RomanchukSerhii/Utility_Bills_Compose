@@ -16,5 +16,9 @@ interface BillRepository {
 
     suspend fun updateBillItems(billItems: List<Bill>)
 
-    fun getBillWithUtilityServices(billId: Long): Flow<BillWithUtilityServices>
+    suspend fun getBillWithServicesByDate(packageCreatorId: Long, date: String): BillWithUtilityServices?
+
+    suspend fun getLastBillWithServices(packageCreatorId: Long): BillWithUtilityServices?
+
+    fun getBillWithServices(billId: Long): Flow<BillWithUtilityServices>
 }

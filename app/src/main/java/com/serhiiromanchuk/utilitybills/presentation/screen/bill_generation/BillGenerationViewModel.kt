@@ -3,7 +3,7 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillWithUtilityServicesUseCase
+import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillWithServicesUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.DeleteUtilityServiceFromBillUseCase
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.DialogState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.ServiceItemState
@@ -19,8 +19,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class BillGenerationViewModel @Inject constructor(
-    private val billId: Long,
-    private val getBillWithUtilityServicesUseCase: GetBillWithUtilityServicesUseCase,
+    private val billPackageId: Long,
+    private val getBillWithUtilityServicesUseCase: GetBillWithServicesUseCase,
     private val deleteUtilityServiceFromBillUseCase: DeleteUtilityServiceFromBillUseCase
 ) : ViewModel() {
 
@@ -33,9 +33,8 @@ class BillGenerationViewModel @Inject constructor(
     val screenState: StateFlow<BillGenerationUiState> = _screenState.asStateFlow()
 
     init {
-
         viewModelScope.launch {
-            getBillWithUtilityServicesUseCase(billId).collect { currentBill ->
+            getBillWithUtilityServicesUseCase(billPackageId).collect { currentBill ->
                 if (bufferUtilityServicesList.isNotEmpty()) bufferUtilityServicesList.clear()
                 currentBill.utilityServices.forEach { utilityService ->
                     bufferUtilityServicesList.add(ServiceItemState(utilityService))
@@ -60,13 +59,15 @@ class BillGenerationViewModel @Inject constructor(
 
             is BillGenerationUiEvent.DeleteUtilityService -> {
                 viewModelScope.launch {
-                    deleteUtilityServiceFromBillUseCase(billId, event.serviceId)
+                    deleteUtilityServiceFromBillUseCase(billPackageId, event.serviceId)
                     _screenState.update { it.copy(dialogState = DialogState.Close) }
                 }
             }
 
             BillGenerationUiEvent.EditBillInfo -> TODO()
+
             BillGenerationUiEvent.Submit -> TODO()
+
             BillGenerationUiEvent.OnBackClicked -> {
                 viewModelScope.launch {
                     _navigationEvent.emit(NavigationEvent.OnBack)
@@ -76,17 +77,21 @@ class BillGenerationViewModel @Inject constructor(
             is BillGenerationUiEvent.CheckStateChanged -> {
                 changeServiceCheckedState(event.serviceId, event.checked)
             }
+
             is BillGenerationUiEvent.CurrentValueChanged -> {
                 meterValueChange(event.serviceId, event.value, MeterValueType.CURRENT)
             }
+
             is BillGenerationUiEvent.PreviousValueChanged -> {
                 meterValueChange(event.serviceId, event.value, MeterValueType.PREVIOUS)
             }
 
             is BillGenerationUiEvent.OnEditServiceClicked -> TODO()
+
             is BillGenerationUiEvent.OpenDialog -> {
                 _screenState.update { it.copy(dialogState = DialogState.Open(event.service)) }
             }
+
             BillGenerationUiEvent.CloseDialog -> {
                 _screenState.update { it.copy(dialogState = DialogState.Close) }
             }

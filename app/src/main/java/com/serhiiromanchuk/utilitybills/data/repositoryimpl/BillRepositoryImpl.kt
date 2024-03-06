@@ -30,11 +30,23 @@ class BillRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateBillItems(billItems: List<Bill>) {
-
         billDao.updateBillItems(mapper.mapListEntityToListDbModel(billItems))
     }
 
-    override fun getBillWithUtilityServices(billId: Long): Flow<BillWithUtilityServices> {
+    override suspend fun getBillWithServicesByDate(
+        packageCreatorId: Long,
+        date: String
+    ): BillWithUtilityServices? {
+        val dbModel = billDao.getBillWithServicesByDate(packageCreatorId, date)
+        return dbModel?.let { mapper.mapBillWithServicesDbModelToEntity(dbModel) }
+    }
+
+    override suspend fun getLastBillWithServices(packageCreatorId: Long): BillWithUtilityServices? {
+        val dbModel = billDao.getLastBillWithServices(packageCreatorId)
+        return dbModel?.let { mapper.mapBillWithServicesDbModelToEntity(dbModel) }
+    }
+
+    override fun getBillWithServices(billId: Long): Flow<BillWithUtilityServices> {
         return billDao.getBillWithUtilityServices(billId)
             .map { mapper.mapBillWithServicesDbModelToEntity(it) }
     }

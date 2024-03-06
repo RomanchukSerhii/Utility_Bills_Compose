@@ -45,7 +45,7 @@ fun MainScreen(
         },
         billGenerationScreenContent = { billId ->
             BillScreenRoot(
-                billId = billId,
+                billPackageId = billId,
                 onEditServiceClick = { id, billCreatorId ->
                     navigationState.navigateToInsertServiceScreen(id, billCreatorId)
                 },

@@ -26,7 +26,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
-import com.serhiiromanchuk.utilitybills.utils.mocks.fakeBillItem
 import com.serhiiromanchuk.utilitybills.domain.model.Bill
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnPrimary
 import com.serhiiromanchuk.utilitybills.presentation.core.components.HeadlineTextOnPrimary
@@ -34,6 +33,8 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.LabelTextOn
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiEvent
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
+import com.serhiiromanchuk.utilitybills.utils.getCurrentDate
+import com.serhiiromanchuk.utilitybills.utils.mocks.fakeBillItem
 
 @Composable
 fun BillTopBar(
@@ -56,7 +57,7 @@ fun BillTopBar(
         TopBarApp(
             onBackPressed = { onEvent(BillGenerationUiEvent.OnBackClicked) },
             actions = {
-                IconButton(onClick = {  }) {
+                IconButton(onClick = { }) {
                     Icon(
                         imageVector = Icons.Default.Info,
                         contentDescription = null,
@@ -78,12 +79,18 @@ fun BillTopBar(
                 modifier = Modifier.padding(end = dimensionResource(id = R.dimen.height_small)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                //Payer Text
                 BillInfoText(label = "Платник", infoText = billItem.payerName)
                 Spacer(modifier = Modifier.weight(1f))
                 EditIcon(onEvent = onEvent)
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.height_small)))
-            BillInfoText(label = "Місяць", infoText = billItem.date)
+
+            //Date Text
+            BillInfoText(
+                label = "Місяць",
+                infoText = billItem.date.ifEmpty { getCurrentDate() }
+            )
         }
     }
 }

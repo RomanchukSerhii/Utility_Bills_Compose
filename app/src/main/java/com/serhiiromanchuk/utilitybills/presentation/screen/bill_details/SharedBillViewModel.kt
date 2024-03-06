@@ -2,7 +2,7 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.bill_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillWithUtilityServicesUseCase
+import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillWithServicesUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class SharedBillViewModel @Inject constructor(
     private val billId: Long,
     private val month: String,
-    private val getBillWithUtilityServicesUseCase: GetBillWithUtilityServicesUseCase
+    private val getBillWithUtilityServicesUseCase: GetBillWithServicesUseCase
 ) : ViewModel() {
 
     private val _navigationEvent = MutableSharedFlow<NavigationEvent>()
