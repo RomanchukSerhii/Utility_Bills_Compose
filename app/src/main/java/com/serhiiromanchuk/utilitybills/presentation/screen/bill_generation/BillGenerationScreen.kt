@@ -69,7 +69,7 @@ private fun BillScreen(
         modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
         topBar = {
             BillTopBar(
-                billItem = currentState.bill,
+                screenState = currentState,
                 onEvent = onEvent
             )
         },
@@ -85,7 +85,7 @@ private fun BillScreen(
         ServiceItemList(
             modifier = modifier.padding(paddingValues),
             billCreatorId = currentState.bill.id,
-            serviceStateList = currentState.list,
+            serviceStateList = currentState.serviceStateList,
             onEvent = onEvent
         )
 

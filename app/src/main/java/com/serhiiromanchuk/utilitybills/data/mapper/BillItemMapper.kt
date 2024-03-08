@@ -13,10 +13,9 @@ class BillItemMapper @Inject constructor(
         return BillDbModel(
             id = billItem.id,
             packageCreatorId = billItem.packageCreatorId,
-            payerName = billItem.payerName,
-            address = billItem.address,
             date = billItem.date,
-            billDescription = billItem.billDescription
+            billDescription = billItem.billDescription,
+            indexPosition = billItem.indexPosition
         )
     }
 
@@ -24,10 +23,9 @@ class BillItemMapper @Inject constructor(
         return Bill(
             id = billItemDbModel.id,
             packageCreatorId = billItemDbModel.packageCreatorId,
-            payerName = billItemDbModel.payerName,
-            address = billItemDbModel.address,
             date = billItemDbModel.date,
-            billDescription = billItemDbModel.billDescription
+            billDescription = billItemDbModel.billDescription,
+            indexPosition = billItemDbModel.indexPosition
         )
     }
 

@@ -14,5 +14,6 @@ data class UtilityServiceDbModel(
     @ColumnInfo(name = "is_meter_available") val isMeterAvailable: Boolean,
     @ColumnInfo(name = "previous_value") val previousValue: String,
     @ColumnInfo(name = "current_value") val currentValue: String,
-    @ColumnInfo(name = "unit_of_measurement") val unitOfMeasurement: MeasurementUnit
+    @ColumnInfo(name = "unit_of_measurement") val unitOfMeasurement: MeasurementUnit,
+    @ColumnInfo(name = "index_position") val indexPosition: Int
 )

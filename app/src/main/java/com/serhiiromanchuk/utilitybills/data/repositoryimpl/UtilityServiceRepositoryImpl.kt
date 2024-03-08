@@ -25,4 +25,8 @@ class UtilityServiceRepositoryImpl @Inject constructor(
     override suspend fun getUtilityService(utilityServiceId: Long): UtilityService {
         return mapper.mapDbModelToEntity(utilityServiceDao.getUtilityService(utilityServiceId))
     }
+
+    override suspend fun getMaxServiceIndexPosition(billCreatorId: Long): Int? {
+        return utilityServiceDao.getMaxServiceIndexPosition(billCreatorId)
+    }
 }

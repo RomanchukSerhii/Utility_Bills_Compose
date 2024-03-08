@@ -14,6 +14,8 @@ class BillPackageMapper @Inject constructor(
         return BillPackageDbModel(
             id = entity.id,
             name = entity.name,
+            payerName = entity.payerName,
+            address = entity.address,
             indexPosition = entity.indexPosition
         )
     }
@@ -22,6 +24,8 @@ class BillPackageMapper @Inject constructor(
         return BillPackage(
             id = dbModel.id,
             name = dbModel.name,
+            payerName = dbModel.payerName,
+            address = dbModel.address,
             indexPosition = dbModel.indexPosition
         )
     }

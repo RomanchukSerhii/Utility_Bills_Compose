@@ -2,22 +2,24 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation
 
 import com.serhiiromanchuk.utilitybills.domain.model.Bill
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityService
-import com.serhiiromanchuk.utilitybills.utils.UNDEFINED_ID
+import com.serhiiromanchuk.utilitybills.utils.NOT_FOUND_ID
+import com.serhiiromanchuk.utilitybills.utils.getCurrentDate
 import com.serhiiromanchuk.utilitybills.utils.trimSpaces
 
 data class BillGenerationUiState(
     val bill: Bill = Bill(
-        packageCreatorId = UNDEFINED_ID,
-        payerName = "",
-        address = "",
+        packageCreatorId = NOT_FOUND_ID,
         date = ""
     ),
-    val list: List<ServiceItemState> = listOf(),
+    val serviceStateList: List<ServiceItemState> = listOf(),
+    val payerName: String = "",
+    val address: String = "",
+    val date: String = getCurrentDate(),
     val dialogState: DialogState = DialogState.Close
 ) {
     val isNextButtonEnabled: Boolean
         get() {
-            list.forEach { utilityService ->
+            serviceStateList.forEach { utilityService ->
                 if (utilityService.isChecked) return true
             }
             return false

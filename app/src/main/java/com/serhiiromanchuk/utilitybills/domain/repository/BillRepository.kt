@@ -12,9 +12,9 @@ interface BillRepository {
 
     suspend fun deleteBillsFromPackage(packageId: Long)
 
-    suspend fun updateBillAddress(address: String, billId: Long)
-
     suspend fun updateBillItems(billItems: List<Bill>)
+
+    suspend fun getBillCount(packageCreatorId: Long): Int
 
     suspend fun getBillWithServicesByDate(packageCreatorId: Long, date: String): BillWithUtilityServices?
 

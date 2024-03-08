@@ -25,12 +25,12 @@ class BillRepositoryImpl @Inject constructor(
         billDao.deleteBillsFromPackage(packageId)
     }
 
-    override suspend fun updateBillAddress(address: String, billId: Long) {
-        billDao.updateAddress(address, billId)
-    }
-
     override suspend fun updateBillItems(billItems: List<Bill>) {
         billDao.updateBillItems(mapper.mapListEntityToListDbModel(billItems))
+    }
+
+    override suspend fun getBillCount(packageCreatorId: Long): Int {
+        return billDao.getBillCount(packageCreatorId)
     }
 
     override suspend fun getBillWithServicesByDate(

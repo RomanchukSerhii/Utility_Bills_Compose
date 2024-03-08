@@ -11,4 +11,6 @@ interface UtilityServiceRepository {
     suspend fun deleteServiceFromBill(billId: Long, serviceId: Long)
 
     suspend fun getUtilityService(utilityServiceId: Long): UtilityService
+
+    suspend fun getMaxServiceIndexPosition(billCreatorId: Long): Int?
 }

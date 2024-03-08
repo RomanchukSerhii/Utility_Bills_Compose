@@ -3,11 +3,15 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillCountUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillWithServicesUseCase
+import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetLastBillWithServicesUseCase
+import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetBillPackageWithBillsUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.DeleteUtilityServiceFromBillUseCase
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.DialogState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.ServiceItemState
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
+import com.serhiiromanchuk.utilitybills.utils.getCurrentDate
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -21,7 +25,10 @@ import javax.inject.Inject
 class BillGenerationViewModel @Inject constructor(
     private val billPackageId: Long,
     private val getBillWithUtilityServicesUseCase: GetBillWithServicesUseCase,
-    private val deleteUtilityServiceFromBillUseCase: DeleteUtilityServiceFromBillUseCase
+    private val deleteUtilityServiceFromBillUseCase: DeleteUtilityServiceFromBillUseCase,
+    private val getLastBillWithServicesUseCase: GetLastBillWithServicesUseCase,
+    private val getBillCountUseCase: GetBillCountUseCase,
+    private val getBillPackageWithBillsUseCase: GetBillPackageWithBillsUseCase
 ) : ViewModel() {
 
     private val bufferUtilityServicesList = mutableStateListOf<ServiceItemState>()
@@ -34,18 +41,40 @@ class BillGenerationViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getBillWithUtilityServicesUseCase(billPackageId).collect { currentBill ->
-                if (bufferUtilityServicesList.isNotEmpty()) bufferUtilityServicesList.clear()
-                currentBill.utilityServices.forEach { utilityService ->
-                    bufferUtilityServicesList.add(ServiceItemState(utilityService))
-                }
-                _screenState.update {
-                    it.copy(
-                        bill = currentBill.bill,
-                        list = bufferUtilityServicesList
-                    )
+            getBillPackageWithBillsUseCase(billPackageId).collect{ bills ->
+
+            }
+            val lastBillWithService = getLastBillWithServicesUseCase(billPackageId)
+            lastBillWithService?.let {
+                val bill = it.bill
+                val services = it.utilityServices
+                val isOneBillInPackage = getBillCountUseCase(billPackageId) == 1
+
+                if (bill.date == getCurrentDate() || isOneBillInPackage) {
+                    if (bufferUtilityServicesList.isNotEmpty()) bufferUtilityServicesList.clear()
+                    services.forEach { utilityService ->
+                        bufferUtilityServicesList.add(ServiceItemState(utilityService))
+                    }
+                    _screenState.update {uiState ->
+                        uiState.copy(
+                            bill = bill,
+                            serviceStateList = bufferUtilityServicesList
+                        )
+                    }
                 }
             }
+//            getBillWithUtilityServicesUseCase(billPackageId).collect { currentBill ->
+//                if (bufferUtilityServicesList.isNotEmpty()) bufferUtilityServicesList.clear()
+//                currentBill.utilityServices.forEach { utilityService ->
+//                    bufferUtilityServicesList.add(ServiceItemState(utilityService))
+//                }
+//                _screenState.update {
+//                    it.copy(
+//                        bill = currentBill.bill,
+//                        list = bufferUtilityServicesList
+//                    )
+//                }
+//            }
         }
     }
 
@@ -108,6 +137,7 @@ class BillGenerationViewModel @Inject constructor(
                         MeterValueType.PREVIOUS -> {
                             oldServiceItem.copy(previousValue = value)
                         }
+
                         MeterValueType.CURRENT -> {
                             oldServiceItem.copy(currentValue = value)
                         }
@@ -136,7 +166,7 @@ class BillGenerationViewModel @Inject constructor(
 
     private fun updateList() {
         _screenState.update {
-            it.copy(list = bufferUtilityServicesList)
+            it.copy(serviceStateList = bufferUtilityServicesList)
         }
     }
 

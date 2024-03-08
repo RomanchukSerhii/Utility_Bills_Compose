@@ -26,20 +26,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
-import com.serhiiromanchuk.utilitybills.domain.model.Bill
 import com.serhiiromanchuk.utilitybills.presentation.core.components.BodyTextOnPrimary
 import com.serhiiromanchuk.utilitybills.presentation.core.components.HeadlineTextOnPrimary
 import com.serhiiromanchuk.utilitybills.presentation.core.components.LabelTextOnPrimary
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiEvent
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
-import com.serhiiromanchuk.utilitybills.utils.getCurrentDate
-import com.serhiiromanchuk.utilitybills.utils.mocks.fakeBillItem
 
 @Composable
 fun BillTopBar(
     modifier: Modifier = Modifier,
-    billItem: Bill,
+    screenState: BillGenerationUiState,
     onEvent: (BillGenerationUiEvent) -> Unit
 ) {
     Column(
@@ -74,13 +72,13 @@ fun BillTopBar(
                 bottom = dimensionResource(id = R.dimen.padding_large),
             )
         ) {
-            AddressText(address = billItem.address)
+            AddressText(address = screenState.address)
             Row(
                 modifier = Modifier.padding(end = dimensionResource(id = R.dimen.height_small)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 //Payer Text
-                BillInfoText(label = "Платник", infoText = billItem.payerName)
+                BillInfoText(label = "Платник", infoText = screenState.payerName)
                 Spacer(modifier = Modifier.weight(1f))
                 EditIcon(onEvent = onEvent)
             }
@@ -89,7 +87,7 @@ fun BillTopBar(
             //Date Text
             BillInfoText(
                 label = "Місяць",
-                infoText = billItem.date.ifEmpty { getCurrentDate() }
+                infoText = screenState.date
             )
         }
     }
@@ -147,7 +145,7 @@ fun EditIcon(
 private fun PreviewHomeScreenHeader() {
     UtilityBillsTheme(darkTheme = false) {
         BillTopBar(
-            billItem = fakeBillItem,
+            screenState = BillGenerationUiState(),
             onEvent = {}
         )
     }

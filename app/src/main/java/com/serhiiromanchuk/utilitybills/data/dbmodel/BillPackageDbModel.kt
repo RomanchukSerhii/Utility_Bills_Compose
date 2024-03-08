@@ -8,5 +8,7 @@ import androidx.room.PrimaryKey
 data class BillPackageDbModel(
     @PrimaryKey(autoGenerate = true) val id: Long,
     @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "payerName") val payerName: String,
+    @ColumnInfo(name = "address") val address: String,
     @ColumnInfo(name = "index_position") val indexPosition: Int
 )

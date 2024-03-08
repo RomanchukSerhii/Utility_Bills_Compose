@@ -10,7 +10,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_details.SharedBillViewModel
-import com.serhiiromanchuk.utilitybills.utils.UNDEFINED_ID
+import com.serhiiromanchuk.utilitybills.utils.NOT_FOUND_ID
 import com.serhiiromanchuk.utilitybills.utils.sharedViewModel
 
 fun NavGraphBuilder.billHomeScreenNavGraph(
@@ -54,7 +54,7 @@ fun NavGraphBuilder.billHomeScreenNavGraph(
 }
 @Composable
 private fun getBillUiState(entry: NavBackStackEntry, navController: NavHostController) {
-    val billId = entry.arguments?.getLong(Screen.KEY_BILL_ID) ?: UNDEFINED_ID
+    val billId = entry.arguments?.getLong(Screen.KEY_BILL_ID) ?: NOT_FOUND_ID
     val month = entry.arguments?.getString(Screen.KEY_MONTH) ?: ""
 
     val component = getApplicationComponent()

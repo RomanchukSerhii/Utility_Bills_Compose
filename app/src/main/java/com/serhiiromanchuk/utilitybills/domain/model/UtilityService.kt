@@ -1,5 +1,8 @@
 package com.serhiiromanchuk.utilitybills.domain.model
 
+import com.serhiiromanchuk.utilitybills.utils.INITIAL_INDEX_POSITION
+import com.serhiiromanchuk.utilitybills.utils.UNDEFINED_ID
+import com.serhiiromanchuk.utilitybills.utils.UNDEFINED_METER_VALUE
 import com.serhiiromanchuk.utilitybills.utils.trimSpaces
 import kotlin.math.ceil
 
@@ -9,9 +12,10 @@ data class UtilityService(
     val name: String,
     val tariff: Double,
     val isMeterAvailable: Boolean,
-    val previousValue: String = UNDEFINED_CURRENT_VALUE,
-    val currentValue: String = UNDEFINED_CURRENT_VALUE,
-    val unitOfMeasurement: MeasurementUnit = MeasurementUnit.CUBIC_METER
+    val previousValue: String = UNDEFINED_METER_VALUE,
+    val currentValue: String = UNDEFINED_METER_VALUE,
+    val unitOfMeasurement: MeasurementUnit = MeasurementUnit.CUBIC_METER,
+    val indexPosition: Int = INITIAL_INDEX_POSITION
 ) {
 
     private val previousDigit = previousValue.trimSpaces().toIntOrNull() ?: 0
@@ -23,11 +27,6 @@ data class UtilityService(
         ceil(consumedValue * tariff)
     } else {
         tariff
-    }
-
-    companion object {
-        private const val UNDEFINED_ID = 0L
-        private const val UNDEFINED_CURRENT_VALUE = "0"
     }
 }
 

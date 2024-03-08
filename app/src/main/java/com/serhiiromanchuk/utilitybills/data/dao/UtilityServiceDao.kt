@@ -21,4 +21,7 @@ interface UtilityServiceDao {
     @Query("SELECT * FROM utility_services WHERE id=:utilityServiceId")
     suspend fun getUtilityService(utilityServiceId: Long): UtilityServiceDbModel
 
+    @Query("SELECT MAX(index_position) FROM utility_services WHERE bill_creator_id=:billCreatorId")
+    suspend fun getMaxServiceIndexPosition(billCreatorId: Long): Int?
+
 }

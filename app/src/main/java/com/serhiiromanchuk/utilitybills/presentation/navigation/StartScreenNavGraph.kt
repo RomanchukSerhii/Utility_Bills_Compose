@@ -6,7 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.serhiiromanchuk.utilitybills.utils.UNDEFINED_ID
+import com.serhiiromanchuk.utilitybills.utils.NOT_FOUND_ID
 
 fun NavGraphBuilder.startScreenNavGraph(
     chooseBillScreenContent: @Composable () -> Unit,
@@ -31,7 +31,7 @@ fun NavGraphBuilder.startScreenNavGraph(
             )
         ) {
             val packageName = it.arguments?.getString(Screen.KEY_PACKAGE_NAME) ?: ""
-            val billId = it.arguments?.getLong(Screen.KEY_PACKAGE_ID) ?: UNDEFINED_ID
+            val billId = it.arguments?.getLong(Screen.KEY_PACKAGE_ID) ?: NOT_FOUND_ID
             editPackageScreenContent(packageName, billId)
         }
     }

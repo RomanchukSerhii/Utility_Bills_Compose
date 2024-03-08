@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.serhiiromanchuk.utilitybills.utils.UNDEFINED_ID
+import com.serhiiromanchuk.utilitybills.utils.NOT_FOUND_ID
 
 class NavigationState(
     val navHostController: NavHostController
@@ -21,7 +21,7 @@ class NavigationState(
         }
     }
 
-    fun navigateToInsertServiceScreen(utilityServiceId: Long = UNDEFINED_ID, billCreatorId: Long) {
+    fun navigateToInsertServiceScreen(utilityServiceId: Long = NOT_FOUND_ID, billCreatorId: Long) {
         navHostController.navigate(Screen.InsertServiceScreen.getRoutWithArgs(utilityServiceId, billCreatorId))
     }
 

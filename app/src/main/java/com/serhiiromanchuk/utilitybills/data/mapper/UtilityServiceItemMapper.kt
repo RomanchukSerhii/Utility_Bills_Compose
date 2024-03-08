@@ -14,7 +14,8 @@ class UtilityServiceItemMapper @Inject constructor() {
             isMeterAvailable = entity.isMeterAvailable,
             previousValue = entity.previousValue,
             currentValue = entity.currentValue,
-            unitOfMeasurement = entity.unitOfMeasurement
+            unitOfMeasurement = entity.unitOfMeasurement,
+            indexPosition = entity.indexPosition
         )
     }
 
@@ -27,7 +28,8 @@ class UtilityServiceItemMapper @Inject constructor() {
             isMeterAvailable = dbModel.isMeterAvailable,
             previousValue = dbModel.previousValue,
             currentValue = dbModel.currentValue,
-            unitOfMeasurement = dbModel.unitOfMeasurement
+            unitOfMeasurement = dbModel.unitOfMeasurement,
+            indexPosition = dbModel.indexPosition
         )
     }
 

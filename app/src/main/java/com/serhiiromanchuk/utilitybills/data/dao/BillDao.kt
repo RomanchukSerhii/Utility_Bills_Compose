@@ -22,11 +22,11 @@ interface BillDao {
     @Query("DELETE FROM bill_items WHERE package_creator_id=:packageId")
     suspend fun deleteBillsFromPackage(packageId: Long)
 
-    @Query("UPDATE bill_items SET address=:address WHERE id=:id")
-    suspend fun updateAddress(address: String, id: Long)
-
     @Update
     suspend fun updateBillItems(billItems: List<BillDbModel>)
+
+    @Query("SELECT COUNT(*) FROM bill_items WHERE package_creator_id=:packageCreatorId")
+    suspend fun getBillCount(packageCreatorId: Long): Int
 
     @Transaction
     @Query("SELECT * FROM bill_items WHERE package_creator_id=:packageCreatorId AND date=:date")

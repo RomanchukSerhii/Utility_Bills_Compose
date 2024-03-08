@@ -3,9 +3,11 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.insert_service
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityService
+import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.GetMaxServiceIndexPositionUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.GetUtilityServiceUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.InsertUtilityServiceUseCase
 import com.serhiiromanchuk.utilitybills.utils.removeCurrencySign
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,6 +23,7 @@ class InsertServiceViewModel @Inject constructor(
     @Named("billCreatorId") private val billCreatorId: Long,
     private val insertUtilityServiceUseCase: InsertUtilityServiceUseCase,
     private val getUtilityServiceUseCase: GetUtilityServiceUseCase,
+    private val getMaxServiceIndexPositionUseCase: GetMaxServiceIndexPositionUseCase
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow(InsertServiceUiState())
@@ -75,6 +78,10 @@ class InsertServiceViewModel @Inject constructor(
     }
 
     private suspend fun insertUtilityService() {
+        val deferredLastIndex = viewModelScope.async {
+            getMaxServiceIndexPositionUseCase(billCreatorId)
+        }
+        val lastIndex = deferredLastIndex.await()
         val utilityService = with(screenState.value) {
             UtilityService(
                 id = if (utilityServiceId >= 0) utilityServiceId else 0,
@@ -84,7 +91,8 @@ class InsertServiceViewModel @Inject constructor(
                 isMeterAvailable = isMeterAvailable,
                 previousValue = previousValue,
                 currentValue = currentValue,
-                unitOfMeasurement = unitOfMeasurement
+                unitOfMeasurement = unitOfMeasurement,
+                indexPosition = lastIndex?.let { it + 1 } ?: 0
             )
         }
 

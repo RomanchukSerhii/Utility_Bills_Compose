@@ -2,13 +2,11 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.serhiiromanchuk.utilitybills.domain.model.Bill
 import com.serhiiromanchuk.utilitybills.domain.model.BillPackage
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.InsertBillItemUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetLastBillPackageIdUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetMaxIndexPositionUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.InsertBillPackageUseCase
-import com.serhiiromanchuk.utilitybills.utils.UNDEFINED_ID
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -76,30 +74,15 @@ class AddPackageViewModel @Inject constructor(
             insertBillPackageUseCase(
                 BillPackage(
                     name = address,
+                    payerName = payerName,
+                    address = address,
                     indexPosition = lastIndex?.let { it + 1 } ?: 0
                 )
             )
         }
 
-        val deferredLastPackageId = viewModelScope.async {
-            insertPackageJob.join()
-            getLastBillPackageIdUseCase()
-        }
-
-        val insertBillJob = viewModelScope.launch {
-            val lastPackageId = deferredLastPackageId.await()
-            insertBillItemUseCase(
-                Bill(
-                    packageCreatorId = lastPackageId ?: UNDEFINED_ID,
-                    address = address,
-                    payerName = payerName,
-                    date = ""
-                )
-            )
-        }
-
         viewModelScope.launch {
-            insertBillJob.join()
+            insertPackageJob.join()
             _navigationEvent.emit(NavigationEvent.OnBack)
         }
     }
