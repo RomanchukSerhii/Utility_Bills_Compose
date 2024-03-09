@@ -14,8 +14,7 @@ class BillItemMapper @Inject constructor(
             id = billItem.id,
             packageCreatorId = billItem.packageCreatorId,
             date = billItem.date,
-            billDescription = billItem.billDescription,
-            indexPosition = billItem.indexPosition
+            billDescription = billItem.billDescription
         )
     }
 
@@ -24,8 +23,7 @@ class BillItemMapper @Inject constructor(
             id = billItemDbModel.id,
             packageCreatorId = billItemDbModel.packageCreatorId,
             date = billItemDbModel.date,
-            billDescription = billItemDbModel.billDescription,
-            indexPosition = billItemDbModel.indexPosition
+            billDescription = billItemDbModel.billDescription
         )
     }
 

@@ -87,7 +87,7 @@ class BillGenerationViewModel @Inject constructor(
                 _screenState.update {
                     it.copy(
                         packageState = PackageState(
-                            billList = packageWithBills.bills,
+                            billList = packageWithBills.sortedBills,
                             payerName = packageWithBills.billPackage.payerName,
                             address = packageWithBills.billPackage.address
                         )

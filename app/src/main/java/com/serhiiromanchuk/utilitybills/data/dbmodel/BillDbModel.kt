@@ -9,6 +9,5 @@ data class BillDbModel (
     @PrimaryKey(autoGenerate = true) val id: Long,
     @ColumnInfo(name = "package_creator_id") val packageCreatorId: Long,
     @ColumnInfo(name = "date") val date: String,
-    @ColumnInfo(name = "bill_description") val billDescription: String,
-    @ColumnInfo(name = "index_position") val indexPosition: Int
+    @ColumnInfo(name = "bill_description") val billDescription: String?
 )
