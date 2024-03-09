@@ -9,15 +9,19 @@ import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetLastBillWithServi
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetBillPackageWithBillsUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.DeleteUtilityServiceFromBillUseCase
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.DialogState
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.PackageState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.ServiceItemState
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
 import com.serhiiromanchuk.utilitybills.utils.getCurrentDate
+import com.serhiiromanchuk.utilitybills.utils.mergeWith
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,46 +41,63 @@ class BillGenerationViewModel @Inject constructor(
     val navigationEvent: SharedFlow<NavigationEvent> = _navigationEvent.asSharedFlow()
 
     private val _screenState = MutableStateFlow(BillGenerationUiState())
-    val screenState: StateFlow<BillGenerationUiState> = _screenState.asStateFlow()
+    private val refreshDate = MutableSharedFlow<String>(replay = 1)
+    private val refreshBill = MutableSharedFlow<Long>(replay = 1)
+
+    private val billWithServicesFlow = flow {
+        refreshBill.collect { billId ->
+            getBillWithUtilityServicesUseCase(billId).collect { currentBill ->
+                if (bufferUtilityServicesList.isNotEmpty()) bufferUtilityServicesList.clear()
+                currentBill.utilityServices.forEach { utilityService ->
+                    bufferUtilityServicesList.add(ServiceItemState(utilityService))
+                }
+                emit(
+                    _screenState.value.copy(
+                        bill = currentBill.bill,
+                        serviceStateList = bufferUtilityServicesList
+                    )
+                )
+            }
+        }
+    }
+
+    private val dateFlow = flow {
+        refreshDate.collect { date ->
+            val billList = _screenState.value.packageState.billList
+            val bill = billList.firstOrNull { it.date == date }
+            bill?.let { refreshBill.emit(it.id) }
+
+            emit(_screenState.value.copy(date = date))
+        }
+    }
+
+    val screenState: StateFlow<BillGenerationUiState> = _screenState
+        .mergeWith(billWithServicesFlow)
+        .mergeWith(dateFlow)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = BillGenerationUiState()
+        )
+
 
     init {
         viewModelScope.launch {
-            getBillPackageWithBillsUseCase(billPackageId).collect{ bills ->
-
-            }
-            val lastBillWithService = getLastBillWithServicesUseCase(billPackageId)
-            lastBillWithService?.let {
-                val bill = it.bill
-                val services = it.utilityServices
-                val isOneBillInPackage = getBillCountUseCase(billPackageId) == 1
-
-                if (bill.date == getCurrentDate() || isOneBillInPackage) {
-                    if (bufferUtilityServicesList.isNotEmpty()) bufferUtilityServicesList.clear()
-                    services.forEach { utilityService ->
-                        bufferUtilityServicesList.add(ServiceItemState(utilityService))
-                    }
-                    _screenState.update {uiState ->
-                        uiState.copy(
-                            bill = bill,
-                            serviceStateList = bufferUtilityServicesList
+            getBillPackageWithBillsUseCase(billPackageId).collect { packageWithBills ->
+                _screenState.update {
+                    it.copy(
+                        packageState = PackageState(
+                            billList = packageWithBills.bills,
+                            payerName = packageWithBills.billPackage.payerName,
+                            address = packageWithBills.billPackage.address
                         )
-                    }
+                    )
                 }
+                refreshDate.emit(getCurrentDate())
             }
-//            getBillWithUtilityServicesUseCase(billPackageId).collect { currentBill ->
-//                if (bufferUtilityServicesList.isNotEmpty()) bufferUtilityServicesList.clear()
-//                currentBill.utilityServices.forEach { utilityService ->
-//                    bufferUtilityServicesList.add(ServiceItemState(utilityService))
-//                }
-//                _screenState.update {
-//                    it.copy(
-//                        bill = currentBill.bill,
-//                        list = bufferUtilityServicesList
-//                    )
-//                }
-//            }
         }
     }
+
 
     fun onEvent(event: BillGenerationUiEvent) {
         when (event) {

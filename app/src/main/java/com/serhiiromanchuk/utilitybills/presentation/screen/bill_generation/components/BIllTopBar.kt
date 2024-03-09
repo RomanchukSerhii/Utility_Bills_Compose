@@ -72,13 +72,13 @@ fun BillTopBar(
                 bottom = dimensionResource(id = R.dimen.padding_large),
             )
         ) {
-            AddressText(address = screenState.address)
+            AddressText(address = screenState.packageState.address)
             Row(
                 modifier = Modifier.padding(end = dimensionResource(id = R.dimen.height_small)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 //Payer Text
-                BillInfoText(label = "Платник", infoText = screenState.payerName)
+                BillInfoText(label = "Платник", infoText = screenState.packageState.payerName)
                 Spacer(modifier = Modifier.weight(1f))
                 EditIcon(onEvent = onEvent)
             }

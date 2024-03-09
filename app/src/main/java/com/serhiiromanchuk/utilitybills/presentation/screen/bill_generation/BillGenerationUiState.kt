@@ -11,9 +11,8 @@ data class BillGenerationUiState(
         packageCreatorId = NOT_FOUND_ID,
         date = ""
     ),
+    val packageState: PackageState = PackageState(),
     val serviceStateList: List<ServiceItemState> = listOf(),
-    val payerName: String = "",
-    val address: String = "",
     val date: String = getCurrentDate(),
     val dialogState: DialogState = DialogState.Close
 ) {
@@ -36,6 +35,12 @@ data class BillGenerationUiState(
                 return previousDigit > currentDigit
             }
     }
+
+    data class PackageState(
+        val billList: List<Bill> = listOf(),
+        val payerName: String = "",
+        val address: String = "",
+    )
 
     sealed interface DialogState {
         data class Open(val service: UtilityService) : DialogState
