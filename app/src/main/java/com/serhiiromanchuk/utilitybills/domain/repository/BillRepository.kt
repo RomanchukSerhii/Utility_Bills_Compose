@@ -3,6 +3,7 @@ package com.serhiiromanchuk.utilitybills.domain.repository
 import com.serhiiromanchuk.utilitybills.domain.model.Bill
 import com.serhiiromanchuk.utilitybills.domain.model.BillWithUtilityServices
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 interface BillRepository {
 
@@ -16,7 +17,7 @@ interface BillRepository {
 
     suspend fun getBillCount(packageCreatorId: Long): Int
 
-    suspend fun getBillWithServicesByDate(packageCreatorId: Long, date: String): BillWithUtilityServices?
+    suspend fun getBillWithServicesByDate(packageCreatorId: Long, date: LocalDate): BillWithUtilityServices?
 
     suspend fun getLastBillWithServices(packageCreatorId: Long): BillWithUtilityServices?
 

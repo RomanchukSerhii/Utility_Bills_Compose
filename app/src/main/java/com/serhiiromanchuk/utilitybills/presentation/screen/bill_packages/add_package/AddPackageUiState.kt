@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package
 
 data class AddPackageUiState(
     val payerName: String = "",

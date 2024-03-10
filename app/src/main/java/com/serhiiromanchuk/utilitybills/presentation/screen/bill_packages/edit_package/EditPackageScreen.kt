@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.edit_package
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -19,7 +19,7 @@ import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package.componnents.PackageNameTextField
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.edit_package.componnents.PackageNameTextField
 
 @Composable
 fun EditPackageScreenRoot(

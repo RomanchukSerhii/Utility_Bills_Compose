@@ -5,11 +5,12 @@ import com.serhiiromanchuk.utilitybills.domain.model.UtilityService
 import com.serhiiromanchuk.utilitybills.utils.NOT_FOUND_ID
 import com.serhiiromanchuk.utilitybills.utils.getCurrentDate
 import com.serhiiromanchuk.utilitybills.utils.trimSpaces
+import java.time.LocalDate
 
 data class BillGenerationUiState(
     val bill: Bill = Bill(
         packageCreatorId = NOT_FOUND_ID,
-        date = ""
+        date = LocalDate.now()
     ),
     val packageState: PackageState = PackageState(),
     val serviceStateList: List<ServiceItemState> = listOf(),

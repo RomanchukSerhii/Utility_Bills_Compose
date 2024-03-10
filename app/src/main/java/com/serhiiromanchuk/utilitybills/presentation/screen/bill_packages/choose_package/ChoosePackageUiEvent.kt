@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package
 
 sealed interface ChoosePackageUiEvent {
     data object ChangeEditMode : ChoosePackageUiEvent

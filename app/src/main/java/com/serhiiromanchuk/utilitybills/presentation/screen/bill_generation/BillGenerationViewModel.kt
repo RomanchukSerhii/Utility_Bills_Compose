@@ -12,7 +12,6 @@ import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.Bill
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.PackageState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.ServiceItemState
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
-import com.serhiiromanchuk.utilitybills.utils.getCurrentDate
 import com.serhiiromanchuk.utilitybills.utils.mergeWith
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,6 +23,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 import javax.inject.Inject
 
 class BillGenerationViewModel @Inject constructor(
@@ -41,7 +43,7 @@ class BillGenerationViewModel @Inject constructor(
     val navigationEvent: SharedFlow<NavigationEvent> = _navigationEvent.asSharedFlow()
 
     private val _screenState = MutableStateFlow(BillGenerationUiState())
-    private val refreshDate = MutableSharedFlow<String>(replay = 1)
+    private val refreshDate = MutableSharedFlow<LocalDate>(replay = 1)
     private val refreshBill = MutableSharedFlow<Long>(replay = 1)
 
     private val billWithServicesFlow = flow {
@@ -64,10 +66,11 @@ class BillGenerationViewModel @Inject constructor(
     private val dateFlow = flow {
         refreshDate.collect { date ->
             val billList = _screenState.value.packageState.billList
-            val bill = billList.firstOrNull { it.date == date }
+            val bill = billList.firstOrNull { it.date.month == date.month }
             bill?.let { refreshBill.emit(it.id) }
 
-            emit(_screenState.value.copy(date = date))
+            val formatter = DateTimeFormatter.ofPattern("LLLL yyyy", Locale.getDefault())
+            emit(_screenState.value.copy(date = date.format(formatter)))
         }
     }
 
@@ -93,7 +96,7 @@ class BillGenerationViewModel @Inject constructor(
                         )
                     )
                 }
-                refreshDate.emit(getCurrentDate())
+                refreshDate.emit(LocalDate.now())
             }
         }
     }

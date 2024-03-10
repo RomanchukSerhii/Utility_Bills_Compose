@@ -3,12 +3,11 @@ package com.serhiiromanchuk.utilitybills.utils.mocks
 
 import com.serhiiromanchuk.utilitybills.domain.model.Bill
 import com.serhiiromanchuk.utilitybills.domain.model.UtilityService
+import java.time.LocalDate
 
 val fakeBillItem = Bill(
     packageCreatorId = 0L,
-    address = "вул. Грушевського 23, кв. 235",
-    payerName = "Романчук Сергій",
-    date = "Лютий 2024"
+    date = LocalDate.now()
 )
 
 val fakeUtilityService = UtilityService(

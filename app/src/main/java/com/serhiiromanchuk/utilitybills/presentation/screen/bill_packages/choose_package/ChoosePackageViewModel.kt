@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,9 +7,9 @@ import com.serhiiromanchuk.utilitybills.domain.usecase.bill.DeleteBillsFromPacka
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.DeleteBillPackageUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetBillPackagesUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.UpdateBillPackagesUseCase
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageUiState.DialogState
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageUiState.PackageCardState
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageUiState.VisibleSheetState
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiState.DialogState
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiState.PackageCardState
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiState.VisibleSheetState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -1,7 +1,8 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.serhiiromanchuk.utilitybills.domain.model.Bill
 import com.serhiiromanchuk.utilitybills.domain.model.BillPackage
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.InsertBillItemUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetLastBillPackageIdUseCase
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 class AddPackageViewModel @Inject constructor(
@@ -81,8 +83,25 @@ class AddPackageViewModel @Inject constructor(
             )
         }
 
-        viewModelScope.launch {
+        val getPackageIdJob = viewModelScope.async {
             insertPackageJob.join()
+            getLastBillPackageIdUseCase() ?: throw Exception("BillPackageDbModel table is empty")
+        }
+
+        val createBlankBillsJob = viewModelScope.launch {
+            val packageId = getPackageIdJob.await()
+            val currentDate = LocalDate.now()
+            repeat(12) {
+                val bill = Bill(
+                    packageCreatorId = packageId,
+                    date = currentDate.minusMonths(it.toLong())
+                )
+                insertBillItemUseCase(bill)
+            }
+        }
+
+        viewModelScope.launch {
+            createBlankBillsJob.join()
             _navigationEvent.emit(NavigationEvent.OnBack)
         }
     }

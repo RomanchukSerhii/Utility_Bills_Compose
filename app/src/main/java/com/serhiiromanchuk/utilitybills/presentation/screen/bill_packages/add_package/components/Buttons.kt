@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -8,8 +8,8 @@ import androidx.compose.ui.res.stringResource
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PrimaryButton
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.AddPackageUiEvent
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.AddPackageUiState
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @Composable

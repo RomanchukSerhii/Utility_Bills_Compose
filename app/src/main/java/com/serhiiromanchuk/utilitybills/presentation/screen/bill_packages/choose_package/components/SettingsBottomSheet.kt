@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TitleTextOnSurface
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageUiState.VisibleSheetState
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiState.VisibleSheetState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

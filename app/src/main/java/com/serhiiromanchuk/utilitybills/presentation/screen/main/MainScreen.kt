@@ -10,9 +10,9 @@ import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillScreenRoot
 import com.serhiiromanchuk.utilitybills.presentation.screen.insert_service.InsertServiceScreenRoot
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.AddBillScreenRoute
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageScreenRoot
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package.EditPackageScreenRoot
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddBillScreenRoute
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageScreenRoot
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.edit_package.EditPackageScreenRoot
 
 @Composable
 fun MainScreen(

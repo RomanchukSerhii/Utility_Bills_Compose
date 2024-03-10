@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
@@ -14,8 +14,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.components.AddBillForm
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.add_package.components.SubmitButton
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.components.AddBillForm
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.components.SubmitButton
 
 @Composable
 fun AddBillScreenRoute(

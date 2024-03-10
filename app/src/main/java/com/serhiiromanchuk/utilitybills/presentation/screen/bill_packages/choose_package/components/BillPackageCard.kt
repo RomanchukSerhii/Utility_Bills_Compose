@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.components
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutLinearInEasing
@@ -42,7 +42,7 @@ import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightP
 import com.serhiiromanchuk.utilitybills.presentation.core.components.CardOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PackageCardIcon
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TextOnPackageCard
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.ChoosePackageUiState.PackageCardState
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiState.PackageCardState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.ui.theme.editCardColor
 

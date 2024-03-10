@@ -7,6 +7,7 @@ import com.serhiiromanchuk.utilitybills.domain.model.BillWithUtilityServices
 import com.serhiiromanchuk.utilitybills.domain.repository.BillRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.time.LocalDate
 import javax.inject.Inject
 
 class BillRepositoryImpl @Inject constructor(
@@ -35,7 +36,7 @@ class BillRepositoryImpl @Inject constructor(
 
     override suspend fun getBillWithServicesByDate(
         packageCreatorId: Long,
-        date: String
+        date: LocalDate
     ): BillWithUtilityServices? {
         val dbModel = billDao.getBillWithServicesByDate(packageCreatorId, date)
         return dbModel?.let { mapper.mapBillWithServicesDbModelToEntity(dbModel) }

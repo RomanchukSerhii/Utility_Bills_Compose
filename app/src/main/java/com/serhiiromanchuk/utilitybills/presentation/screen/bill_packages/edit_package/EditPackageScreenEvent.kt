@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.edit_package
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.edit_package
 
 import androidx.compose.ui.text.TextRange
 

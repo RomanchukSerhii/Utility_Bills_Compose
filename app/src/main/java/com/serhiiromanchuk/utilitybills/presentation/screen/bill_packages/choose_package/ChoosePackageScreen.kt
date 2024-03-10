@@ -1,4 +1,4 @@
-package com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package
+package com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -20,9 +20,9 @@ import com.serhiiromanchuk.utilitybills.domain.model.BillPackage
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.components.DeletePackageDialog
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.components.PackageList
-import com.serhiiromanchuk.utilitybills.presentation.screen.start.choose_package.components.SettingsBottomSheet
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.components.DeletePackageDialog
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.components.PackageList
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.components.SettingsBottomSheet
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.ui.theme.editModeBackground
 
@@ -110,11 +110,15 @@ private fun ChoosePackageScreenPreview() {
                     BillPackage(
                         id = 1,
                         name = "вул. Коцюбинського 34, кв. 15",
+                        payerName = "Романчук Сергій",
+                        address = "вул. Коцюбинського 34, кв. 15",
                         indexPosition = 1
                     ),
                     BillPackage(
                         id = 2,
                         name = "вул. Пилипа Орлика 14, кв.3",
+                        payerName = "Романчук Сергій",
+                        address = "вул. Пилипа Орлика 14, кв.3",
                         indexPosition = 2
                     )
                 )

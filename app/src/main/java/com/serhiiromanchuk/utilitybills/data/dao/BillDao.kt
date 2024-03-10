@@ -9,6 +9,7 @@ import androidx.room.Update
 import com.serhiiromanchuk.utilitybills.data.dbmodel.BillDbModel
 import com.serhiiromanchuk.utilitybills.data.dbmodel.BillWithUtilityServicesDbModel
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 @Dao
 interface BillDao {
@@ -30,7 +31,7 @@ interface BillDao {
 
     @Transaction
     @Query("SELECT * FROM bill_items WHERE package_creator_id=:packageCreatorId AND date=:date")
-    suspend fun getBillWithServicesByDate(packageCreatorId: Long, date: String): BillWithUtilityServicesDbModel?
+    suspend fun getBillWithServicesByDate(packageCreatorId: Long, date: LocalDate): BillWithUtilityServicesDbModel?
 
     @Transaction
     @Query("SELECT * FROM bill_items WHERE package_creator_id=:packageCreatorId ORDER BY id DESC LIMIT 1")
