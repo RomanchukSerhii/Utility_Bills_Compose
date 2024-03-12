@@ -35,7 +35,7 @@ class SharedBillViewModel @Inject constructor(
 
                 _screenState.update {
                     it.copy(
-                        billDescription = billWithServices.bill.billDescription,
+                        billDescription = billWithServices.bill.billDescription ?: "",
                         services = billWithServices.utilityServices
                     )
                 }

@@ -3,16 +3,21 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.serhiiromanchuk.utilitybills.domain.model.Bill
+import com.serhiiromanchuk.utilitybills.domain.model.UtilityService
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillCountUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetBillWithServicesUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill.GetLastBillWithServicesUseCase
+import com.serhiiromanchuk.utilitybills.domain.usecase.bill.InsertBillItemUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetBillPackageWithBillsUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.DeleteUtilityServiceFromBillUseCase
+import com.serhiiromanchuk.utilitybills.domain.usecase.utility_service.InsertUtilityServiceUseCase
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.DialogState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.PackageState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.ServiceItemState
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
 import com.serhiiromanchuk.utilitybills.utils.mergeWith
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -24,6 +29,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
@@ -34,7 +40,9 @@ class BillGenerationViewModel @Inject constructor(
     private val deleteUtilityServiceFromBillUseCase: DeleteUtilityServiceFromBillUseCase,
     private val getLastBillWithServicesUseCase: GetLastBillWithServicesUseCase,
     private val getBillCountUseCase: GetBillCountUseCase,
-    private val getBillPackageWithBillsUseCase: GetBillPackageWithBillsUseCase
+    private val getBillPackageWithBillsUseCase: GetBillPackageWithBillsUseCase,
+    private val insertBillItemUseCase: InsertBillItemUseCase,
+    private val insertUtilityServiceUseCase: InsertUtilityServiceUseCase
 ) : ViewModel() {
 
     private val bufferUtilityServicesList = mutableStateListOf<ServiceItemState>()
@@ -85,7 +93,76 @@ class BillGenerationViewModel @Inject constructor(
 
 
     init {
+        val lastBillDeferred = viewModelScope.async {
+            getLastBillWithServicesUseCase(billPackageId)
+                ?: throw Exception("Package with id:$billPackageId is empty")
+        }
+        val checkDateJob = viewModelScope.launch {
+            val lastBill = lastBillDeferred.await()
+            val lastDate = lastBill.bill.date
+            val currentDate = LocalDate.now()
+
+            val period = Period.between(lastDate, currentDate)
+            val monthsPassed = if (lastDate.dayOfMonth > currentDate.dayOfMonth) {
+                period.toTotalMonths().plus(1).toInt()
+            } else {
+                period.toTotalMonths().toInt()
+            }
+
+            // If the current month is the next from the date in the last bill, we create a new
+            // bill and enter the last values of the utility meters of the previous bill.
+            // If the difference between the months is greater, then we create blank bills for
+            // the missing months
+            if (monthsPassed == 1) {
+                val createBillJob = viewModelScope.launch {
+                    val newBill = Bill(
+                        packageCreatorId = billPackageId,
+                        date = currentDate
+                    )
+                    insertBillItemUseCase(newBill)
+                }
+                val newBillDeferred = viewModelScope.async {
+                    createBillJob.join()
+                    getLastBillWithServicesUseCase(billPackageId)
+                        ?: throw Exception("Package with id:$billPackageId is empty")
+                }
+
+                val newBill = newBillDeferred.await()
+                lastBill.utilityServices.forEach { previousService ->
+                    val newService = UtilityService(
+                        billCreatorId = newBill.bill.id,
+                        name = previousService.name,
+                        tariff = previousService.tariff,
+                        isMeterAvailable = previousService.isMeterAvailable,
+                        previousValue = previousService.currentValue,
+                        unitOfMeasurement = previousService.unitOfMeasurement,
+                        indexPosition = previousService.indexPosition
+                    )
+                    val insertServiceJob = viewModelScope.launch {
+                        insertUtilityServiceUseCase(newService)
+                    }
+                    insertServiceJob.join()
+                }
+
+            } else if (monthsPassed > 1) {
+
+                val firstLostDate = currentDate.minusMonths(monthsPassed - 1L)
+
+                repeat(monthsPassed) {
+                    val blankBill = Bill(
+                        packageCreatorId = billPackageId,
+                        date = firstLostDate.plusMonths(it.toLong())
+                    )
+                    val insertBillJob = viewModelScope.launch {
+                        insertBillItemUseCase(blankBill)
+                    }
+                    insertBillJob.join()
+                }
+            }
+        }
+
         viewModelScope.launch {
+            checkDateJob.join()
             getBillPackageWithBillsUseCase(billPackageId).collect { packageWithBills ->
                 _screenState.update {
                     it.copy(

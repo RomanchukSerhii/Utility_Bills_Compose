@@ -1,17 +1,20 @@
 package com.serhiiromanchuk.utilitybills.data.dbmodel
 
 import androidx.room.TypeConverter
-import java.time.Month
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class LocalDateConverter {
 
+    private val formatter = DateTimeFormatter.ISO_LOCAL_DATE
+
     @TypeConverter
-    fun fromMonth(value: Month): String {
-        return value.toString()
+    fun fromLocalDate(date: LocalDate): String {
+        return date.format(formatter)
     }
 
     @TypeConverter
-    fun toMonth(value: String): Month {
-        return Month.valueOf(value)
+    fun toLocalDate(value: String): LocalDate {
+        return LocalDate.parse(value, formatter)
     }
 }

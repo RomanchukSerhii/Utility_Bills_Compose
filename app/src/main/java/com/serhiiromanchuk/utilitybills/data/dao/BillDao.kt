@@ -34,7 +34,7 @@ interface BillDao {
     suspend fun getBillWithServicesByDate(packageCreatorId: Long, date: LocalDate): BillWithUtilityServicesDbModel?
 
     @Transaction
-    @Query("SELECT * FROM bill_items WHERE package_creator_id=:packageCreatorId ORDER BY id DESC LIMIT 1")
+    @Query("SELECT * FROM bill_items WHERE package_creator_id=:packageCreatorId ORDER BY date DESC LIMIT 1")
     suspend fun getLastBillWithServices(packageCreatorId: Long): BillWithUtilityServicesDbModel?
 
 
