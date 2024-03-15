@@ -15,7 +15,7 @@ import com.serhiiromanchuk.utilitybills.data.dbmodel.UtilityServiceDbModel
 
 @Database(
     entities = [UtilityServiceDbModel::class, BillDbModel::class, BillPackageDbModel::class],
-    version = 9,
+    version = 10,
     exportSchema = false
 )
 @TypeConverters(LocalDateConverter::class)

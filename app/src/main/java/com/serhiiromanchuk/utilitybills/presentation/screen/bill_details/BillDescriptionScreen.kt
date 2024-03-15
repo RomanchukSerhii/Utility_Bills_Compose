@@ -16,7 +16,7 @@ import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_details.components.BillCard
 
 @Composable
-fun BillScreen(
+fun BillDescriptionScreen(
     modifier: Modifier = Modifier,
     screenState: State<BillUiState>,
     onEvent: (BillUiEvent) -> Unit

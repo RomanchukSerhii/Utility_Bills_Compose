@@ -17,6 +17,7 @@ import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.Bill
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillGenerationUiState.ServiceItemState
 import com.serhiiromanchuk.utilitybills.utils.MeterValueType
 import com.serhiiromanchuk.utilitybills.utils.mergeWith
+import com.serhiiromanchuk.utilitybills.utils.trimSpaces
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -73,12 +74,12 @@ class BillGenerationViewModel @Inject constructor(
 
     private val dateFlow = flow {
         refreshDate.collect { date ->
-            val billList = _screenState.value.packageState.billList
+            val billList = screenState.value.packageState.billList
             val bill = billList.firstOrNull { it.date.month == date.month }
             bill?.let { refreshBill.emit(it.id) }
 
             val formatter = DateTimeFormatter.ofPattern("LLLL yyyy", Locale.getDefault())
-            emit(_screenState.value.copy(date = date.format(formatter)))
+            emit(screenState.value.copy(date = date.format(formatter)))
         }
     }
 
@@ -165,7 +166,7 @@ class BillGenerationViewModel @Inject constructor(
             checkDateJob.join()
             getBillPackageWithBillsUseCase(billPackageId).collect { packageWithBills ->
                 _screenState.update {
-                    it.copy(
+                    screenState.value.copy(
                         packageState = PackageState(
                             billList = packageWithBills.sortedBills,
                             payerName = packageWithBills.billPackage.payerName,
@@ -190,13 +191,15 @@ class BillGenerationViewModel @Inject constructor(
             is BillGenerationUiEvent.DeleteUtilityService -> {
                 viewModelScope.launch {
                     deleteUtilityServiceFromBillUseCase(billPackageId, event.serviceId)
-                    _screenState.update { it.copy(dialogState = DialogState.Close) }
+                    _screenState.update { screenState.value.copy(dialogState = DialogState.Close) }
                 }
             }
 
             BillGenerationUiEvent.EditBillInfo -> TODO()
 
-            BillGenerationUiEvent.Submit -> TODO()
+            BillGenerationUiEvent.Submit -> {
+                submit()
+            }
 
             BillGenerationUiEvent.OnBackClicked -> {
                 viewModelScope.launch {
@@ -219,13 +222,63 @@ class BillGenerationViewModel @Inject constructor(
             is BillGenerationUiEvent.OnEditServiceClicked -> TODO()
 
             is BillGenerationUiEvent.OpenDialog -> {
-                _screenState.update { it.copy(dialogState = DialogState.Open(event.service)) }
+                _screenState.update { screenState.value.copy(dialogState = DialogState.Open(event.service)) }
             }
 
             BillGenerationUiEvent.CloseDialog -> {
-                _screenState.update { it.copy(dialogState = DialogState.Close) }
+                _screenState.update { screenState.value.copy(dialogState = DialogState.Close) }
             }
         }
+    }
+
+    private fun submit() {
+            val updatedBill = screenState.value.bill.copy(billDescription = getBillDescription())
+            _screenState.update {
+                screenState.value.copy(bill = updatedBill)
+            }
+            val insertBillJob = viewModelScope.launch {
+                insertBillItemUseCase(updatedBill)
+            }
+            viewModelScope.launch {
+                insertBillJob.join()
+                _navigationEvent.emit(NavigationEvent.OnCreateBill(updatedBill.id))
+            }
+
+    }
+
+    private fun getBillDescription(): String {
+        val billDescription = StringBuilder("Підрахував комуналку:\n")
+        var totalPrice = 0
+
+        bufferUtilityServicesList.forEachIndexed { index, serviceItemState ->
+            val service = serviceItemState.utilityServiceItem
+
+            viewModelScope.launch {
+                insertUtilityServiceUseCase(service)
+            }
+
+            val serviceDescription = if (service.isMeterAvailable) {
+                val meterDifference = getMeterDifferenceValue(service.currentValue, service.previousValue)
+                val servicePrice = (meterDifference * service.tariff).toInt()
+                totalPrice += servicePrice
+                "${service.name}: $meterDifference ${service.unitOfMeasurement.title} * ${service.tariff} грн = $servicePrice грн"
+            } else {
+                totalPrice += service.tariff.toInt()
+                "${service.name} = ${service.tariff} грн"
+            }
+
+            val newLine = if (index != bufferUtilityServicesList.size - 1) "\n" else ""
+
+            billDescription.append("$serviceDescription$newLine")
+        }
+
+        return billDescription.append("Разом: $totalPrice грн").toString()
+    }
+
+    private fun getMeterDifferenceValue(currentValue: String, previousValue: String): Int {
+        val currentMeterValue = currentValue.trimSpaces().toInt()
+        val previousMeterValue = previousValue.trimSpaces().toInt()
+        return currentMeterValue - previousMeterValue
     }
 
     private fun meterValueChange(id: Long, value: String, meterValueType: MeterValueType) {
@@ -267,7 +320,7 @@ class BillGenerationViewModel @Inject constructor(
 
     private fun updateList() {
         _screenState.update {
-            it.copy(serviceStateList = bufferUtilityServicesList)
+            screenState.value.copy(serviceStateList = bufferUtilityServicesList)
         }
     }
 
@@ -283,6 +336,8 @@ class BillGenerationViewModel @Inject constructor(
             val billCreatorId: Long
         ) : NavigationEvent
 
-        data object OnCreateBill : NavigationEvent
+        data class OnCreateBill(
+            val billId: Long
+        ) : NavigationEvent
     }
 }

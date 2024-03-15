@@ -31,9 +31,7 @@ fun AppNavGraph(
             editPackageScreenContent = editPackageScreenContent
         )
         billHomeScreenNavGraph(
-            navController = navHostController,
-            billScreen = billScreenContent,
-            billDetailsScreen = billDetailsScreenContent
+            navController = navHostController
         )
         composable(
             route = Screen.BillGenerationScreen.route,

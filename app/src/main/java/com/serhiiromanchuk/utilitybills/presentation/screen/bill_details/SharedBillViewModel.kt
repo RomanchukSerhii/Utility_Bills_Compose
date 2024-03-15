@@ -15,7 +15,6 @@ import javax.inject.Inject
 
 class SharedBillViewModel @Inject constructor(
     private val billId: Long,
-    private val month: String,
     private val getBillWithUtilityServicesUseCase: GetBillWithServicesUseCase
 ) : ViewModel() {
 

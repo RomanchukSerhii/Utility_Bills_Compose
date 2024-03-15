@@ -32,6 +32,14 @@ class NavigationState(
     fun navigateToBillGenerationScreen(billId: Long) {
         navHostController.navigate(Screen.BillGenerationScreen.getRoutWithArgs(billId))
     }
+
+    fun navigateToBillDescriptionScreen(billId: Long) {
+        navHostController.navigate(Screen.BillDescriptionScreen.getRoutWithArgs(billId))
+    }
+
+    fun navigateToBillDetailsScreen(billId: Long) {
+        navHostController.navigate(Screen.BillDetailsScreen.getRoutWithArgs(billId))
+    }
 }
 
 @Composable

@@ -9,10 +9,10 @@ import com.serhiiromanchuk.utilitybills.presentation.navigation.AppNavGraph
 import com.serhiiromanchuk.utilitybills.presentation.navigation.Screen
 import com.serhiiromanchuk.utilitybills.presentation.navigation.rememberNavigationState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation.BillScreenRoot
-import com.serhiiromanchuk.utilitybills.presentation.screen.insert_service.InsertServiceScreenRoot
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddBillScreenRoute
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageScreenRoot
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.edit_package.EditPackageScreenRoot
+import com.serhiiromanchuk.utilitybills.presentation.screen.insert_service.InsertServiceScreenRoot
 
 @Composable
 fun MainScreen(
@@ -52,7 +52,8 @@ fun MainScreen(
                 onAddServiceClick = { billCreatorId ->
                     navigationState.navigateToInsertServiceScreen(billCreatorId = billCreatorId)
                 },
-                onBackPressed = { navigationState.navHostController.popBackStack() }
+                onBackPressed = { navigationState.navHostController.popBackStack() },
+                onSubmitClick = { navigationState.navigateToBillDescriptionScreen(it)}
             )
         },
         insertServiceScreenContent = { utilityServiceId, billCreatorId ->
@@ -63,7 +64,9 @@ fun MainScreen(
                 onBackPressed = { navigationState.navHostController.popBackStack() }
             )
         },
-        billDetailsScreenContent = {},
+        billDetailsScreenContent = {
+
+        },
         billsArchiveScreenContent = {},
         billScreenContent = {}
     )

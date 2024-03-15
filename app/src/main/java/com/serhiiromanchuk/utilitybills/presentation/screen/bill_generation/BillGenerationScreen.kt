@@ -1,5 +1,6 @@
 package com.serhiiromanchuk.utilitybills.presentation.screen.bill_generation
 
+import android.util.Log
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -26,7 +27,8 @@ fun BillScreenRoot(
     billPackageId: Long,
     onBackPressed: () -> Unit,
     onEditServiceClick: (id: Long, billCreatorId: Long) -> Unit,
-    onAddServiceClick: (billCreatorId: Long) -> Unit
+    onAddServiceClick: (billCreatorId: Long) -> Unit,
+    onSubmitClick: (billCreatorId: Long) -> Unit
 ) {
     val component = getApplicationComponent()
         .getBillGenerationScreenComponentFactory()
@@ -45,7 +47,9 @@ fun BillScreenRoot(
                     onBackPressed()
                 }
 
-                BillGenerationViewModel.NavigationEvent.OnCreateBill -> TODO()
+                is BillGenerationViewModel.NavigationEvent.OnCreateBill -> {
+                    onSubmitClick(navigationEvent.billId)
+                }
                 is BillGenerationViewModel.NavigationEvent.OnEditService -> TODO()
             }
         }
@@ -77,7 +81,10 @@ private fun BillScreen(
             PrimaryButton(
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
                 text = stringResource(R.string.create_bill),
-                onClick = { BillGenerationUiEvent.Submit },
+                onClick = {
+                    Log.d("TAG", "click")
+                    onEvent(BillGenerationUiEvent.Submit)
+                          },
                 enabled = currentState.isNextButtonEnabled
             )
         }

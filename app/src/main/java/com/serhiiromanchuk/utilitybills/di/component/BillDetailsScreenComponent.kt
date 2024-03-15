@@ -6,15 +6,14 @@ import dagger.BindsInstance
 import dagger.Subcomponent
 
 @Subcomponent(modules = [BillViewModelModule::class])
-interface BillHomeScreenComponent {
+interface BillDetailsScreenComponent {
 
     fun getViewModelFactory(): ViewModelFactory
 
     @Subcomponent.Factory
     interface Factory {
         fun create(
-            @BindsInstance billId: Long,
-            @BindsInstance month: String
-        ): BillHomeScreenComponent
+            @BindsInstance billId: Long
+        ): BillDetailsScreenComponent
     }
 }

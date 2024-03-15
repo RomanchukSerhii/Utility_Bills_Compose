@@ -20,7 +20,7 @@ interface ApplicationComponent {
 
     fun getBillGenerationScreenComponentFactory(): BillGenerationScreenComponent.Factory
 
-    fun getBillHomeScreenComponentFactory(): BillHomeScreenComponent.Factory
+    fun getBillDetailsScreenComponentFactory(): BillDetailsScreenComponent.Factory
 
     @Component.Factory
     interface ApplicationComponentFactory {
