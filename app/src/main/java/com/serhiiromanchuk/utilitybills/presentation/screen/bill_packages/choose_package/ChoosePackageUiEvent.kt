@@ -16,4 +16,10 @@ sealed interface ChoosePackageUiEvent {
     data object CloseDialog : ChoosePackageUiEvent
 
     data object SetInitialState : ChoosePackageUiEvent
+
+    data object ClickAddBill : ChoosePackageUiEvent
+
+    data class ClickBillItem(val packageId: Long) : ChoosePackageUiEvent
+
+    data class ClickEditPackage(val packageName: String, val packageId: Long) : ChoosePackageUiEvent
 }

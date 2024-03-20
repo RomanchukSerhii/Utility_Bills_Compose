@@ -7,11 +7,25 @@ import com.serhiiromanchuk.utilitybills.domain.usecase.bill.DeleteBillsFromPacka
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.DeleteBillPackageUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetBillPackagesUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.UpdateBillPackagesUseCase
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.ChangeEditMode
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.ClickAddBill
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.ClickBillItem
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.ClickEditPackage
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.CloseBottomSheet
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.CloseDialog
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.DeletePackage
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.MovePackage
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.OpenBottomSheet
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.OpenDialog
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.SetInitialState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiState.DialogState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiState.PackageCardState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiState.VisibleSheetState
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -23,6 +37,9 @@ class ChoosePackageViewModel @Inject constructor(
     private val deleteBillsFromPackageUseCase: DeleteBillsFromPackageUseCase,
     private val updateBillPackagesUseCase: UpdateBillPackagesUseCase
 ) : ViewModel() {
+
+    private val _navigationEvent = MutableSharedFlow<ChoosePackageNavigationEvent>()
+    val navigationEvent: SharedFlow<ChoosePackageNavigationEvent> = _navigationEvent.asSharedFlow()
 
     private val _screenState = MutableStateFlow(ChoosePackageUiState())
     val screenState: StateFlow<ChoosePackageUiState> = _screenState.asStateFlow()
@@ -37,38 +54,64 @@ class ChoosePackageViewModel @Inject constructor(
 
     fun onEvent(event: ChoosePackageUiEvent) {
         when (event) {
-            is ChoosePackageUiEvent.ChangeEditMode -> { changeEditMode() }
+            is ChangeEditMode -> { changeEditMode() }
 
-            is ChoosePackageUiEvent.DeletePackage -> { deletePackage(event.packageId) }
+            is DeletePackage -> { deletePackage(event.packageId) }
 
-            ChoosePackageUiEvent.CloseDialog -> {
+            CloseDialog -> {
                 _screenState.update { state -> state.copy(dialogState = DialogState.Close) }
             }
 
-            is ChoosePackageUiEvent.OpenDialog -> {
+            is OpenDialog -> {
                 _screenState.update { state -> state.copy(dialogState = DialogState.Open(event.id)) }
             }
 
-            ChoosePackageUiEvent.CloseBottomSheet -> {
+            CloseBottomSheet -> {
                 _screenState.update { state ->
                     state.copy(visibleSheetState = VisibleSheetState.Close)
                 }
             }
 
-            is ChoosePackageUiEvent.OpenBottomSheet -> {
+            is OpenBottomSheet -> {
                 _screenState.update { state ->
                     state.copy(
-                        visibleSheetState = VisibleSheetState.Open(event.packageAddress, event.packageId)
+                        visibleSheetState = VisibleSheetState.Open(
+                            event.packageAddress,
+                            event.packageId
+                        )
                     )
                 }
             }
 
-            ChoosePackageUiEvent.SetInitialState -> { setInitialState() }
+            SetInitialState -> { setInitialState() }
 
-            is ChoosePackageUiEvent.MovePackage -> {
+            is MovePackage -> {
                 val billItems = _screenState.value.packageList.toMutableList()
                 billItems.add(event.toIndex, billItems.removeAt(event.fromIndex))
                 _screenState.update { it.copy(packageList = billItems) }
+            }
+
+            ClickAddBill -> {
+                viewModelScope.launch {
+                    _navigationEvent.emit(ChoosePackageNavigationEvent.ClickAddBill)
+                }
+            }
+
+            is ClickBillItem -> {
+                viewModelScope.launch {
+                    _navigationEvent.emit(ChoosePackageNavigationEvent.ClickBillItem(event.packageId))
+                }
+            }
+
+            is ClickEditPackage -> {
+                viewModelScope.launch {
+                    _navigationEvent.emit(
+                        ChoosePackageNavigationEvent.ClickEditPackage(
+                            event.packageName,
+                            event.packageId
+                        )
+                    )
+                }
             }
         }
     }

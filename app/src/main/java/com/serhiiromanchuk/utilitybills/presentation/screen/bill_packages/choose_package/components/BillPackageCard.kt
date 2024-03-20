@@ -38,10 +38,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.serhiiromanchuk.utilitybills.R
+import com.serhiiromanchuk.utilitybills.domain.model.BillPackage
 import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightPreviews
 import com.serhiiromanchuk.utilitybills.presentation.core.components.CardOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PackageCardIcon
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TextOnPackageCard
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiState.PackageCardState
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 import com.serhiiromanchuk.utilitybills.ui.theme.editCardColor
@@ -49,12 +51,10 @@ import com.serhiiromanchuk.utilitybills.ui.theme.editCardColor
 @Composable
 fun PackageCard(
     modifier: Modifier = Modifier,
-    packageName: String,
+    billPackage: BillPackage,
     cardState: PackageCardState,
     elevation: Dp,
-    onLongClick: () -> Unit,
-    onClick: () -> Unit,
-    onDeleteIconClick: () -> Unit
+    onEvent: (ChoosePackageUiEvent) -> Unit
 ) {
     Box(
         modifier = modifier
@@ -63,18 +63,26 @@ fun PackageCard(
             is PackageCardState.EditMode -> {
                 EditablePackageCard(
                     modifier = Modifier.height(180.dp),
-                    packageName = packageName,
+                    packageName = billPackage.name,
                     elevation = elevation,
-                    onDeleteIconClick = onDeleteIconClick
+                    onDeleteIconClick = { onEvent(ChoosePackageUiEvent.OpenDialog(billPackage.id)) }
                 )
             }
+
             PackageCardState.Initial -> {
                 RegularPackageCard(
                     modifier = Modifier.height(180.dp),
-                    packageName = packageName,
+                    packageName = billPackage.name,
                     elevation = elevation,
-                    onLongClick = onLongClick,
-                    onClick = onClick
+                    onLongClick = {
+                        onEvent(
+                            ChoosePackageUiEvent.OpenBottomSheet(
+                                billPackage.name,
+                                billPackage.id
+                            )
+                        )
+                    },
+                    onClick = { onEvent(ChoosePackageUiEvent.ClickBillItem(billPackage.id)) }
                 )
             }
         }
@@ -176,27 +184,27 @@ fun BoxScope.EditablePackageCard(
             )
         }
     }
-        AnimatedVisibility(
+    AnimatedVisibility(
+        modifier = Modifier
+            .size(32.dp)
+            .align(Alignment.TopEnd),
+        visible = isIconVisible,
+        enter = scaleIn(animationSpec = tween(durationMillis = 200, delayMillis = 50))
+    ) {
+        IconButton(
             modifier = Modifier
-                .size(32.dp)
-                .align(Alignment.TopEnd),
-            visible = isIconVisible,
-            enter = scaleIn(animationSpec = tween(durationMillis = 200, delayMillis = 50))
+                .clip(MaterialTheme.shapes.extraLarge)
+                .background(Color.Black)
+                .size(32.dp),
+            onClick = { onDeleteIconClick() }
         ) {
-            IconButton(
-                modifier = Modifier
-                    .clip(MaterialTheme.shapes.extraLarge)
-                    .background(Color.Black)
-                    .size(32.dp),
-                onClick = { onDeleteIconClick() }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Clear,
-                    contentDescription = stringResource(R.string.delete_bill_package),
-                    tint = Color.White
-                )
-            }
+            Icon(
+                imageVector = Icons.Default.Clear,
+                contentDescription = stringResource(R.string.delete_bill_package),
+                tint = Color.White
+            )
         }
+    }
 
 }
 
@@ -205,12 +213,14 @@ fun BoxScope.EditablePackageCard(
 private fun AddPackagePreview() {
     UtilityBillsTheme {
         PackageCard(
-            packageName = "вул. Грушевського 23, кв. 235",
+            billPackage = BillPackage(
+                name = "вул. Грушевського 23, кв. 235",
+                payerName = "",
+                address = ""
+            ),
             cardState = PackageCardState.Initial,
             elevation = 2.dp,
-            onLongClick = { },
-            onClick = { },
-            onDeleteIconClick = { }
+            onEvent = {}
         )
     }
 }

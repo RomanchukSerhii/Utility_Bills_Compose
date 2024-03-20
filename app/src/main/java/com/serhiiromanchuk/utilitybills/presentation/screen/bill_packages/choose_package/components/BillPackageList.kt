@@ -18,9 +18,7 @@ import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose
 fun PackageList(
     modifier: Modifier = Modifier,
     screenState: ChoosePackageUiState,
-    onEvent: (ChoosePackageUiEvent) -> Unit,
-    onAddPackageClick: () -> Unit,
-    onPackageClick: (Long) -> Unit,
+    onEvent: (ChoosePackageUiEvent) -> Unit
 ) {
 
     LazyDraggableVerticalGrid(
@@ -33,20 +31,16 @@ fun PackageList(
         notDraggableContent = {
             AddNewPackage(
                 isEditMode = screenState.isEditMode,
-                onAddPackageClick = onAddPackageClick
+                onEvent = onEvent
             )
         },
         draggableContent = { billPackage, isDragging ->
             val elevation by animateDpAsState(if (isDragging) 4.dp else 1.dp, label = "elevation")
             PackageCard(
-                packageName = billPackage.name,
+                billPackage = billPackage,
                 cardState = screenState.packageCardState,
                 elevation = elevation,
-                onLongClick = {
-                    onEvent(ChoosePackageUiEvent.OpenBottomSheet(billPackage.name, billPackage.id))
-                },
-                onClick = { onPackageClick(billPackage.id) },
-                onDeleteIconClick = { onEvent(ChoosePackageUiEvent.OpenDialog(billPackage.id)) }
+                onEvent = onEvent
             )
         }
     )

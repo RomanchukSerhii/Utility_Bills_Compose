@@ -11,7 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
-import com.serhiiromanchuk.utilitybills.presentation.screen.main.MainScreen
+import com.serhiiromanchuk.utilitybills.presentation.navigation.RootNavigationGraph
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 class MainActivity : ComponentActivity() {
@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen()
+                    RootNavigationGraph()
                 }
             }
         }

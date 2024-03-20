@@ -22,15 +22,15 @@ class NavigationState(
     }
 
     fun navigateToInsertServiceScreen(utilityServiceId: Long = NOT_FOUND_ID, billCreatorId: Long) {
-        navHostController.navigate(Screen.InsertServiceScreen.getRoutWithArgs(utilityServiceId, billCreatorId))
+        navHostController.navigate(BillScreen.InsertService.getRoutWithArgs(utilityServiceId, billCreatorId))
     }
 
     fun navigateToEditPackageScreen(packageName: String, billId: Long) {
-        navHostController.navigate(Screen.EditPackageScreen.getRoutWithArgs(packageName, billId))
+        navHostController.navigate(PackageScreen.EditPackage.getRoutWithArgs(packageName, billId))
     }
 
     fun navigateToBillGenerationScreen(billId: Long) {
-        navHostController.navigate(Screen.BillGenerationScreen.getRoutWithArgs(billId))
+        navHostController.navigate(BillScreen.BillGeneration.getRoutWithArgs(billId))
     }
 
     fun navigateToBillDescriptionScreen(billId: Long) {

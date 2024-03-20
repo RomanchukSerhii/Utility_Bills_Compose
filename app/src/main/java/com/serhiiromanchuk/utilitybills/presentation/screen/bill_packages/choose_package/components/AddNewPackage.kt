@@ -17,6 +17,7 @@ import com.serhiiromanchuk.utilitybills.presentation.core.annotations.DarkLightP
 import com.serhiiromanchuk.utilitybills.presentation.core.components.CardOnSurface
 import com.serhiiromanchuk.utilitybills.presentation.core.components.PackageCardIcon
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TextOnPackageCard
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -24,7 +25,7 @@ import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 fun AddNewPackage(
     modifier: Modifier = Modifier,
     isEditMode: Boolean,
-    onAddPackageClick: () -> Unit
+    onEvent: (ChoosePackageUiEvent) -> Unit
 ) {
     CardOnSurface(
         modifier = modifier
@@ -36,7 +37,7 @@ fun AddNewPackage(
             modifier = Modifier
                 .combinedClickable(
                     onLongClick = { },
-                    onClick = { if (!isEditMode) onAddPackageClick() }
+                    onClick = { if (!isEditMode) onEvent(ChoosePackageUiEvent.ClickAddBill) }
                 )
         ) {
             PackageCardIcon(
@@ -57,9 +58,6 @@ fun AddNewPackage(
 @Composable
 private fun AddNewPackagePreview() {
     UtilityBillsTheme {
-        AddNewPackage(
-            isEditMode = false,
-            onAddPackageClick = {}
-        )
+        AddNewPackage(isEditMode = false, onEvent = {})
     }
 }
