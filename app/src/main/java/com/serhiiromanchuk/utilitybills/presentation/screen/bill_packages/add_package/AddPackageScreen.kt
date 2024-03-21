@@ -14,13 +14,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.serhiiromanchuk.utilitybills.R
 import com.serhiiromanchuk.utilitybills.presentation.core.components.TopBarApp
 import com.serhiiromanchuk.utilitybills.presentation.getApplicationComponent
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.components.AddBillForm
+import com.serhiiromanchuk.utilitybills.presentation.navigation.NavigationState
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.components.AddPackageForm
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.components.SubmitButton
 
 @Composable
-fun AddBillScreenRoute(
+fun AddPackageScreenRoute(
     modifier: Modifier = Modifier,
-    onBackPressed: () -> Unit
+    navigationState: NavigationState
 ) {
     val component = getApplicationComponent()
     val viewModel: AddPackageViewModel = viewModel(factory = component.getViewModelFactory())
@@ -29,32 +30,30 @@ fun AddBillScreenRoute(
     LaunchedEffect(key1 = true) {
         viewModel.navigationEvent.collect { event ->
             when (event) {
-                AddPackageViewModel.NavigationEvent.OnBack -> onBackPressed()
+                AddPackageNavigationEvent.ClickBack -> navigationState.navHostController.popBackStack()
             }
         }
     }
 
-    AddBillScreen(
+    AddPackageScreen(
         modifier = modifier,
         screenState = screenState,
-        onEvent = viewModel::onEvent,
-        onBackPressed = onBackPressed
+        onEvent = viewModel::onEvent
     )
 }
 
 @Composable
-private fun AddBillScreen(
+private fun AddPackageScreen(
     modifier: Modifier = Modifier,
     screenState: State<AddPackageUiState>,
-    onEvent: (AddPackageUiEvent) -> Unit,
-    onBackPressed: () -> Unit
+    onEvent: (AddPackageUiEvent) -> Unit
 ) {
     Scaffold(
         modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
         topBar = {
             TopBarApp(
                 titleId = R.string.add_new_package,
-                onBackPressed = onBackPressed
+                onBackPressed = { onEvent(AddPackageUiEvent.ClickBack) }
             )
         },
         bottomBar = {
@@ -64,7 +63,7 @@ private fun AddBillScreen(
             )
         }
     ) { paddingValues ->
-        AddBillForm(
+        AddPackageForm(
             modifier = modifier.padding(paddingValues),
             screenState = screenState.value,
             onEvent = onEvent

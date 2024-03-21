@@ -8,6 +8,14 @@ import com.serhiiromanchuk.utilitybills.domain.usecase.bill.InsertBillItemUseCas
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetLastBillPackageIdUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetMaxIndexPositionUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.InsertBillPackageUseCase
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.ApartmentChanged
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.BuildingChanged
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.CityChanged
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.ClickBack
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.HouseChanged
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.PayerNameChanged
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.StreetChanged
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.Submit
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,52 +35,44 @@ class AddPackageViewModel @Inject constructor(
     private val getMaxIndexPositionUseCase: GetMaxIndexPositionUseCase
 ) : ViewModel() {
 
-    private val _navigationEvent = MutableSharedFlow<NavigationEvent>()
-    val navigationEvent: SharedFlow<NavigationEvent> = _navigationEvent.asSharedFlow()
+    private val _navigationEvent = MutableSharedFlow<AddPackageNavigationEvent>()
+    val navigationEvent: SharedFlow<AddPackageNavigationEvent> = _navigationEvent.asSharedFlow()
 
     private val _screenState = MutableStateFlow(AddPackageUiState())
     val screenState: StateFlow<AddPackageUiState> = _screenState.asStateFlow()
 
     fun onEvent(event: AddPackageUiEvent) {
         when (event) {
-            is AddPackageUiEvent.PayerNameChanged -> {
-                _screenState.update { it.copy(payerName = event.payerName) }
-            }
+            is PayerNameChanged -> { _screenState.update { it.copy(payerName = event.payerName) } }
 
-            is AddPackageUiEvent.CityChanged -> {
-                _screenState.update { it.copy(city = event.city) }
-            }
+            is CityChanged -> { _screenState.update { it.copy(city = event.city) } }
 
-            is AddPackageUiEvent.StreetChanged -> {
-                _screenState.update { it.copy(street = event.street) }
-            }
+            is StreetChanged -> { _screenState.update { it.copy(street = event.street) } }
 
-            is AddPackageUiEvent.ApartmentChanged -> {
-                _screenState.update { it.copy(apartment = event.apartment) }
-            }
+            is ApartmentChanged -> { _screenState.update { it.copy(apartment = event.apartment) } }
 
-            is AddPackageUiEvent.BuildingChanged -> {
-                _screenState.update { it.copy(building = event.building) }
-            }
+            is BuildingChanged -> { _screenState.update { it.copy(building = event.building) } }
 
-            is AddPackageUiEvent.HouseChanged -> {
-                _screenState.update { it.copy(house = event.house) }
-            }
+            is HouseChanged -> { _screenState.update { it.copy(house = event.house) } }
 
-            is AddPackageUiEvent.Submit -> {
-                submitData(event.address, event.payerName)
+            is Submit -> { submitData(event.address, event.payerName) }
+
+            ClickBack -> {
+                viewModelScope.launch {
+                    _navigationEvent.emit(AddPackageNavigationEvent.ClickBack)
+                }
             }
         }
     }
 
     private fun submitData(address: String, payerName: String) {
 
-        val deferredLastIndex = viewModelScope.async {
+        val deferredLastPackageIndex = viewModelScope.async {
             getMaxIndexPositionUseCase()
         }
 
         val insertPackageJob = viewModelScope.launch {
-            val lastIndex = deferredLastIndex.await()
+            val lastIndex = deferredLastPackageIndex.await()
             insertBillPackageUseCase(
                 BillPackage(
                     name = address,
@@ -90,23 +90,23 @@ class AddPackageViewModel @Inject constructor(
 
         val createBlankBillsJob = viewModelScope.launch {
             val packageId = getPackageIdJob.await()
-            val currentDate = LocalDate.now()
-            repeat(12) {
-                val bill = Bill(
-                    packageCreatorId = packageId,
-                    date = currentDate.minusMonths(it.toLong())
-                )
-                insertBillItemUseCase(bill)
-            }
+            createBlankBills(packageId)
         }
 
         viewModelScope.launch {
             createBlankBillsJob.join()
-            _navigationEvent.emit(NavigationEvent.OnBack)
+            _navigationEvent.emit(AddPackageNavigationEvent.ClickBack)
         }
     }
 
-    sealed interface NavigationEvent {
-        data object OnBack : NavigationEvent
+    private suspend fun createBlankBills(packageId: Long) {
+        val currentDate = LocalDate.now()
+        repeat(12) {
+            val bill = Bill(
+                packageCreatorId = packageId,
+                date = currentDate.minusMonths(it.toLong())
+            )
+            insertBillItemUseCase(bill)
+        }
     }
 }

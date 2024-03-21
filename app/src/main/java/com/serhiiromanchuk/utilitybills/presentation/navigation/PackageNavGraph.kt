@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.serhiiromanchuk.utilitybills.presentation.navigation.PackageScreen.Companion.KEY_PACKAGE_ID
 import com.serhiiromanchuk.utilitybills.presentation.navigation.PackageScreen.Companion.KEY_PACKAGE_NAME
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageScreenRoute
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageScreenRoot
 import com.serhiiromanchuk.utilitybills.utils.NOT_FOUND_ID
 
@@ -22,7 +23,9 @@ fun NavGraphBuilder.packageNavGraph(
         composable(PackageScreen.ChoosePackage.route) { 
             ChoosePackageScreenRoot(navigationState = navigationState)
         }
-        composable(PackageScreen.AddPackage.route) { addPackageScreen() }
+        composable(PackageScreen.AddPackage.route) {
+            AddPackageScreenRoute(navigationState = navigationState)
+        }
         composable(
             route = PackageScreen.EditPackage.route,
             arguments = listOf(

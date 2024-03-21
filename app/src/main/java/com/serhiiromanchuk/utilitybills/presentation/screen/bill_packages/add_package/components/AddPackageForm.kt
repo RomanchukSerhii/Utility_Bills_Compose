@@ -20,7 +20,7 @@ import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_pa
 import com.serhiiromanchuk.utilitybills.ui.theme.UtilityBillsTheme
 
 @Composable
-fun AddBillForm(
+fun AddPackageForm(
     modifier: Modifier = Modifier,
     screenState: AddPackageUiState,
     onEvent: (AddPackageUiEvent) -> Unit
@@ -78,9 +78,9 @@ fun AddBillForm(
 
 @DarkLightPreviews
 @Composable
-private fun AddBillFormPreview() {
+private fun AddPackageFormPreview() {
     UtilityBillsTheme {
-        AddBillForm(
+        AddPackageForm(
             screenState = AddPackageUiState(),
             onEvent = {}
         )
