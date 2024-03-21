@@ -16,13 +16,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.serhiiromanchuk.utilitybills.R
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.edit_package.EditPackageScreenEvent
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.edit_package.EditPackageScreenState
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.edit_package.EditPackageUiEvent
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.edit_package.EditPackageUiState
 
 @Composable
 fun PackageNameTextField(
-    currentState: EditPackageScreenState,
-    onEvent: (EditPackageScreenEvent) -> Unit
+    currentState: EditPackageUiState,
+    onEvent: (EditPackageUiEvent) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
 
@@ -40,7 +40,7 @@ fun PackageNameTextField(
             text = currentState.packageName,
             selection = currentState.textSelection
         ),
-        onValueChange = { onEvent(EditPackageScreenEvent.AddressChanged(it.text, it.selection))},
+        onValueChange = { onEvent(EditPackageUiEvent.AddressChanged(it.text, it.selection))},
         textStyle = MaterialTheme.typography.bodyLarge.copy(
             fontSize = 28.sp,
             textAlign = TextAlign.Center,

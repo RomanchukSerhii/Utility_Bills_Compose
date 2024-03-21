@@ -17,9 +17,9 @@ sealed interface ChoosePackageUiEvent {
 
     data object SetInitialState : ChoosePackageUiEvent
 
-    data object ClickAddBill : ChoosePackageUiEvent
+    data object AddPackageClicked : ChoosePackageUiEvent
 
-    data class ClickBillItem(val packageId: Long) : ChoosePackageUiEvent
+    data class PackageClicked(val packageId: Long) : ChoosePackageUiEvent
 
-    data class ClickEditPackage(val packageName: String, val packageId: Long) : ChoosePackageUiEvent
+    data class EditPackageClicked(val packageName: String, val packageId: Long) : ChoosePackageUiEvent
 }

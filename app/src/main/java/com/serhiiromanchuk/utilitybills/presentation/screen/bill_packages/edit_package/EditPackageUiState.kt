@@ -2,7 +2,7 @@ package com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.edit_
 
 import androidx.compose.ui.text.TextRange
 
-data class EditPackageScreenState(
+data class EditPackageUiState(
     val packageName: String,
     val textSelection: TextRange = TextRange(packageName.length),
     val isSubmitButtonEnable: Boolean = false

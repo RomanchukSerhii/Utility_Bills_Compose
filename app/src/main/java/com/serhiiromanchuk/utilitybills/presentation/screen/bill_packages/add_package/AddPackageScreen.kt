@@ -19,7 +19,7 @@ import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_pa
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.components.SubmitButton
 
 @Composable
-fun AddPackageScreenRoute(
+fun AddPackageScreenRoot(
     modifier: Modifier = Modifier,
     navigationState: NavigationState
 ) {
@@ -30,7 +30,7 @@ fun AddPackageScreenRoute(
     LaunchedEffect(key1 = true) {
         viewModel.navigationEvent.collect { event ->
             when (event) {
-                AddPackageNavigationEvent.ClickBack -> navigationState.navHostController.popBackStack()
+                AddPackageNavigationEvent.BackClicked -> navigationState.navHostController.popBackStack()
             }
         }
     }
@@ -53,7 +53,7 @@ private fun AddPackageScreen(
         topBar = {
             TopBarApp(
                 titleId = R.string.add_new_package,
-                onBackPressed = { onEvent(AddPackageUiEvent.ClickBack) }
+                onBackPressed = { onEvent(AddPackageUiEvent.BackClicked) }
             )
         },
         bottomBar = {

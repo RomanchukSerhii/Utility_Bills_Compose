@@ -7,16 +7,16 @@ import com.serhiiromanchuk.utilitybills.domain.usecase.bill.DeleteBillsFromPacka
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.DeleteBillPackageUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetBillPackagesUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.UpdateBillPackagesUseCase
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.AddPackageClicked
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.ChangeEditMode
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.ClickAddBill
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.ClickBillItem
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.ClickEditPackage
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.CloseBottomSheet
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.CloseDialog
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.DeletePackage
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.EditPackageClicked
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.MovePackage
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.OpenBottomSheet
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.OpenDialog
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.PackageClicked
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiEvent.SetInitialState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiState.DialogState
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.choose_package.ChoosePackageUiState.PackageCardState
@@ -91,22 +91,22 @@ class ChoosePackageViewModel @Inject constructor(
                 _screenState.update { it.copy(packageList = billItems) }
             }
 
-            ClickAddBill -> {
+            AddPackageClicked -> {
                 viewModelScope.launch {
-                    _navigationEvent.emit(ChoosePackageNavigationEvent.ClickAddBill)
+                    _navigationEvent.emit(ChoosePackageNavigationEvent.AddPackageClicked)
                 }
             }
 
-            is ClickBillItem -> {
+            is PackageClicked -> {
                 viewModelScope.launch {
-                    _navigationEvent.emit(ChoosePackageNavigationEvent.ClickBillItem(event.packageId))
+                    _navigationEvent.emit(ChoosePackageNavigationEvent.PackageClicked(event.packageId))
                 }
             }
 
-            is ClickEditPackage -> {
+            is EditPackageClicked -> {
                 viewModelScope.launch {
                     _navigationEvent.emit(
-                        ChoosePackageNavigationEvent.ClickEditPackage(
+                        ChoosePackageNavigationEvent.EditPackageClicked(
                             event.packageName,
                             event.packageId
                         )

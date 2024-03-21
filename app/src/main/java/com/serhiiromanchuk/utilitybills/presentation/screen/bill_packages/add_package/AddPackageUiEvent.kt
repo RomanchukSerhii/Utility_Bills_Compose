@@ -14,7 +14,7 @@ sealed interface AddPackageUiEvent {
 
     data class ApartmentChanged(val apartment: String) : AddPackageUiEvent
 
-    data object ClickBack : AddPackageUiEvent
+    data object BackClicked : AddPackageUiEvent
 
     data class Submit(val address: String, val payerName: String) : AddPackageUiEvent
 }

@@ -82,7 +82,7 @@ fun PackageCard(
                             )
                         )
                     },
-                    onClick = { onEvent(ChoosePackageUiEvent.ClickBillItem(billPackage.id)) }
+                    onClick = { onEvent(ChoosePackageUiEvent.PackageClicked(billPackage.id)) }
                 )
             }
         }

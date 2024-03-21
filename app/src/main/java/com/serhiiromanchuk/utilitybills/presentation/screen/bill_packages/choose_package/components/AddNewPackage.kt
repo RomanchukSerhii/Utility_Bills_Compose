@@ -37,7 +37,7 @@ fun AddNewPackage(
             modifier = Modifier
                 .combinedClickable(
                     onLongClick = { },
-                    onClick = { if (!isEditMode) onEvent(ChoosePackageUiEvent.ClickAddBill) }
+                    onClick = { if (!isEditMode) onEvent(ChoosePackageUiEvent.AddPackageClicked) }
                 )
         ) {
             PackageCardIcon(

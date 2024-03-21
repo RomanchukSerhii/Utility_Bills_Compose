@@ -41,15 +41,15 @@ fun ChoosePackageScreenRoot(
     LaunchedEffect(key1 = true) {
         viewModel.navigationEvent.collect { navigationEvent ->
             when (navigationEvent) {
-                ChoosePackageNavigationEvent.ClickAddBill -> {
+                ChoosePackageNavigationEvent.AddPackageClicked -> {
                     navigationState.navigateTo(PackageScreen.AddPackage.route)
                 }
 
-                is ChoosePackageNavigationEvent.ClickBillItem -> {
+                is ChoosePackageNavigationEvent.PackageClicked -> {
                     navigationState.navigateToBillGenerationScreen(navigationEvent.packageId)
                 }
 
-                is ChoosePackageNavigationEvent.ClickEditPackage -> {
+                is ChoosePackageNavigationEvent.EditPackageClicked -> {
                     navigationState.navigateToEditPackageScreen(
                         navigationEvent.packageName,
                         navigationEvent.packageId
@@ -110,7 +110,7 @@ private fun ChoosePackageScreen(
             onDismissRequest = { onEvent(ChoosePackageUiEvent.CloseBottomSheet) },
             onChangeNameClick = { address, id ->
                 onEvent(ChoosePackageUiEvent.SetInitialState)
-                onEvent(ChoosePackageUiEvent.ClickEditPackage(address, id))
+                onEvent(ChoosePackageUiEvent.EditPackageClicked(address, id))
             },
             onEditModeClick = { onEvent(ChoosePackageUiEvent.ChangeEditMode) }
         )

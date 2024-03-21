@@ -9,9 +9,9 @@ import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetLastBillP
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.GetMaxIndexPositionUseCase
 import com.serhiiromanchuk.utilitybills.domain.usecase.bill_package.InsertBillPackageUseCase
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.ApartmentChanged
+import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.BackClicked
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.BuildingChanged
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.CityChanged
-import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.ClickBack
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.HouseChanged
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.PayerNameChanged
 import com.serhiiromanchuk.utilitybills.presentation.screen.bill_packages.add_package.AddPackageUiEvent.StreetChanged
@@ -57,9 +57,9 @@ class AddPackageViewModel @Inject constructor(
 
             is Submit -> { submitData(event.address, event.payerName) }
 
-            ClickBack -> {
+            BackClicked -> {
                 viewModelScope.launch {
-                    _navigationEvent.emit(AddPackageNavigationEvent.ClickBack)
+                    _navigationEvent.emit(AddPackageNavigationEvent.BackClicked)
                 }
             }
         }
@@ -95,7 +95,7 @@ class AddPackageViewModel @Inject constructor(
 
         viewModelScope.launch {
             createBlankBillsJob.join()
-            _navigationEvent.emit(AddPackageNavigationEvent.ClickBack)
+            _navigationEvent.emit(AddPackageNavigationEvent.BackClicked)
         }
     }
 
